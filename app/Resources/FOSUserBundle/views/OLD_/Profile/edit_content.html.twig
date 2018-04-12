@@ -1,0 +1,76 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="main-content">
+    <div class="form-wrapper">
+
+        <ul class="listProfile">
+            <li><a href="{{ path('fos_user_profile_show') }}" class="brown">Show Profile</a></li>
+            <li><a href="{{ path('fos_user_change_password') }}" class="brown">Change password</a></li>
+        </ul>
+
+        <h2>Edit profile</h2>
+
+        {{ form_errors(form) }}
+        <form novalidate class="adminForm" action="{{form.vars.action}}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.username) }}</div>
+                <div class="col-md-9">
+                    {{ form_errors(form.username) }}
+                    {{ form_widget(form.username) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.realName) }}</div>
+                <div class="col-md-9">
+                    {{ form_errors(form.realName) }}
+                    {{ form_widget(form.realName) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.email) }}</div>
+                <div class="col-md-9">
+                    {{ form_errors(form.email) }}
+                    {{ form_widget(form.email) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.phoneNumber) }}</div>
+                <div class="col-md-9">
+                    {{ form_errors(form.phoneNumber) }}
+                    {{ form_widget(form.phoneNumber) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.dateOfBirth) }}</div>
+                <div class="col-md-9 dateCell">
+                    {{ form_errors(form.dateOfBirth) }}
+                    {{ form_widget(form.dateOfBirth) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.sex) }}</div>
+                <div class="col-md-9 col-sm-9 radioCellInline">
+                    {{ form_errors(form.sex) }}
+                    {{ form_widget(form.sex) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">{{ form_label(form.current_password) }}</div>
+                <div class="col-md-3 col-sm-9">
+                    {{ form_errors(form.current_password) }}
+                    {{ form_widget(form.current_password) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="pull-right" name="submit" type="submit">{{ 'profile.edit.submit'|trans }}</button>
+                    <div class="requiredFields">
+                        <span class="requiredField">*</span>
+                        <span>Required fields</span>
+                    </div>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+        </form>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{% if 'admin_login' == app.request.attributes.get('_route') %}
+    {% set backEnd = true %}
+    {% set loginCheck = 'admin_login_check' %}
+    {% set templateToExtend = ':admin:base_login.html.twig' %}
+{% else %}
+    {% set backEnd = false %}
+    {% set loginCheck = 'fos_user_security_check' %}
+    {% set templateToExtend = '::front.html.twig' %}
+{% endif %}
+
+{% extends templateToExtend %}
+
+{% block content %}
+    {% if backEnd %}
+        {% include "FOSUserBundle:Security:_login_backend.html.twig" %}
+    {% else %}
+        {% include "FOSUserBundle:Security:_login_front.html.twig" %}
+    {% endif %}
+{% endblock %}

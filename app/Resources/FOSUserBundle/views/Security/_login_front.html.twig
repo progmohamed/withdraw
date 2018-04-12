@@ -1,0 +1,47 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('front_main_home') }}">الرئيسة</a></li>
+        <li class="active">تسجيل الدخول</li>
+    </ul>
+{% endblock %}
+
+{% if error %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ error.getMessage()|trans }}
+    </div>
+{% endif %}
+
+<form novalidate class="form form-horizontal" method="post" action="{{ path('fos_user_security_check') }}">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="col-md-3 col-sm-12 col-xs-12 control-label">
+                    <label for="disabledTextInput">{{ 'security.login.username'|trans }}</label></label>
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" required="required" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="col-md-3 col-sm-12 col-xs-12 control-label">
+                    <label for="disabledSelect">{{ 'security.login.password'|trans }}</label></label>
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <input type="password" id="password" class="form-control" name="_password" required="required" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input class="btnGreen" type="submit" value="دخول" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

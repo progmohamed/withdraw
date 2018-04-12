@@ -1,0 +1,56 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if user.photo %}
+    {% set profileImg = asset('upload/user/'~user.photo) %}
+{% else %}
+    {% set profileImg = asset('bundles/admin/images/user.png') %}
+{% endif %}
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="grey-box text-center mb-30">
+            <div class="mb-15">
+                <img src="{{profileImg }}" class="rounded" width="90" height="90">
+            </div>
+            <h4 class="color-main1">{{ user.username }}</h4>
+            <span class="color-main2">{{ user.email }}</span>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <ul class="list-group mb-15">
+            <li class="list-group-item"><span class="list-side-head">اسم المستخدم:</span> {{ user.username }}</li>
+            <li class="list-group-item"><span class="list-side-head">الإسم الحقيقي:</span> {{ user.getTitleAndRealName() }}</li>
+            <li class="list-group-item"><span class="list-side-head">البريد الإلكتروني:</span> {{ user.email }}</li>
+            <li class="list-group-item"><span class="list-side-head">الدولة:</span> {{ user.country.name }}</li>
+            <li class="list-group-item"><span class="list-side-head">تاريخ الميلاد:</span> {{ user.dateOfBirth|date('Y-m-d') }}</li>
+            <li class="list-group-item"><span class="list-side-head">رقم الهاتف:</span> {{ user.phoneNumber }}</li>
+            <li class="list-group-item"><span class="list-side-head">تاريخ التسجيل:</span> {{ user.registrationDateTime|date('Y-m-d H:i:s') }}</li>
+            <li class="list-group-item"><span class="list-side-head">الجنس:</span>  {% if user.sex == 1 %}ذكر{% else %}أنثى{% endif %}</li>
+            <li class="list-group-item"><span class="list-side-head">موقع الويب:</span> {{ user.personalWebsite }}</li>
+            <li class="list-group-item"><span class="list-side-head">السيرة الذاتية:</span>
+                <br />
+                <div>{{ user.resume|nl2br }}</div>
+            </li>
+
+
+            {#<li class="list-group-item">#}
+                {#<span class="badge">هنا بادج يوضع فيه أى بيانات</span>#}
+                {#خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية#}
+            {#</li>#}
+            {#<li class="list-group-item">#}
+                {#<span class="badge bg-green">ليبل اخر</span>#}
+                {#خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية#}
+            {#</li>#}
+            {#<li class="list-group-item">#}
+                {#<h4 class="list-group-item-heading color-main1">عنوان هنا</h4>#}
+                {#<p class="list-group-item-text">خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية</p>#}
+            {#</li>#}
+            {#<li class="list-group-item">خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية</li>#}
+            {#<li class="list-group-item">خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية</li>#}
+            {#<li class="list-group-item">خلاصة أفكار اليوم الرابع للمؤتمر الدولي للدراسات القرآنية</li>#}
+        </ul>
+        <a class="btn-solid btn-green mb-30" href="{{ path('fos_user_profile_edit') }}">تحرير الملف الشخصى</a>
+    </div>
+
+</div>

@@ -1,0 +1,41 @@
+{% extends ':front:base.html.twig' %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>حدث خطأ</h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        {% if app.debug %}
+            <div class="alert alert-block alert-danger">
+                {{ exception.message }}
+            </div>
+
+            <div class="exceptionTracer" dir="ltr">
+                {% for trace in exception.getTrace() %}
+                    {% if trace.file is defined and trace.file and trace.line is defined and trace.line %}
+                        {{ trace.function ? '<br />' : '' }}
+                        in {{ trace.file|format_file(trace.line) }}&nbsp;
+                        <div>
+                            {{ trace.file|file_excerpt(trace.line) }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-block alert-danger">
+                {% if exception.statusCode == 404 %}
+                    {{ exception.message }}
+                {% else %}
+                    <div>صفحة غير موجودة</div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+

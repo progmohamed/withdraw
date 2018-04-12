@@ -1,0 +1,81 @@
+{% extends ':admin:base.html.twig' %}
+
+{% set sideMenuActiveSection = 'log' %}
+
+{% block breadcrumb %}
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="{{ path('admin_main_home') }}">{{ 'admin.titles.home'|trans }}</a>
+            </li>
+            <li><a href="{{ path('log_log_list') }}">{{ 'log.menu.log'|trans }}</a></li>
+            <li class="active">{{ entity.logService.name }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ entity.logService.name }}</h1>
+    </div>
+
+    <div class="btn-group screenTopButtons">
+        <a class="btn btn-sm btn-inverse" href="{{ path('log_log_list') }}">{{ 'admin.titles.list'|trans }}</a>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <th width="100">{{ 'admin.titles.id'|trans }}</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'user id'|trans }}</th>
+                    <td>
+                        {{ entity.user }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ 'admin.titles.username'|trans }}</th>
+                    <td>
+                        {{ entity.username }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ 'log.titles.message'|trans }}</th>
+                    <td>
+                        {% if entity.parameter|unserialize is not null %}
+                            {% set message = entity.message|trans(entity.parameter|unserialize) %}
+                        {% else %}
+                            {% set message = entity.message|trans() %}
+                        {% endif %}
+
+                        {{ message }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ 'log.titles.component'|trans }}</th>
+                    <td>
+                        {{ entity.logService.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ 'admin.titles.created_at'|trans }}</th>
+                    <td>
+                        {{ entity.createdAt|date('Y-m-d H:i:s')  }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

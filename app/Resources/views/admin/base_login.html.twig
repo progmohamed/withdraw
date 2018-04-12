@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <meta charset="UTF-8" />
+        <title>لوحة تحكم ذكر</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src="{{ asset('bundles/admin/js/jquery-1.11.3.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/bootbox.min.js') }}"></script>
+        <link href="{{ asset('bundles/admin/bootstrap/css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        {% endblock %}
+    </head>
+    {% set currentLanguage = localeService.getLanguageByLocale(app.request.locale) %}
+    <body{% if currentLanguage and currentLanguage.getDirection() == 'rtl' %} style="direction:rtl"{% endif %}>
+        <div class="container theme-showcase" role="main">
+                <div style="width:300px;margin:30px auto 0 auto;">
+
+                    {% block breadcrumb %}{% endblock %}
+                    {% block actions %}{% endblock %}
+                    {% include ':admin:flashMessage.html.twig' %}
+
+                    {% block content %}{% endblock %}
+
+                </div>
+        </div>
+        <script src="{{ asset('bundles/admin/bootstrap/js/bootstrap.min.js') }}"></script>
+    </body>
+</html>

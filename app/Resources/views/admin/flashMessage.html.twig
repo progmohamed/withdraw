@@ -1,0 +1,23 @@
+{% set flashMsgTypes = ['success', 'info', 'warning', 'danger'] %}
+{% for flashMsgType in flashMsgTypes %}
+    {% set data = app.session.flashbag.get(flashMsgType) %}
+    {% if data %}
+        {%if data|length == 1%}
+            {% for flashMessage in data %}
+                <div class="alert alert-{{ flashMsgType }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        {%else%}
+            <div class="alert alert-{{ flashMsgType }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <ul>
+            {% for flashMessage in data %}
+                <li>{{ flashMessage }}</li>
+            {% endfor %}
+             </ul>
+             </div>
+        {%endif%}
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,1 @@
+php bin/console admin:rebuild-menu

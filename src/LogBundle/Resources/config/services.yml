@@ -1,0 +1,17 @@
+services:
+    log.service:
+        class: LogBundle\Service\LogService\LogService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    log.backend.menu:
+        class:  LogBundle\DataFixtures\ORM\LoadMenu
+        tags:
+            - { name: backend.menu.fixture }
+
+    log.entity.subscriber:
+        class: LogBundle\Subscriber\EntitySubscriber
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

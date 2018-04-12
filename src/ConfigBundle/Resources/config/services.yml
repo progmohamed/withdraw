@@ -1,0 +1,18 @@
+services:
+
+    config.event.subscriber:
+        class: ConfigBundle\Subscriber\ServiceEventSubscriber
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    config.service:
+        class: ConfigBundle\Service\ConfigService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    config.backend.menu:
+        class:  ConfigBundle\DataFixtures\ORM\LoadMenu
+        tags:
+            - { name: backend.menu.fixture }

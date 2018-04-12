@@ -1,0 +1,124 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form ':front:form_div_layout.html.twig' %}
+
+        
+{{ form_errors(form) }}
+{{ form_start(form, {'attr': {'novalidate':'true', 'class':'form-horizontal'}, 'action': path('fos_user_registration_register')}) }}
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.username) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.username) }}
+            {{ form_widget(form.username) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.email) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.plainPassword.first) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.plainPassword.second) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.title) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.realName) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.realName) }}
+            {{ form_widget(form.realName) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.dateOfBirth) }}
+        </div>
+        <div class="col-sm-10 forms1-input forms1-input-3cols">
+            {{ form_errors(form.dateOfBirth) }}
+            {{ form_widget(form.dateOfBirth) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.phoneNumber) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.phoneNumber) }}
+            {{ form_widget(form.phoneNumber) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.resume) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.resume) }}
+            {{ form_widget(form.resume) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.sex) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.sex) }}
+            {{ form_widget(form.sex) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            {{ form_label(form.photoFile) }}
+        </div>
+        <div class="col-sm-10 forms1-input">
+            {{ form_errors(form.photoFile) }}
+            {{ form_widget(form.photoFile) }}
+        </div>
+    </div>
+
+    <div class="mt-15 form-submit-buts">
+        <input class="btn-solid btn-big btn-green" type="submit" value="تسجيل" />
+    </div>
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}

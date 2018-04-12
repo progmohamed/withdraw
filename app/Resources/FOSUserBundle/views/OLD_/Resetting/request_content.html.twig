@@ -1,0 +1,29 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if invalid_username is defined %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}
+    </div>
+{% endif %}
+
+<div class="main-content">
+    <div class="form-wrapper">
+
+        <h2>Reset password</h2>
+
+        <form novalidate class="frontForm" action="{{ path('fos_user_resetting_send_email') }}" method="post">
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <label style="float:left !important;" for="username">{{ 'resetting.request.username'|trans }}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="username" name="username" required="required" /></td>
+                    <td>&nbsp;<input type="submit" value="{{ 'resetting.request.submit'|trans }}" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+log:
+    resource: "@LogBundle/Controller"
+    type: annotation
+    prefix: /{_locale}/admin/log
+
+config:
+    resource: "@ConfigBundle/Controller"
+    type: annotation
+    prefix: /{_locale}/admin/config
+
+locale:
+    resource: "@LocaleBundle/Controller"
+    prefix:   /{_locale}/admin/locale
+
+admin:
+    resource: "@AdminBundle/Controller"
+    type: annotation
+    prefix: /{_locale}/admin
+
+admin_root:
+    path: /admin/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: admin_main_home
+        permanent: true
+
+taskmanager:
+    resource: "@TaskManagerBundle/Controller"
+    type: annotation
+    prefix: /{_locale}/admin/task-manager
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+admin_login:
+    path:     /{_locale}/admin/login
+    defaults: { _controller: "FOSUserBundle:Security:login" }
+    methods:  [POST, GET]
+
+admin_login_check:
+    path:     /{_locale}/admin/login_check
+    defaults: { _controller: "FOSUserBundle:Security:check" }
+    methods:  [POST]
+
+admin_logout:
+    path:     /{_locale}/admin/logout
+    defaults: { _controller: "FOSUserBundle:Security:logout" }
+    methods:  [GET]

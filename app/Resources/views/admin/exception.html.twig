@@ -1,0 +1,68 @@
+{% extends ':admin:base.html.twig' %}
+
+{% block breadcrumb %}
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="{{ path('admin_main_home') }}">الرئيسة</a>
+            </li>
+            <li class="active">خطأ</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>خطأ</h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">     
+               
+            <div class="alert alert-block alert-danger">
+                {% if isException %}
+                    {% if exception.statusCode == 404 %}
+                        <div>الصفحة التي تحاول الوصول لها غير موجودة</div>
+                    {% elseif exception.statusCode == 403 %}
+                        <div>ليست لديك صلاحية الوصول إلى هذه الصفحة</div>
+                    {% else %}
+                        <div>خطأ أثناء التشغيل ({{ exception.statusCode }})</div>
+                    {% endif %}
+
+                    {% if app.debug %}
+                        <div>{{ exception.message }}</div>
+                    {% endif %}
+                {% else %}
+                    <div>خطأ أثناء التشغيل </div>
+                    {% if app.debug %}
+                        <div>{{ exception.message }}</div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if app.debug %}
+            <div>هذه البيانات تظهر فقط في الـ Debug mode</div>
+            <div class="exceptionTracer" dir="ltr">
+                {% for trace in exception.getTrace() %}
+                    {% if trace.file is defined and trace.file and trace.line is defined and trace.line %}
+                        {{ trace.function ? '<br />' : '' }}
+                        in {{ trace.file|format_file(trace.line) }}&nbsp;
+                        <div>
+                            {{ trace.file|file_excerpt(trace.line) }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+    </div>
+</div>
+
+{% endblock %}
+

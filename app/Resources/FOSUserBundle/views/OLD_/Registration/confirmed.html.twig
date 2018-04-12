@@ -1,0 +1,19 @@
+{% extends '::front.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    <div class="academia-column academia-column-main academia-column-marginright">
+        <div class="post-meta-single">
+            <h1 class="title title-l title-post-single">Register</h1>
+        </div>
+        <div class="category-excerpt">
+            <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+            {% if targetUrl %}
+                <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+            {% endif %}
+        </div>
+        <div class="divider divider-notop">&nbsp;</div>
+        <div class="cleaner">&nbsp;</div>
+    </div><!-- .academia-column .academia-column-main .academia-column-marginright -->
+{% endblock %}

@@ -1,0 +1,42 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="main-content">
+    <div class="form-wrapper">
+
+        <ul class="listProfile">
+            <li><a href="{{ path('fos_user_profile_edit') }}" class="brown">Edit Profile</a></li>
+            <li><a href="{{ path('fos_user_change_password') }}" class="brown">Change password</a></li>
+        </ul>
+
+        <h2>My profile</h2>
+
+        <table class="cellPadding3">
+            <tr>
+                <th valign="top">Username</th>
+                <td valign="top">{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th valign="top">RealName</th>
+                <td valign="top">{{ user.realName }}</td>
+            </tr>
+            <tr>
+                <th valign="top">Email</th>
+                <td valign="top">{{ user.email }}</td>
+            </tr>
+
+            <tr>
+                <th>Date of birth</th>
+                <td>{{ user.dateOfBirth|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{ user.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>Registration Date</th>
+                <td>{{ user.registrationDateTime|date('Y-m-d H:i:s') }}</td>
+            </tr>
+
+        </table>
+    </div>
+</div>

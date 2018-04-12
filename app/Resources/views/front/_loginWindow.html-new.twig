@@ -1,0 +1,54 @@
+<!-- Modal login -->
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="modal-header text-center">
+                    <span class="modal-head-icon"></span>
+                    <h3 class="modal-title">تسجيل الدخول</h3>
+                </div>
+
+                <form action="{{ path("fos_user_security_check") }}" method="post" class="form-s1">
+                    <fieldset>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+                        <div class="row-tight">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>اسم المستخدم</label>
+                                    <input type="text" name="_username" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-tight mb-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>كلمة المرور</label>
+                                    <input type="password" name="_password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-tight mb-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                    <label for="remember_me">تذكرني</label>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="btn-solid btn-big btn-main-color form-submit" type="submit" value="دخول" />
+                        <a href="{{ path("fos_user_resetting_request") }}">نسيت كلمة المرور</a>
+                    </fieldset>
+                </form>
+
+                <div class="text-center mt-30">
+                    <a href="{{ path('fos_user_registration_register') }}" class="newUser"><span>مستخدم جديد</span></a>
+                </div>
+                <a data-dismiss="modal" class="modal-close-inside"></a>
+            </div>
+
+        </div>
+    </div>
+    <!--<a data-dismiss="modal" class="modal-close"></a>-->
+</div>

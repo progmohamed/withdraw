@@ -1,0 +1,49 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{#<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">#}
+    {#<div>#}
+        {#{% if invalid_username is defined %}#}
+            {#<p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>#}
+        {#{% endif %}#}
+        {#<label for="username">{{ 'resetting.request.username'|trans }}</label>#}
+        {#<input type="text" id="username" name="username" required="required" />#}
+    {#</div>#}
+    {#<div>#}
+        {#<input type="submit" value="{{ 'resetting.request.submit'|trans }}" />#}
+    {#</div>#}
+{#</form>#}
+
+
+
+<form novalidate class="form form-horizontal" method="post" action="{{ path('fos_user_resetting_send_email') }}">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="col-md-4 col-sm-12 col-xs-12 control-label">
+                    <label for="username">{{ 'resetting.request.username'|trans }}</label></label>
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    {% if invalid_username is defined %}
+                        <div class="text-red">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</div>
+                    {% endif %}
+                    <input type="text" id="username" name="username" required="required" />
+                </div>
+            </div>
+        </div>
+
+        {#<div>#}
+            {#{% if invalid_username is defined %}#}
+                {#<p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>#}
+            {#{% endif %}#}
+            {#<label for="username">{{ 'resetting.request.username'|trans }}</label>#}
+            {#<input type="text" id="username" name="username" required="required" />#}
+        {#</div>#}
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input class="btnGreen" type="submit" value="{{ 'resetting.request.submit'|trans }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

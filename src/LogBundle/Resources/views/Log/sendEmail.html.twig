@@ -1,0 +1,54 @@
+<table class="table table-bordered table-striped">
+    <tbody>
+    <tr>
+        <th width="100">{{ 'admin.titles.id'|trans }}</th>
+        <td>{{ entity.id }}</td>
+    </tr>
+    <tr>
+        <th>user id</th>
+        <td>
+            {{ entity.user }}
+        </td>
+    </tr>
+    <tr>
+        <th>{{ 'admin.titles.username'|trans }}</th>
+        <td>
+            {{ entity.username }}
+        </td>
+    </tr>
+    <tr>
+        <th>{{ 'log.titles.message'|trans }}</th>
+        <td>
+            {% if entity.parameter|unserialize is not null %}
+                {% set message = entity.message|trans(entity.parameter|unserialize) %}
+            {% else %}
+                {% set message = entity.message|trans() %}
+            {% endif %}
+
+            {{ message }}
+        </td>
+    </tr>
+    <tr>
+        <th>{{ 'log.titles.book'|trans }}</th>
+        <td>
+            {% if entity.book is not null %}
+                <a href="{{ path('smartlib_book_show', { 'id': entity.book }) }}">{{ entity.book }}</a>
+            {% else %}
+                -
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>{{ 'log.titles.component'|trans }}</th>
+        <td>
+            {{ entity.logService.name }}
+        </td>
+    </tr>
+    <tr>
+        <th>{{ 'admin.titles.created_at'|trans }}</th>
+        <td>
+            {{ entity.createdAt|date('Y-m-d H:i:s') }}
+        </td>
+    </tr>
+    </tbody>
+</table>

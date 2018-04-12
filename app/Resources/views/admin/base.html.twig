@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>{{ 'app.title'|trans }}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta name="description" content="overview &amp; stats" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- basic styles -->
+        <link href="{{ asset('bundles/admin/ace/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/font-awesome.min.css') }}" />
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/font-awesome-ie7.min.css') }}" />
+        <![endif]-->
+        <!-- page specific plugin styles -->
+        {% block head %}{% endblock %}
+        <!-- fonts -->
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/ace-fonts.css') }}" />
+        <!-- ace styles -->
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/jquery-ui-1.10.3.full.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/ace.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/ace-rtl.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/ace-skins.min.css') }}" />
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/ace-ie.min.css') }}" />
+        <![endif]-->
+        <!-- inline styles related to this page -->
+        <!-- ace settings handler -->
+        <script src="{{ asset('bundles/admin/ace/assets/js/ace-extra.min.js') }}"></script>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/admin/ace/assets/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/admin/ace/assets/js/respond.min.js') }}"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/custom.css') }}" />
+</head>
+
+{% set currentLanguage = localeService.getLanguageByLocale(app.request.locale) %}
+<body{% if currentLanguage and currentLanguage.getDirection() == 'rtl' %} class="rtl"{% endif %}>
+<div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="{{ path('admin_main_home') }}" class="navbar-brand">
+                <small>
+                    <i class="icon-leaf"></i> {{ 'app.title'|trans }}
+                </small>
+            </a><!-- /.brand -->
+        </div><!-- /.navbar-header -->
+
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+
+                {#<li class="light-blue">#}
+                    {#<a data-toggle="dropdown" href="#" class="dropdown-toggle">#}
+                        {#<i class="langFlagIcon" bgIcon="{{ asset('bundles/admin/images/languages/' ~ app.request.locale ~'.gif') }}"></i>#}
+                        {#<img src="{{ asset('upload/langs/' ~ app.request.locale ~'.gif') }}" >#}
+                        {#{{("admin.language.codes."~app.request.locale)|trans}}#}
+                        {#<i class="icon-caret-down"></i>#}
+                    {#</a>#}
+
+                    {#<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">#}
+                        {#{% set params = app.request.attributes.get('_route_params')|merge(app.request.query.all()) %}#}
+                        {#{% for language in ['en', 'ar'] %}#}
+                            {#{%if language != app.request.locale %}#}
+                                {#<li>#}
+                                    {#<a href="{{ path( app.request.attributes.get('_route') ,params|merge({'_locale': language})) }}">#}
+                                        {#<i class="langFlagIcon" bgIcon="{{ asset('upload/langs/' ~ language ~'.gif') }}"></i>#}
+                                        {#<img src="{{ asset('upload/langs/' ~ language ~'.gif') }}" >#}
+                                        {#{{("admin.language.codes."~language)|trans}}#}
+                                    {#</a>#}
+                                {#</li>#}
+                            {#{% endif %}#}
+                        {#{% endfor %}#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {% block navbar_header %}{% endblock %}
+                {#<li class="light-blue">#}
+                    {#<a data-toggle="dropdown" href="#" class="dropdown-toggle">#}
+                        {#<img src="{{ asset('upload/langs/' ~ app.request.locale ~'.gif') }}" >#}
+                    {#</a>#}
+                    {#<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">#}
+                        {#{% set params = app.request.attributes.get('_route_params')|merge(app.request.query.all()) %}#}
+                        {#{% for language in localeService.getBackEndSwitchLanguages() %}#}
+                            {#{%if language.locale != app.request.locale %}#}
+                            {#<li>#}
+                                {#<a href="{{ path( app.request.attributes.get('_route') ,params|merge({'_locale': language.locale})) }}">#}
+                                    {#<i class="langFlagIcon" bgIcon="{{ asset('upload/langs/' ~ language.locale ~'.gif') }}"></i>#}
+                                    {#<img src="{{ asset('upload/langs/' ~ language.locale ~'.gif') }}" >#}
+                                    {#{{ language.name }}#}
+                                {#</a>#}
+                            {#</li>#}
+                            {#{% endif %}#}
+                        {#{% endfor %}#}
+                    {#</ul>#}
+                {#</li>#}
+
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        {%  set currentLanguage = localeService.getLanguageByLocale(app.request.locale) %}
+                        <img src="{{ asset('upload/langs/' ~ currentLanguage.photo ) }}" >
+                    </a>
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        {% set params = app.request.attributes.get('_route_params')|merge(app.request.query.all()) %}
+                        {% for language in localeService.getBackEndSwitchLanguages() %}
+                            {%if language.locale != app.request.locale %}
+                                <li>
+                                    <a href="{{ path( app.request.attributes.get('_route') ,params|merge({'_locale': language.locale})) }}">
+                                        <img src="{{ asset('upload/langs/' ~ language.photo) }}" >
+                                        {{ language.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+
+
+                <li class="light-blue">
+                    {% if app.user.photo %}
+                        {% set userPhoto = asset(app.user.getPhotoWebPath()) %}
+                    {% else %}
+                        {% set userPhoto = asset('bundles/admin/images/user.png') %}
+                    {% endif %}
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" width="40" height="40" src="{{ userPhoto }}" alt="{{ app.user.realName|e('html_attr') }}" />
+                        <span class="user-info">
+									<small>{{ 'admin.user.welcome'|trans }},</small> {{ app.user.realName }}
+								</span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+                        <li>
+                            <a href="{{ path('admin_user_show_profile') }}">
+                                <i class="icon-user"></i>
+                                {{ 'admin.user.profile'|trans }}
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="{{ path('admin_logout') }}">
+                                <i class="icon-off"></i>
+                                {{ 'admin.user.log_out'|trans }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                {#<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">#}
+                {#<button class="btn btn-success">#}
+                {#<i class="icon-signal"></i>#}
+                {#</button>#}
+
+                {#<button class="btn btn-info">#}
+                {#<i class="icon-pencil"></i>#}
+                {#</button>#}
+
+                {#<button class="btn btn-warning">#}
+                {#<i class="icon-group"></i>#}
+                {#</button>#}
+
+                {#<button class="btn btn-danger">#}
+                {#<i class="icon-cogs"></i>#}
+                {#</button>#}
+                {#</div>#}
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- #sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+                {% if block('gridFilter') is defined %}
+                    <li class="open sideMenuFilter">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-filter "></i>
+                            <span class="menu-text"> {{ 'admin.menu.result_filter'|trans }} </span>
+                            <b class="arrow icon-angle-down"></b>
+                        </a>
+                        <div class="submenu submenuNonBordered" style="display: block;">
+                            {{ block('gridFilter')|raw }}
+                        </div>
+                    </li>
+                {% endif %}
+                {% include ':admin:sidebar.html.twig' %}
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+            </script>
+        </div>
+
+        <div class="main-content">
+            {% block breadcrumb %}{% endblock %}
+            <div class="page-content">
+                {% include ':admin:flashMessage.html.twig' %}
+                {% block content %}{% endblock %}
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+</div><!-- /.main-container-inner -->
+
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='{{ asset('bundles/admin/ace/assets/js/jquery-2.0.3.min.js') }}'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='{{ asset('bundles/admin/ace/assets/js/jquery-1.10.2.min.js') }}'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="{{ asset('bundles/admin/ace/') }}assets/js/bootstrap.min.js"></script>
+<script src="{{ asset('bundles/admin/ace/') }}assets/js/typeahead-bs2.min.js"></script>
+<script src="{{ asset('bundles/admin/js/bootbox.min.js') }}"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="{{ asset('bundles/admin/ace/') }}assets/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery-ui-1.10.3.full.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery.ui.touch-punch.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery.easy-pie-chart.min.j') }}s"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/jquery.sparkline.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/flot/jquery.flot.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/flot/jquery.flot.pie.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/flot/jquery.flot.resize.min.js') }}"></script>
+
+<!-- ace scripts -->
+<script src="{{ asset('bundles/admin/ace/assets/js/ace-elements.min.js') }}"></script>
+<script src="{{ asset('bundles/admin/ace/assets/js/ace.min.js') }}"></script>
+
+<!-- inline scripts related to this page -->
+{% block bottomScripts %}{% endblock %}
+
+<script src="{{ asset('bundles/admin/js/layout.js') }}"></script>
+</body>
+</html>

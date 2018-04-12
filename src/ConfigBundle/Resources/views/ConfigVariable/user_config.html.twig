@@ -1,0 +1,98 @@
+{% extends ':admin:base.html.twig' %}
+{% import "AdminBundle:Main:_helper.html.twig" as helper %}
+
+{% set sideMenuActiveSection = 'config' %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/admin/ace/assets/css/chosen.css') }}"/>
+{% endblock %}
+{% block breadcrumb %}
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="{{ path('admin_main_home') }}">{{ 'admin.titles.home'|trans }}</a>
+            </li>
+            <li class="active">{{ 'config.menu.config'|trans }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{{ 'config.menu.user_config'|trans }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <form action="{{ path('config_config_variable_user') }}" method="post">
+
+                    {% for section, variables in sectionsAndVariables %}
+                        <h4>{{ section|trans }}</h4>
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                        <tbody>
+                        {% for variable in variables %}
+                            {% if variable.configUserVariable|first.value is defined %}
+                                {% set variableValue = variable.configUserVariable|first.value %}
+                            {% else %}
+                                {% set variableValue = variable.value %}
+                            {% endif %}
+                        <tr>
+                            <td width="30%">{{ variable.variableTranslation|trans }}</td>
+                            <td>
+                                {% if variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_NUMERIC') %}
+                                    <input type="number" name="{{ variable.variable }}" value="{{ variableValue }}"/>
+                                {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_STRING') %}
+                                    <input type="text" name="{{ variable.variable }}" value="{{ variableValue }}"/>
+                                {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_TEXT') %}
+                                    <textarea name="{{ variable.variable }}">{{ variableValue }}</textarea>
+                                {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_CHOICE') %}
+                                    <select name="{{ variable.variable }}" class="width-50 chosen-select" data-placeholder="{{ 'admin.titles.select'|trans }}">
+                                        <option value=""></option>
+                                        {% for key,value in variable.data|json_decode(true) %}
+                                            <option value="{{ value }}" {% if value == variableValue %} selected="selected" {% endif %}>{{ key }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_BOOLEAN') %}
+                                    <input type="checkbox" name="{{ variable.variable }}" class="ace ace-switch ace-switch-5" value="1" {% if 1 == variableValue %} checked="1" {% endif %}>
+                                    <span class="lbl"></span>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+
+                    <div class="form-inline">
+                        <input type="submit" value="{{ 'admin.titles.save'|trans }}" class="btn btn-sm btn-primary">
+                    </div>
+                </form>
+            </div><!-- /.table-responsive -->
+        </div><!-- /span -->
+
+    </div><!-- /row -->
+
+{% endblock %}
+
+{% block bottomScripts %}
+    {{ helper.gridJavaScripts(path('config_config_variable_user')) }}
+
+    <script type="text/javascript">
+        function disableFormElements(disable) {
+            $(':input[type="submit"]').prop('disabled', disable);
+        }
+
+        $(function () {
+            $(".chosen-select").chosen();
+        });
+    </script>
+
+{% endblock %}

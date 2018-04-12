@@ -1,0 +1,9 @@
+config:
+    menu:
+        config: Config
+        admin_config: Genaral Config
+        user_config: User Config
+    hints:
+        config: This is the main section to control Config.
+        admin_config: This is the main section to control General Config.
+        user_config: This is the main section to control User Config.

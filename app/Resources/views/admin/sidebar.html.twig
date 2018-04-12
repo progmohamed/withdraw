@@ -1,0 +1,15 @@
+{% import "AdminBundle:Main:_helper.html.twig" as helper %}
+
+<li class="{#active#}">
+    <a href="{{ path('admin_main_home') }}">
+        <i class="icon-dashboard"></i>
+        <span class="menu-text"> {{ 'admin.menu.home_page'|trans }} </span>
+    </a>
+</li>
+
+{% for section in getAdminSections() %}
+    {{ helper.sideMenuSection(section, sideMenuActiveSection is defined ? sideMenuActiveSection : NULL) }}
+{% endfor %}
+
+
+

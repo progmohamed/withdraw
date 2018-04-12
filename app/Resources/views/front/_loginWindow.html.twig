@@ -1,0 +1,33 @@
+<div id="loginWindow">
+    <div class="loginWindowWrp">
+        <div class="loginWindowArrow"></div>
+        <div class="loginWindowInner">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                <table>
+                    <tr>
+                        <td><label>اسم المستخدم</label></td>
+                        <td><input type="text" name="_username" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>كلمة المرور</label></td>
+                        <td><input type="password" name="_password" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div>
+                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                <label for="remember_me">تذكرني</label>
+                            </div>
+
+                            <input class="btnGreen" type="submit" value="دخول" />
+                            <a href="{{ path("fos_user_resetting_request") }}">نسيت كلمة المرور</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <a href="{{ path('fos_user_registration_register') }}" class="newUser"><span>مستخدم جديد</span></a>
+        </div>
+    </div>
+</div>

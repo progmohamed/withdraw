@@ -1,0 +1,12 @@
+{% extends ':front:base.html.twig' %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('front_main_home') }}">الرئيسة</a></li>
+        <li class="active">عرض الملف الشخصي</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+{% endblock %}

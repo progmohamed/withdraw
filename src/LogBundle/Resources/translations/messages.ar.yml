@@ -1,0 +1,14 @@
+log:
+    menu:
+        log: السجلات
+        log_record: السجلات
+    hints:
+        log: وهنا تجد التحكم في السجلات
+        log_record: اما هنا فيمكنك مراجعة سجلات النظام
+
+    titles:
+        message: الرسالة
+        component: المكونة
+        book: رقم الكتاب
+    config:
+        send_log: إرسال تسجيلات النظام الي بريد المدير

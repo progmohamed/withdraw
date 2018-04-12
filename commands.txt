@@ -1,0 +1,38 @@
+php bin/console generate:bundle --namespace=Content/NewsBundle --format=yml
+
+FOSUserBundle Command Line Tools
+--------------------------------
+Create a User
+php bin/console fos:user:promote testuser --super
+php bin/console fos:user:create adminuser --super-admin
+php bin/console fos:user:create testuser --inactive
+
+Activate a User
+php bin/console fos:user:activate testuser
+
+Deactivate a User
+php bin/console fos:user:deactivate testuser
+
+Promote a User
+php bin/console fos:user:promote testuser ROLE_ADMIN
+php bin/console fos:user:promote testuser --super
+
+Demote a User
+php bin/console fos:user:demote testuser ROLE_ADMIN
+php bin/console fos:user:demote testuser --super
+
+Change a User's Password
+php bin/console fos:user:change-password testuser newp@ssword
+
+#Database update
+php bin/console doctrine:schema:update --force
+
+php bin/console assets:install web --symlink
+
+DoctrineFixturesBundle
+----------------------
+php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load --append
+php bin/console doctrine:fixtures:load --fixtures=/path/to/fixture1 --fixtures=/path/to/fixture2 --append --em=foo_manager
+
+php bin/console debug:router
