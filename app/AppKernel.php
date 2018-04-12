@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new LocaleBundle\LocaleBundle(),
             new ConfigBundle\ConfigBundle(),
             new LogBundle\LogBundle(),
+            new WithdrawBundle\WithdrawBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
