@@ -35,7 +35,7 @@
             </li>
             {% for element in elements %}
                 {% if element[1] is defined %}
-                    <li><a href="{{ element[1] }}">{{ element[0] }}</a></li>
+                    <li><a href="{{ element[1] }}">{{ element[0]|trans }}</a></li>
                 {% else %}
                     <li class="active">{{ element[0] }}</li>
                 {% endif %}

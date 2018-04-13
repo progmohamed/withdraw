@@ -1,0 +1,57 @@
+{% extends ':admin:base.html.twig' %}
+{% import "AdminBundle:Main:_helper.html.twig" as helper %}
+
+{% set sideMenuActiveSection = 'withdraw' %}
+{% set pageTitle = 'withdraw.site.edit_item'|trans %}
+
+{% block breadcrumb %}
+
+    {{ helper.breadcrumb([
+    ['withdraw.menu.site', path('withdraw_site_list')],
+    [pageTitle]
+    ]) }}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ pageTitle }}</h1>
+    </div>
+
+    <div class="btn-group screenTopButtons">
+        <a class="btn btn-sm btn-inverse" href="{{ path('withdraw_site_list') }}">{{ 'admin.titles.list'|trans }}</a>
+        <a class="btn btn-sm btn-success" href="{{ path('withdraw_site_new') }}">{{ 'admin.titles.add'|trans }}</a>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            {{ form_errors(edit_form) }}
+            {{ form_start(edit_form, {'attr': {'novalidate':'true', 'class': 'form-horizontal', 'role':'form'}}) }}
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right"> {{ form_label(edit_form.url) }} </label>
+                <div class="col-sm-10">
+                    {{ form_errors(edit_form.url) }}
+                    {{ form_widget(edit_form.url) }}
+                </div>
+            </div>
+            <div class="space-4"></div>
+
+            {{ form_rest(edit_form) }}
+
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-info" type="submit" name="submit">
+                        <i class="icon-ok bigger-110"></i>{{ 'admin.titles.edit'|trans }}
+                    </button>
+                </div>
+            </div>
+
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+
+{% endblock %}

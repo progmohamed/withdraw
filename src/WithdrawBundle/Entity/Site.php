@@ -13,13 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Site
  *
  * @ORM\Table(name="withdraw_site", indexes={@ORM\Index(name="inx_url", columns={"url"}), @ORM\Index(name="inx_status", columns={"status"}), @ORM\Index(name="inx_user_id", columns={"user_id"}), @ORM\Index(name="inx_created_at", columns={"created_at"}), @ORM\Index(name="inx_updated_at", columns={"updated_at"})})
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="WithdrawBundle\Entity\Repository\Site\Repository")
  */
 class Site
 {
 
     use ORMBehaviors\Timestampable\Timestampable;
-
 
     const STATUS_NEW = 1;
     const STATUS_CRAWLING = 2;
@@ -33,7 +32,6 @@ class Site
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
 
     /**
      * @var string

@@ -1,0 +1,48 @@
+{% extends ':admin:base.html.twig' %}
+{% import "AdminBundle:Main:_helper.html.twig" as helper %}
+
+{% set sideMenuActiveSection = 'withdraw' %}
+{% set pageTitle = 'withdraw.site.show_item'|trans %}
+
+{% block breadcrumb %}
+
+    {{ helper.breadcrumb([
+    ['withdraw.menu.site', path('withdraw_site_list')],
+    [pageTitle]
+    ]) }}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ pageTitle }}</h1>
+    </div>
+
+    <div class="btn-group screenTopButtons">
+        <a class="btn btn-sm btn-inverse" href="{{ path('withdraw_site_list') }}">{{ 'admin.titles.list'|trans }}</a>
+        <a class="btn btn-sm btn-success" href="{{ path('withdraw_site_new') }}">{{ 'admin.titles.add'|trans }}</a>
+        <a class="btn btn-sm btn-info"
+           href="{{ path('withdraw_site_edit', { 'id': entity.id }) }}">{{ 'admin.titles.edit'|trans }}</a>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <th width="100">{{ 'admin.titles.id'|trans }}</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'withdraw.site.url'|trans }}</th>
+                    <td>{{ entity.url }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

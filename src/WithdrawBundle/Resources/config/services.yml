@@ -1,4 +1,10 @@
 services:
-#    withdraw.example:
-#        class: WithdrawBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    withdraw.service:
+        class: WithdrawBundle\Service\WithdrawService\WithdrawService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    withdraw.backend.menu:
+        class:  WithdrawBundle\DataFixtures\ORM\LoadMenu
+        tags:
+            - { name: backend.menu.fixture }

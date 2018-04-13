@@ -1,0 +1,25 @@
+withdraw:
+    menu:
+        withdraw: Withdraw
+        site: Sites
+    site:
+        url: URL
+        status:
+            status: Status
+            new: New
+            crawling: Crawling
+            done: Done
+        new_item: Add Site
+        edit_item: Edit Site
+        show_item: Show Site
+        delete_item: Delete Site
+    hints:
+        withdraw: Here you control all things related with withdrawal process.
+        site: From here you can control the Sites, you can add, edit, show or delete a site.
+
+    log:
+        add_site: Site number %entity_id% has been added
+        edit_site: Site number %entity_id% has been edited
+        delete_site: Site number %entity_id% has been deleted
+    messages:
+        the_entry_has_been_deleted: the entry number "%entity%" has been deleted
