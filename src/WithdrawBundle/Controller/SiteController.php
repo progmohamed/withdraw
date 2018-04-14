@@ -61,29 +61,17 @@ class SiteController extends Controller
      */
     public function newAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = new Site();
-        $form = $this->createForm(SiteType::class, $entity);
-        $form->handleRequest($request);
+        if ('POST' == $request->getMethod()) {
+            $urls = $request->request->get('url');
+            $em = $this->getDoctrine()->getManager();
+            $em->getRepository("WithdrawBundle:Site")->add($urls, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
 
-        if ($form->isSubmitted()) {
-            $entity->setUser($this->getUser());
-            if ($form->isValid()) {
-                $em->persist($entity);
-                $em->flush();
-
-                $this->get('session')->getFlashBag()->add(
-                    'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
-                );
-
-                $this->get('common.service')->log($this->get('withdraw.service')->getName(), 'withdraw.log.add_site', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
-                return $this->redirectToRoute('withdraw_site_show', ['id' => $entity->getId()]);
-            }
+            $this->get('session')->getFlashBag()->add(
+                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
+            );
+            return $this->redirectToRoute('withdraw_site_list');
         }
-
         return $this->render('WithdrawBundle:Site:new.html.twig', [
-            'entity' => $entity,
-            'form' => $form->createView(),
         ]);
     }
 
@@ -97,21 +85,18 @@ class SiteController extends Controller
     public function editAction(Request $request, Site $entity)
     {
 
-        $em = $this->getDoctrine()->getManager();
         $editForm = $this->createForm(SiteType::class, $entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted()) {
-            $entity->setUser($this->getUser());
-            if ($editForm->isValid()) {
-                $em->flush();
-                $this->get('session')->getFlashBag()->add(
-                    'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
-                );
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->getRepository("WithdrawBundle:Site")->edit($entity, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
 
-                $this->get('common.service')->log($this->get('withdraw.service')->getName(), 'withdraw.log.edit_site', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
-                return $this->redirectToRoute('withdraw_site_show', ['id' => $entity->getId()]);
-            }
+            $this->get('session')->getFlashBag()->add(
+                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
+            );
+
+            return $this->redirectToRoute('withdraw_site_show', ['id' => $entity->getId()]);
         }
 
         return $this->render('WithdrawBundle:Site:edit.html.twig', [
@@ -163,12 +148,10 @@ class SiteController extends Controller
                     try {
                         $site = $repository->find($id);
                         if ($site) {
-                            $em->remove($site);
-                            $em->flush();
+                            $em->getRepository("WithdrawBundle:Site")->delete($site, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
                             $this->get('session')->getFlashBag()->add(
-                                'success', $translator->trans('withdraw.messages.the_entry_has_been_deleted', ['%entity%'=>$site])
+                                'success', $translator->trans('withdraw.messages.the_entry_has_been_deleted', ['%entity%' => $site])
                             );
-                            $this->get('common.service')->log($this->get('withdraw.service')->getName(), 'withdraw.log.delete_site', ['%entity_id%' => $site], $this->getUser()->getId());
                         }
                     } catch (\Exception $e) {
                         $this->get('session')->getFlashBag()->add(

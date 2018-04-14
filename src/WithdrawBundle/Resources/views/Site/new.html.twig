@@ -24,34 +24,36 @@
 
     <div class="row">
         <div class="col-xs-12">
-
-            {{ helper.showTranslatableFormErrorAlertIfAny(form) }}
-
-
-            {{ form_errors(form) }}
-            {{ form_start(form, {'attr': {'novalidate':'true', 'class': 'form-horizontal', 'role':'form'}}) }}
-
-            <div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right"> {{ form_label(form.url) }} </label>
-                    <div class="col-sm-10">
-                        {{ form_errors(form.url) }}
-                        {{ form_widget(form.url) }}
+            <form name="site" method="post" class="form-horizontal" role="form">
+                <div id = 'url-form'>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            <label for="site_url" class="required">URL</label>
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="input-xxlarge" name="url[]" required="required" maxlength="255">
+                        </div>
                     </div>
                 </div>
-                <div class="space-4"></div>
-            </div>
-            {{ form_rest(form) }}
 
-            <div class="clearfix form-actions">
                 <div class="col-md-offset-2 col-md-10">
-                    <button class="btn btn-info" type="submit" name="submit">
-                        <i class="icon-ok bigger-110"></i>{{ 'admin.titles.add'|trans }}
+                    <button class="btn btn-xs btn-success" onClick="addUrl(); return false;">
+                        <i class="icon-pencil bigger-110"></i>
+                        <span class="bigger-110 no-text-shadow">Add another URL</span>
                     </button>
                 </div>
-            </div>
+                <div style="clear: both;"></div>
+                <div class="clearfix form-actions">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="btn btn-info" type="submit" name="submit">
+                            <i class="icon-ok bigger-110"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-            {{ form_end(form) }}
+
         </div>
     </div>
 

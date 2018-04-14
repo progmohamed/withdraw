@@ -2,7 +2,9 @@
 
 namespace WithdrawBundle\Entity\Repository\Site;
 
+use CommonBundle\Service\CommonService;
 use Doctrine\ORM\EntityRepository;
+use WithdrawBundle\Entity\Site;
 use WithdrawBundle\Service\WithdrawService\WithdrawService;
 
 class Repository extends EntityRepository
@@ -19,6 +21,35 @@ class Repository extends EntityRepository
         return self::$dataGrid;
     }
 
+    public function add($urls, $user, CommonService $commonService, $serviceName)
+    {
+        $em = $this->getEntityManager();
+        foreach ($urls as $url) {
+            $entity = new Site();
+            $entity->setUrl($url)
+                ->setUser($user);
+            $em->persist($entity);
+            $commonService->log($serviceName, 'withdraw.log.add_site', ['%url%' => $url], $user->getId());
+        }
+        $em->flush();
+    }
+
+    public function edit(Site $entity, $user, CommonService $commonService, $serviceName)
+    {
+        $em = $this->getEntityManager();
+        $entity->setUser($user);
+        $em->flush();
+        $commonService->log($serviceName, 'withdraw.log.edit_site', ['%entity_id%' => $entity->getId()], $user->getId());
+    }
+
+    public function delete(Site $entity, $user, CommonService $commonService, $serviceName)
+    {
+        $em = $this->getEntityManager();
+        $em->remove($entity);
+        $em->flush();
+        $commonService->log($serviceName, 'withdraw.log.delete_site', ['%url%' => $entity], $user->getId());
+    }
+    
     public function getDeleteRestrectionsByIds(WithdrawService $service, $ids)
     {
         $restrictions = [];

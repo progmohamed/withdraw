@@ -18,8 +18,8 @@ withdraw:
         site: From here you can control the Sites, you can add, edit, show or delete a site.
 
     log:
-        add_site: Site number %entity_id% has been added
-        edit_site: Site number %entity_id% has been edited
-        delete_site: Site number %entity_id% has been deleted
+        add_site: Site "%url%" has been added
+        edit_site: Site with ID %entity_id% has been edited
+        delete_site: Site "%url%" has been deleted
     messages:
         the_entry_has_been_deleted: the entry number "%entity%" has been deleted

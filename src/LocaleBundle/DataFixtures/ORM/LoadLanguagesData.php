@@ -38,6 +38,7 @@ class LoadLanguagesData implements FixtureInterface, ContainerAwareInterface
             $language->setSwitchBackEnd(true);
             $language->setSwitchFrontEnd(true);
             $language->setTranslateContent(true);
+            $language->setPhoto($element[0].'.gif');
             $manager->persist($language);
             $manager->flush();
         }
