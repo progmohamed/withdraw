@@ -189,4 +189,16 @@ class SiteController extends Controller
             ]);
         }
     }
+
+
+    /**
+     * @Route("/mm", name="withdraw_site_mm")
+     * @Security("has_role('ROLE_WITHDRAW_SITE_DELETE')")
+     */
+    public function mmAction(Request $request)
+    {
+        $mm = $this->get('withdraw.service')->getScraper('https://stackoverflow.com/questions/24257043/symfony2-adding-in-google-analytics-script-into-twig')->getMetrics();
+        dump($mm);
+        die;
+    }
 }
