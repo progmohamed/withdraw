@@ -18,16 +18,20 @@ class Scraper
             'verify' => false,
         ]);
         $client->setClient($guzzleClient);
+        $client->setHeader('user-agent', 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36');
         $this->crawler = $client->request($method, $siteUrl);
+        if($client->getResponse()->getStatus()!==200){
+            throw new \Exception('Faild', $client->getResponse()->getStatus());
+        }
         $this->siteUrl = $siteUrl;
     }
 
     public function getMetrics()
     {
         return [
-            'title'          => $this->getTitle(),
+            'title' => $this->getTitle(),
             'ex_links_count' => $this->getExLinksCount(),
-            'ga_is_exist'    => $this->gaIsExist()
+            'ga_is_exist' => $this->gaIsExist()
         ];
     }
 
@@ -50,7 +54,7 @@ class Scraper
 
     protected function gaIsExist()
     {
-        return ($this->crawler->filterXPath('//script[contains(text(),"www.google-analytics.com/analytics.js") or contains(text(),".google-analytics.com/ga.js") or contains(text(),"www.googletagmanager.com/gtm.js?id=") or contains(@src, "https://www.googletagmanager.com/gtag/js?id=")]')->count()) ? true : false;
+        return ($this->crawler->filterXPath('//script[contains(text(),"www.google-analytics.com/analytics.js") or contains(text(),".google-analytics.com/ga.js") or contains(text(),"www.googletagmanager.com/gtm.js?id=") or contains(@src, "https://www.googletagmanager.com/gtag/js?id=")]')->count()) ? 1 : 0;
     }
 
     private function isExternal($ongoingUrl)

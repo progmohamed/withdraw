@@ -50,7 +50,7 @@ class SiteController extends Controller
         );
 
         return $this->render('WithdrawBundle:Site:index.html.twig', [
-            'entities'   => $entities,
+            'entities' => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
@@ -65,7 +65,12 @@ class SiteController extends Controller
         if ('POST' == $request->getMethod()) {
             $urls = $request->request->get('url');
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository("WithdrawBundle:Site")->add($urls, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName(), $this->get('taskmanager.service'));
+            $em->getRepository("WithdrawBundle:Site")
+                ->add($urls, $this->getUser(),
+                    $this->get('common.service'),
+                    $this->get('withdraw.service')->getName(),
+                    $this->get('taskmanager.service')
+                );
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
@@ -91,7 +96,12 @@ class SiteController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository("WithdrawBundle:Site")->edit($entity, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName(), $this->get('taskmanager.service'));
+            $em->getRepository("WithdrawBundle:Site")
+                ->edit($entity, $this->getUser(),
+                    $this->get('common.service'),
+                    $this->get('withdraw.service')->getName(),
+                    $this->get('taskmanager.service')
+                );
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
@@ -101,7 +111,7 @@ class SiteController extends Controller
         }
 
         return $this->render('WithdrawBundle:Site:edit.html.twig', [
-            'entity'    => $entity,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -134,7 +144,7 @@ class SiteController extends Controller
         $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('withdraw_site_delete', [
-                'id'       => base64_encode(serialize([$id])),
+                'id' => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -149,7 +159,11 @@ class SiteController extends Controller
                     try {
                         $site = $repository->find($id);
                         if ($site) {
-                            $em->getRepository("WithdrawBundle:Site")->delete($site, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
+                            $em->getRepository("WithdrawBundle:Site")
+                                ->delete($site, $this->getUser(),
+                                    $this->get('common.service'),
+                                    $this->get('withdraw.service')->getName()
+                                );
                             $this->get('session')->getFlashBag()->add(
                                 'success', $translator->trans('withdraw.messages.the_entry_has_been_deleted', ['%entity%' => $site])
                             );
@@ -167,7 +181,7 @@ class SiteController extends Controller
                     $ids
                 );
                 return $this->render('WithdrawBundle:Site:delete.html.twig', [
-                    'report'   => $report,
+                    'report' => $report,
                     'redirect' => $redirect,
                 ]);
             }
@@ -199,13 +213,20 @@ class SiteController extends Controller
     public function resortVideoAjaxAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $collectionRepository = $em->getRepository('ZekrBundle:Collection');
-        $collectionRepository->resortVideo($request->request->get('sortArr'));
-
-        $taskmanager = $this->get('taskmanager.service');
-        $taskmanager->addTaskRunImmediately('zekr:index-video-collection', ['collection' => $entity->getId()], 'Resort video Collection');
-
-        return  new JsonResponse($request->request->get('sortArr'));
+        $siteRepository = $em->getRepository('WithdrawBundle:Site');
+        $changes = $siteRepository->getChanges($request->request->get('ids'));
+        $results = [];
+        foreach ($changes as $site) {
+            $results[] = [
+                'id' => $site->getId(),
+                'url' => $site->getUrl(),
+                'status' => $this->get('translator')->trans($site->getStatusTransKey()),
+                'title' => (isset($site->getMetrics()['title'])) ? $site->getMetrics()['title']->getHumanValue() : "n/a",
+                'ex_links_count' => (isset($site->getMetrics()['ex_links_count'])) ? $site->getMetrics()['ex_links_count']->getHumanValue() : "n/a",
+                'ga_is_exist' => (isset($site->getMetrics()['ga_is_exist'])) ? $site->getMetrics()['ga_is_exist']->getHumanValue() : "n/a",
+            ];
+        }
+        return new JsonResponse($results);
     }
 
 }

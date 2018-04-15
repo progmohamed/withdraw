@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use WithdrawBundle\Entity\Site;
 
 class ScraperCommand extends ContainerAwareCommand
 {
@@ -25,8 +26,14 @@ class ScraperCommand extends ContainerAwareCommand
             $repository = $em->getRepository('WithdrawBundle:Site');
             $site = $repository->find($id);
             if ($site) {
-                $metrics = $this->getContainer()->get('withdraw.service')->getScraper($site->getUrl())->getMetrics();
-                $em->getRepository('WithdrawBundle:SiteMetric')->addMetrics($site, $metrics);
+                $repository->updateStatus($site, Site::STATUS_CRAWLING);
+                try {
+                    $metrics = $this->getContainer()->get('withdraw.service')->getScraper($site->getUrl())->getMetrics();
+                    $em->getRepository('WithdrawBundle:SiteMetric')->addMetrics($site, $metrics);
+                    $repository->updateStatus($site, Site::STATUS_DONE);
+                } catch (\Exception $e) {
+                    $repository->updateStatus($site, Site::STATUS_FAILED);
+                }
             }
         }
     }

@@ -44,6 +44,7 @@ class Repository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $entity->setUser($user);
+        $entity->setStatus(Site::STATUS_NEW);
         $em->flush();
         $commonService->log($serviceName, 'withdraw.log.edit_site', ['%entity_id%' => $entity->getId()], $user->getId());
         $taskmanagerService->addTaskQueued(
@@ -60,7 +61,34 @@ class Repository extends EntityRepository
         $em->flush();
         $commonService->log($serviceName, 'withdraw.log.delete_site', ['%url%' => $entity], $user->getId());
     }
-    
+
+    public function updateStatus(Site $entity, $status)
+    {
+        $em = $this->getEntityManager();
+        $entity->setStatus($status);
+        $em->flush();
+    }
+
+    public function getChanges($ids)
+    {
+        $em = $this->getEntityManager();
+        $parameters = [];
+        $dql = "SELECT s, sm
+        FROM WithdrawBundle:Site s
+        LEFT JOIN s.metrics sm
+        INDEX BY sm.metric
+        WHERE s.id in(:ids) ";
+
+        $parameters['ids'] = $ids;
+        $query = $em->createQuery($dql);
+        if (sizeof($parameters)) {
+            $query->setParameters($parameters);
+        }
+
+        return $query->getResult();
+
+    }
+
     public function getDeleteRestrectionsByIds(WithdrawService $service, $ids)
     {
         $restrictions = [];

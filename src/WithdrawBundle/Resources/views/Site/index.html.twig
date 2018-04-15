@@ -69,12 +69,12 @@
                                     </label>
                                 </td>
                                 <td>{{ entity.id }}</td>
-                                <td>{{ entity.url }}</td>
+                                <td data-url="{{ entity.id }}">{{ entity.url }}</td>
                                 <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
-                                <td>{{ entity.statusTransKey|trans }}</td>
-                                <td>{{ (entity.metrics['title'].value is defined) ? entity.metrics['title'].value :'n/a' }}</td>
-                                <td>{{ (entity.metrics['ex_links_count'].value is defined) ? entity.metrics['ex_links_count'].value : 'n/a' }}</td>
-                                <td>{{ (entity.metrics['ga_is_exist'].value is defined) ? entity.metrics['ga_is_exist'].value : 'n/a' }}</td>
+                                <td data-status="{{ entity.id }}">{{ entity.statusTransKey|trans }}</td>
+                                <td data-title="{{ entity.id }}">{{ (entity.metrics['title'] is defined) ? entity.metrics['title'].humanValue :'n/a' }}</td>
+                                <td data-ex-links-count="{{ entity.id }}">{{ (entity.metrics['ex_links_count'] is defined) ? entity.metrics['ex_links_count'].humanValue : 'n/a' }}</td>
+                                <td data-ga-is-exist="{{ entity.id }}">{{ (entity.metrics['ga_is_exist'] is defined) ? entity.metrics['ga_is_exist'].humanValue : 'n/a' }}</td>
                                 <td>
                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                                         <a class="blue" href="{{ path('withdraw_site_show', { 'id': entity.id }) }}">
@@ -153,29 +153,42 @@
     {{ helper.gridJavaScripts(path('withdraw_site_list')) }}
 
     <script>
-        $(function(){
+        $(function () {
             get_changes();
         });
-        function get_changes(){
+        function get_changes() {
             var ids = [];
             $('input[name="idx[]"]').each(function () {
                 ids.push(parseInt($(this).val()));
             });
-            var feedback = $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "{{ path('withdraw_site_get_changes') }}",
                 data: {
                     'ids': ids
                 },
                 dataType: "json",
-            }).done(function(data) {
-                alert( "success" );
-            }).always(function(){
-                setTimeout(function(){feedback();}, 10000);
+            }).done(function (data) {
+                console.log(data);
+                setChanges(data);
+            }).always(function () {
+                setTimeout(function () {
+                    get_changes();
+                }, 3000);
             });
 
             $('div.feedback-box-complete').html('complete feedback');
 
+        }
+
+        function setChanges(data) {
+            for (i = 0; i < data.length; i++) {
+                $('td[data-url="' + data[i].id + '"]').html(data[i].url);
+                $('td[data-status="' + data[i].id + '"]').html(data[i].status);
+                $('td[data-title="' + data[i].id + '"]').html(data[i].title);
+                $('td[data-ex-links-count="' + data[i].id + '"]').html(data[i].ex_links_count);
+                $('td[data-ga-is-exist="' + data[i].id + '"]').html(data[i].ga_is_exist);
+            }
         }
     </script>
 {% endblock %}

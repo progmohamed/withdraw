@@ -114,6 +114,19 @@ class SiteMetric
     }
 
     /**
+     * Get humanValue
+     */
+    public function getHumanValue()
+    {
+        if ($this->getValue() != "") {
+            return $this->getValue();
+        } else {
+            return "n/a";
+        }
+
+    }
+
+    /**
      * Set site
      *
      * @param Site $site
