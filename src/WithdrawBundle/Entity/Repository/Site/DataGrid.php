@@ -2,10 +2,10 @@
 
 namespace WithdrawBundle\Entity\Repository\Site;
 
+use AdminBundle\Classes\DataGrid as AdminDataGrid;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use AdminBundle\Classes\DataGrid as AdminDataGrid;
 use WithdrawBundle\Entity\Site;
 
 class DataGrid extends AdminDataGrid
@@ -14,9 +14,10 @@ class DataGrid extends AdminDataGrid
     {
         $em = $this->getEntityManager();
         $parameters = [];
-        $dql = "SELECT s
+        $dql = "SELECT s, sm
         FROM WithdrawBundle:Site s
         LEFT JOIN s.metrics sm
+        INDEX BY sm.metric
         WHERE 1=1 ";
 
         $elementValue = $this->getFormDataElement('id');
@@ -65,15 +66,15 @@ class DataGrid extends AdminDataGrid
             ->add('url', TextType::class, [
                 'label' => 'withdraw.site.url'
             ])
-            ->add('status', ChoiceType::class, array(
-                'label' => 'withdraw.site.status.status',
-                'choices' => array(
-                    'withdraw.site.status.new' => Site::STATUS_NEW,
+            ->add('status', ChoiceType::class, [
+                'label'    => 'withdraw.site.status.status',
+                'choices'  => [
+                    'withdraw.site.status.new'      => Site::STATUS_NEW,
                     'withdraw.site.status.crawling' => Site::STATUS_CRAWLING,
-                    'withdraw.site.status.done' => Site::STATUS_DONE,
-                ),
+                    'withdraw.site.status.done'     => Site::STATUS_DONE,
+                ],
                 'multiple' => true,
-            ));
+            ]);
         return $form->getForm();
     }
 }

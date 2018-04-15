@@ -3,6 +3,7 @@
 namespace WithdrawBundle\Service\WithdrawService;
 
 use Goutte\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Scraper
@@ -13,6 +14,10 @@ class Scraper
     public function __construct($siteUrl, $method = 'GET')
     {
         $client = new Client();
+        $guzzleClient = new GuzzleClient([
+            'verify' => false,
+        ]);
+        $client->setClient($guzzleClient);
         $this->crawler = $client->request($method, $siteUrl);
         $this->siteUrl = $siteUrl;
     }
@@ -20,8 +25,9 @@ class Scraper
     public function getMetrics()
     {
         return [
-            'title' => $this->getTitle(),
-            'ex_links_count' => $this->getExLinksCount()
+            'title'          => $this->getTitle(),
+            'ex_links_count' => $this->getExLinksCount(),
+            'ga_is_exist'    => $this->gaIsExist()
         ];
     }
 
@@ -42,6 +48,10 @@ class Scraper
         return $exLinksCount;
     }
 
+    protected function gaIsExist()
+    {
+        return ($this->crawler->filterXPath('//script[contains(text(),"www.google-analytics.com/analytics.js") or contains(text(),".google-analytics.com/ga.js") or contains(text(),"www.googletagmanager.com/gtm.js?id=") or contains(@src, "https://www.googletagmanager.com/gtag/js?id=")]')->count()) ? true : false;
+    }
 
     private function isExternal($ongoingUrl)
     {

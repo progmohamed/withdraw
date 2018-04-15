@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Site
  *
@@ -23,6 +22,7 @@ class Site
     const STATUS_NEW = 1;
     const STATUS_CRAWLING = 2;
     const STATUS_DONE = 3;
+    const STATUS_FAILED = 4;
 
     /**
      * @var integer
@@ -132,6 +132,27 @@ class Site
     public function getStatus()
     {
         return $this->status;
+    }
+
+
+    /**
+     * Get statusTransKey
+     *
+     * @return string
+     */
+    public function getStatusTransKey()
+    {
+        switch ($this->getStatus()):
+            case self::STATUS_CRAWLING:
+                return "withdraw.site.status.crawling";
+            case self::STATUS_DONE:
+                return "withdraw.site.status.done";
+            case self::STATUS_FAILED:
+                return "withdraw.site.status.faild";
+            default:
+                return "withdraw.site.status.new";
+        endswitch;
+
     }
 
 

@@ -2,11 +2,11 @@
 
 namespace WithdrawBundle\DataFixtures\ORM;
 
+use AdminBundle\Entity\Group;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AdminBundle\Entity\Group;
 
 class LoadGroups implements FixtureInterface, ContainerAwareInterface
 {
@@ -20,10 +20,10 @@ class LoadGroups implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $groups = [
-            'Site List' => 'ROLE_WITHDRAW_SITE_LIST',
-            'Site New' => 'ROLE_WITHDRAW_SITE_NEW',
-            'Site Show' => 'ROLE_WITHDRAW_SITE_SHOW',
-            'Site Edit' => 'ROLE_WITHDRAW_SITE_EDIT',
+            'Site List'   => 'ROLE_WITHDRAW_SITE_LIST',
+            'Site New'    => 'ROLE_WITHDRAW_SITE_NEW',
+            'Site Show'   => 'ROLE_WITHDRAW_SITE_SHOW',
+            'Site Edit'   => 'ROLE_WITHDRAW_SITE_EDIT',
             'Site Delete' => 'ROLE_WITHDRAW_SITE_DELETE',
         ];
 

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * SiteMetric
  *
  * @ORM\Table(name="withdraw_site_metric", indexes={@ORM\Index(name="inx_metric", columns={"metric"})})
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="WithdrawBundle\Entity\Repository\SiteMetric\Repository")
  */
 class SiteMetric
 {
@@ -69,7 +69,7 @@ class SiteMetric
      *
      * @param string $metric
      *
-     * @return Site
+     * @return SiteMetric
      */
     public function setMetric($metric)
     {
@@ -94,7 +94,7 @@ class SiteMetric
      *
      * @param string $value
      *
-     * @return Site
+     * @return SiteMetric
      */
     public function setValue($value)
     {

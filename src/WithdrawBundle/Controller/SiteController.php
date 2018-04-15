@@ -2,12 +2,13 @@
 
 namespace WithdrawBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use WithdrawBundle\Entity\Site;
 use WithdrawBundle\Form\SiteType;
 
@@ -49,7 +50,7 @@ class SiteController extends Controller
         );
 
         return $this->render('WithdrawBundle:Site:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
@@ -64,7 +65,7 @@ class SiteController extends Controller
         if ('POST' == $request->getMethod()) {
             $urls = $request->request->get('url');
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository("WithdrawBundle:Site")->add($urls, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
+            $em->getRepository("WithdrawBundle:Site")->add($urls, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName(), $this->get('taskmanager.service'));
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
@@ -90,7 +91,7 @@ class SiteController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository("WithdrawBundle:Site")->edit($entity, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName());
+            $em->getRepository("WithdrawBundle:Site")->edit($entity, $this->getUser(), $this->get('common.service'), $this->get('withdraw.service')->getName(), $this->get('taskmanager.service'));
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
@@ -100,7 +101,7 @@ class SiteController extends Controller
         }
 
         return $this->render('WithdrawBundle:Site:edit.html.twig', [
-            'entity' => $entity,
+            'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -133,7 +134,7 @@ class SiteController extends Controller
         $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('withdraw_site_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -166,7 +167,7 @@ class SiteController extends Controller
                     $ids
                 );
                 return $this->render('WithdrawBundle:Site:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }
@@ -192,13 +193,19 @@ class SiteController extends Controller
 
 
     /**
-     * @Route("/mm", name="withdraw_site_mm")
-     * @Security("has_role('ROLE_WITHDRAW_SITE_DELETE')")
+     * @Route("/get_changes", name="withdraw_site_get_changes")
+     * @Security("has_role('ROLE_WITHDRAW_SITE_LIST')")
      */
-    public function mmAction(Request $request)
+    public function resortVideoAjaxAction(Request $request)
     {
-        $mm = $this->get('withdraw.service')->getScraper('https://stackoverflow.com/questions/24257043/symfony2-adding-in-google-analytics-script-into-twig')->getMetrics();
-        dump($mm);
-        die;
+        $em = $this->getDoctrine()->getManager();
+        $collectionRepository = $em->getRepository('ZekrBundle:Collection');
+        $collectionRepository->resortVideo($request->request->get('sortArr'));
+
+        $taskmanager = $this->get('taskmanager.service');
+        $taskmanager->addTaskRunImmediately('zekr:index-video-collection', ['collection' => $entity->getId()], 'Resort video Collection');
+
+        return  new JsonResponse($request->request->get('sortArr'));
     }
+
 }

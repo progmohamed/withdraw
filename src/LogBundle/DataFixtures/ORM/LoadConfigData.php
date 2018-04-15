@@ -22,7 +22,7 @@ class LoadConfigData implements FixtureInterface, ContainerAwareInterface
         $sendLogVariable = new ConfigVariable();
         $sendLogVariable->setVariable('sendLog')
             ->setType(ConfigVariable::TYPE_BOOLEAN)
-            ->setValue(1)
+            ->setValue(0)
             ->setSectionTranslation('admin.config.general_section')
             ->setVariableTranslation('log.config.send_log')
             ->setScope(ConfigVariable::SCOPE_GLOBAL);

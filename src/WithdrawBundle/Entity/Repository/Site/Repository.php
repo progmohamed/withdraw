@@ -4,6 +4,7 @@ namespace WithdrawBundle\Entity\Repository\Site;
 
 use CommonBundle\Service\CommonService;
 use Doctrine\ORM\EntityRepository;
+use TaskManagerBundle\Service\TaskManagerService;
 use WithdrawBundle\Entity\Site;
 use WithdrawBundle\Service\WithdrawService\WithdrawService;
 
@@ -21,7 +22,7 @@ class Repository extends EntityRepository
         return self::$dataGrid;
     }
 
-    public function add($urls, $user, CommonService $commonService, $serviceName)
+    public function add($urls, $user, CommonService $commonService, $serviceName, TaskManagerService $taskmanagerService)
     {
         $em = $this->getEntityManager();
         foreach ($urls as $url) {
@@ -29,17 +30,27 @@ class Repository extends EntityRepository
             $entity->setUrl($url)
                 ->setUser($user);
             $em->persist($entity);
+            $em->flush();
             $commonService->log($serviceName, 'withdraw.log.add_site', ['%url%' => $url], $user->getId());
+            $taskmanagerService->addTaskQueued(
+                'withdraw:scraper',
+                ['id' => $entity->getId()],
+                'scraping site'
+            );
         }
-        $em->flush();
     }
 
-    public function edit(Site $entity, $user, CommonService $commonService, $serviceName)
+    public function edit(Site $entity, $user, CommonService $commonService, $serviceName, TaskManagerService $taskmanagerService)
     {
         $em = $this->getEntityManager();
         $entity->setUser($user);
         $em->flush();
         $commonService->log($serviceName, 'withdraw.log.edit_site', ['%entity_id%' => $entity->getId()], $user->getId());
+        $taskmanagerService->addTaskQueued(
+            'withdraw:scraper',
+            ['id' => $entity->getId()],
+            'scraping site'
+        );
     }
 
     public function delete(Site $entity, $user, CommonService $commonService, $serviceName)

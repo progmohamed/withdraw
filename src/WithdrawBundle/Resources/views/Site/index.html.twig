@@ -50,6 +50,11 @@
                             </th>
                             <th>{{ knp_pagination_sortable(entities, 'admin.titles.id'|trans, 's.id') }}</th>
                             <th>{{ knp_pagination_sortable(entities, 'withdraw.site.url'|trans, 's.url') }}</th>
+                            <th>{{ knp_pagination_sortable(entities, 'withdraw.site.inserted_at'|trans, 's.createdAt') }}</th>
+                            <th>{{ knp_pagination_sortable(entities, 'withdraw.site.status.status'|trans, 's.status') }}</th>
+                            <th>{{ 'withdraw.site.site_title'|trans }}</th>
+                            <th>{{ 'withdraw.site.ex_links_count'|trans }}</th>
+                            <th>{{ 'withdraw.site.ga_is_exist'|trans }}</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -65,6 +70,11 @@
                                 </td>
                                 <td>{{ entity.id }}</td>
                                 <td>{{ entity.url }}</td>
+                                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+                                <td>{{ entity.statusTransKey|trans }}</td>
+                                <td>{{ (entity.metrics['title'].value is defined) ? entity.metrics['title'].value :'n/a' }}</td>
+                                <td>{{ (entity.metrics['ex_links_count'].value is defined) ? entity.metrics['ex_links_count'].value : 'n/a' }}</td>
+                                <td>{{ (entity.metrics['ga_is_exist'].value is defined) ? entity.metrics['ga_is_exist'].value : 'n/a' }}</td>
                                 <td>
                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                                         <a class="blue" href="{{ path('withdraw_site_show', { 'id': entity.id }) }}">
@@ -141,4 +151,31 @@
 
 {% block bottomScripts %}
     {{ helper.gridJavaScripts(path('withdraw_site_list')) }}
+
+    <script>
+        $(function(){
+            get_changes();
+        });
+        function get_changes(){
+            var ids = [];
+            $('input[name="idx[]"]').each(function () {
+                ids.push(parseInt($(this).val()));
+            });
+            var feedback = $.ajax({
+                type: "POST",
+                url: "{{ path('withdraw_site_get_changes') }}",
+                data: {
+                    'ids': ids
+                },
+                dataType: "json",
+            }).done(function(data) {
+                alert( "success" );
+            }).always(function(){
+                setTimeout(function(){feedback();}, 10000);
+            });
+
+            $('div.feedback-box-complete').html('complete feedback');
+
+        }
+    </script>
 {% endblock %}

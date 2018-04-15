@@ -9,10 +9,15 @@ withdraw:
             new: New
             crawling: Crawling
             done: Done
+            faild: crawling Faild
         new_item: Add Site
         edit_item: Edit Site
         show_item: Show Site
         delete_item: Delete Site
+        site_title: Site Title
+        ex_links_count: External Links Count
+        ga_is_exist: Google Analytics
+        inserted_at: Inserted At
     hints:
         withdraw: Here you control all things related with withdrawal process.
         site: From here you can control the Sites, you can add, edit, show or delete a site.
