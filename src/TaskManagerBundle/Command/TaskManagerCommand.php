@@ -86,7 +86,7 @@ class TaskManagerCommand extends ContainerAwareCommand
             $greetInput = new ArrayInput($task->getCommandArguments());
             $returnCode = $command->run($greetInput, $output);
         }catch(\Exception $e) {
-            //TO-DO: logging errors...etc.
+            //TODO: logging errors...etc.
         }finally {
             if($task->getRunEvery()) {
                 $task->setStatus(Task::STATUS_WAITING);
