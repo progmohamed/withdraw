@@ -17,7 +17,7 @@ class WithdrawService extends PublicService
     public function getScraper($url)
     {
         if (!$this->scraper) {
-            $this->scraper = new Scraper($url);
+            $this->scraper = new Scraper($this->container, $url);
         }
         return $this->scraper;
     }

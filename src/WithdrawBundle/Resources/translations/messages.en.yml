@@ -30,3 +30,7 @@ withdraw:
         delete_site: Site "%url%" has been deleted
     messages:
         the_entry_has_been_deleted: the entry number "%entity%" has been deleted
+    config:
+        withdraw_section: Withdraw Configuration
+        user_agent: User agent
+        sub_domain_as_internal: Consider sub-domain as internal link

@@ -4,15 +4,18 @@ namespace WithdrawBundle\Service\WithdrawService;
 
 use Goutte\Client;
 use GuzzleHttp\Client as GuzzleClient;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Scraper
 {
     protected $crawler;
     protected $siteUrl;
+    protected $container;
 
-    public function __construct($siteUrl, $method = 'GET')
+    public function __construct(ContainerInterface $container, $siteUrl, $method = 'GET')
     {
+        $this->container = $container;
         // add http:// if url is not contain's http:// or https://
         $siteUrl = (preg_match('/^(https?:\/\/)/i', $siteUrl)) ? $siteUrl : 'http://' . $siteUrl;
         $client = new Client();
@@ -20,7 +23,7 @@ class Scraper
             'verify' => false,
         ]);
         $client->setClient($guzzleClient);
-        $client->setHeader('user-agent', 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36');
+        $client->setHeader('user-agent', $this->container->get('config.service')->getGlobalConfigValue('userAgent', null));
         $this->crawler = $client->request($method, $siteUrl);
         if ($client->getResponse()->getStatus() !== 200) {
             throw new \Exception('Faild', $client->getResponse()->getStatus());
@@ -64,12 +67,15 @@ class Scraper
         $ongoingUrl = parse_url(str_replace('://www.', '://', $ongoingUrl));
         $siteUrl = parse_url(str_replace('://www.', '://', $this->siteUrl));
 
-        // if $ongoingUrl host == $siteUrl of u$ongoingUrl look like '/depth.php'
-        if (empty($ongoingUrl['host']) || strcasecmp($ongoingUrl['host'], $siteUrl['host']) === 0) return false;
-        //if the $ongoingUrl host is subdomain
-        return strrpos(strtolower($ongoingUrl['host']), '.' . $siteUrl['host']) !== strlen($ongoingUrl['host']) - strlen('.' . $siteUrl['host']);
-
-        //if we decided consider subdomain as external links
-        //return !empty($ongoingUrl['host']) && strcasecmp($ongoingUrl['host'], $siteUrl['host']);
+        $subDomainAsInternal = (bool)$this->container->get('config.service')->getGlobalConfigValue('subDomainAsInternal', true);
+        if (true == $subDomainAsInternal) {
+            // if $ongoingUrl host == $siteUrl of u$ongoingUrl look like '/depth.php'
+            if (empty($ongoingUrl['host']) || strcasecmp($ongoingUrl['host'], $siteUrl['host']) === 0) return false;
+            //if the $ongoingUrl host is subdomain
+            return strrpos(strtolower($ongoingUrl['host']), '.' . $siteUrl['host']) !== strlen($ongoingUrl['host']) - strlen('.' . $siteUrl['host']);
+        } else {
+            //if we decided consider subdomain as external links
+            return !empty($ongoingUrl['host']) && strcasecmp($ongoingUrl['host'], $siteUrl['host']);
+        }
     }
 }

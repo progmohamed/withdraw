@@ -51,7 +51,7 @@
                                 {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_STRING') %}
                                     <input type="text" name="{{ variable.variable }}" value="{{ variable.value }}"/>
                                 {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_TEXT') %}
-                                    <textarea name="{{ variable.variable }}">{{ variable.value }}</textarea>
+                                    <textarea name="{{ variable.variable }}" style="width: 60%">{{ variable.value }}</textarea>
                                 {% elseif variable.type is constant('\\ConfigBundle\\Entity\\ConfigVariable::TYPE_CHOICE') %}
                                     <select name="{{ variable.variable }}" class="width-50 chosen-select" data-placeholder="{{ 'admin.titles.select'|trans }}">
                                         <option value=""></option>

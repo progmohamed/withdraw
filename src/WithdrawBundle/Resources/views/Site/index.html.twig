@@ -59,7 +59,7 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="center" width="35">
+                            <th class="center">
                                 <label>
                                     <input type="checkbox" class="ace"/>
                                     <span class="lbl"></span>
@@ -69,7 +69,7 @@
                             <th>{{ knp_pagination_sortable(entities, 'withdraw.site.url'|trans, 's.url') }}</th>
                             <th>{{ knp_pagination_sortable(entities, 'withdraw.site.inserted_at'|trans, 's.createdAt') }}</th>
                             <th>{{ knp_pagination_sortable(entities, 'withdraw.site.status.status'|trans, 's.status') }}</th>
-                            <th>{{ 'withdraw.site.site_title'|trans }}</th>
+                            <th style="width: 35%">{{ 'withdraw.site.site_title'|trans }}</th>
                             <th>{{ 'withdraw.site.ex_links_count'|trans }}</th>
                             <th>{{ 'withdraw.site.ga_is_exist'|trans }}</th>
                             <th></th>
