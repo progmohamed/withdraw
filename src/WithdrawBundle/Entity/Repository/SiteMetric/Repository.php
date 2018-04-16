@@ -24,7 +24,7 @@ class Repository extends EntityRepository
         $em->flush();
     }
 
-    private function deleteSiteMetrics(Site $site)
+    public function deleteSiteMetrics(Site $site)
     {
         $em = $this->getEntityManager();
         $dql = " DELETE FROM WithdrawBundle:SiteMetric sm WHERE sm.site = :site ";

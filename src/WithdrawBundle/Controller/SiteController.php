@@ -50,7 +50,7 @@ class SiteController extends Controller
         );
 
         return $this->render('WithdrawBundle:Site:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
@@ -65,17 +65,21 @@ class SiteController extends Controller
         if ('POST' == $request->getMethod()) {
             $urls = $request->request->get('url');
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository("WithdrawBundle:Site")
+            $sites = $em->getRepository("WithdrawBundle:Site")
                 ->add($urls, $this->getUser(),
                     $this->get('common.service'),
                     $this->get('withdraw.service')->getName(),
                     $this->get('taskmanager.service')
                 );
 
-            $this->get('session')->getFlashBag()->add(
-                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
-            );
-            return $this->redirectToRoute('withdraw_site_list');
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse($sites[0]);
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
+                );
+                return $this->redirectToRoute('withdraw_site_list');
+            }
         }
         return $this->render('WithdrawBundle:Site:new.html.twig', [
         ]);
@@ -111,7 +115,7 @@ class SiteController extends Controller
         }
 
         return $this->render('WithdrawBundle:Site:edit.html.twig', [
-            'entity' => $entity,
+            'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -144,7 +148,7 @@ class SiteController extends Controller
         $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('withdraw_site_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -181,7 +185,7 @@ class SiteController extends Controller
                     $ids
                 );
                 return $this->render('WithdrawBundle:Site:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }
@@ -218,12 +222,12 @@ class SiteController extends Controller
         $results = [];
         foreach ($changes as $site) {
             $results[] = [
-                'id' => $site->getId(),
-                'url' => $site->getUrl(),
-                'status' => $this->get('translator')->trans($site->getStatusTransKey()),
-                'title' => (isset($site->getMetrics()['title'])) ? $site->getMetrics()['title']->getHumanValue() : "n/a",
+                'id'             => $site->getId(),
+                'url'            => $site->getUrl(),
+                'status'         => $this->get('translator')->trans($site->getStatusTransKey()),
+                'title'          => (isset($site->getMetrics()['title'])) ? $site->getMetrics()['title']->getHumanValue() : "n/a",
                 'ex_links_count' => (isset($site->getMetrics()['ex_links_count'])) ? $site->getMetrics()['ex_links_count']->getHumanValue() : "n/a",
-                'ga_is_exist' => (isset($site->getMetrics()['ga_is_exist'])) ? $site->getMetrics()['ga_is_exist']->getHumanValue() : "n/a",
+                'ga_is_exist'    => (isset($site->getMetrics()['ga_is_exist'])) ? $site->getMetrics()['ga_is_exist']->getHumanValue() : "n/a",
             ];
         }
         return new JsonResponse($results);

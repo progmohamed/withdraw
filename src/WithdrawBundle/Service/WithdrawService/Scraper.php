@@ -13,6 +13,8 @@ class Scraper
 
     public function __construct($siteUrl, $method = 'GET')
     {
+        // add http:// if url is not contain's http:// or https://
+        $siteUrl = (preg_match('/^(https?:\/\/)/i', $siteUrl)) ? $siteUrl : 'http://' . $siteUrl;
         $client = new Client();
         $guzzleClient = new GuzzleClient([
             'verify' => false,
@@ -20,7 +22,7 @@ class Scraper
         $client->setClient($guzzleClient);
         $client->setHeader('user-agent', 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36');
         $this->crawler = $client->request($method, $siteUrl);
-        if($client->getResponse()->getStatus()!==200){
+        if ($client->getResponse()->getStatus() !== 200) {
             throw new \Exception('Faild', $client->getResponse()->getStatus());
         }
         $this->siteUrl = $siteUrl;
@@ -29,9 +31,9 @@ class Scraper
     public function getMetrics()
     {
         return [
-            'title' => $this->getTitle(),
+            'title'          => $this->getTitle(),
             'ex_links_count' => $this->getExLinksCount(),
-            'ga_is_exist' => $this->gaIsExist()
+            'ga_is_exist'    => $this->gaIsExist()
         ];
     }
 

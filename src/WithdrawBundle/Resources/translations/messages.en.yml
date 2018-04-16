@@ -18,6 +18,8 @@ withdraw:
         ex_links_count: External Links Count
         ga_is_exist: Google Analytics
         inserted_at: Inserted At
+        add_form: Add through Form
+        add_instantly: Add Instantly
     hints:
         withdraw: Here you control all things related with withdrawal process.
         site: From here you can control the Sites, you can add, edit, show or delete a site.

@@ -25,12 +25,18 @@ class Repository extends EntityRepository
     public function add($urls, $user, CommonService $commonService, $serviceName, TaskManagerService $taskmanagerService)
     {
         $em = $this->getEntityManager();
+        $data = [];
         foreach ($urls as $url) {
             $entity = new Site();
             $entity->setUrl($url)
                 ->setUser($user);
             $em->persist($entity);
             $em->flush();
+            $data[] = [
+                'id'  => $entity->getId(),
+                'url' => $entity->getUrl(),
+                'createdAt' => $entity->getCreatedAt()->format('Y-m-d H:i:s'),
+            ];
             $commonService->log($serviceName, 'withdraw.log.add_site', ['%url%' => $url], $user->getId());
             $taskmanagerService->addTaskQueued(
                 'withdraw:scraper',
@@ -38,11 +44,13 @@ class Repository extends EntityRepository
                 'scraping site'
             );
         }
+        return $data;
     }
 
     public function edit(Site $entity, $user, CommonService $commonService, $serviceName, TaskManagerService $taskmanagerService)
     {
         $em = $this->getEntityManager();
+        $em->getRepository('WithdrawBundle:SiteMetric')->deleteSiteMetrics($entity);
         $entity->setUser($user);
         $entity->setStatus(Site::STATUS_NEW);
         $em->flush();
@@ -102,9 +110,9 @@ class Repository extends EntityRepository
                         $count = $relatedService->getLocale()->getDialectRestrictions($entity);
                         if ($count) {
                             $restrictions[] = [
-                                'entity' => $entity,
+                                'entity'      => $entity,
                                 'serviceName' => $relatedService->getName(),
-                                'count' => $count
+                                'count'       => $count
                             ];
                         }
                         $totalCount += $count;
@@ -117,7 +125,7 @@ class Repository extends EntityRepository
         }
         return [
             'restrictions' => $restrictions,
-            'delets' => $delets,
+            'delets'       => $delets,
         ];
     }
 }
