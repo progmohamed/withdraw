@@ -47,10 +47,9 @@
                                 <span class="required">*</span>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" id="url-field" class="input-xxlarge" name="url[]" required="required" maxlength="255">
+                                <input type="text" id="url-field" class="input-xxlarge" name="url[]" required="required" maxlength="255" autofocus>
                                 <div class="btn-group screenTopButtons">
-                                    <input type="submit" value="{{ 'withdraw.site.add_instantly'|trans }}"
-                                           class="btn btn-sm btn-success">
+                                    <input type="submit" id="url-btn" value="{{ 'withdraw.site.add_instantly'|trans }}" class="btn btn-sm btn-success">
                                 </div>
                             </div>
                         </div>
@@ -234,29 +233,11 @@
         {{ knp_pagination_render(entities) }}
 
     </div><!-- /row -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}
 
 {% block bottomScripts %}
     {{ helper.gridJavaScripts(path('withdraw_site_list')) }}
-
+    <script src="{{ asset('bundles/withdraw/js/custom.js') }}"></script>
     <script>
         $(function () {
             getChanges();
@@ -265,60 +246,5 @@
                 return false;
             })
         });
-        function getChanges() {
-            var ids = [];
-            $('input[name="idx[]"]').each(function () {
-                ids.push(parseInt($(this).val()));
-            });
-            $.ajax({
-                type: "POST",
-                url: "{{ path('withdraw_site_get_changes') }}",
-                data: {
-                    'ids': ids
-                },
-                dataType: "json",
-            }).done(function (data) {
-                setChanges(data);
-            }).always(function () {
-                setTimeout(function () {
-                    getChanges();
-                }, 3000);
-            });
-
-            $('div.feedback-box-complete').html('complete feedback');
-
-        }
-
-        function setChanges(data) {
-            for (i = 0; i < data.length; i++) {
-                id = data[i].id;
-                $('td[data-url="' + id + '"]').html(data[i].url);
-                $('td[data-status="' + id + '"]').html(data[i].status);
-                $('td[data-title="' + id + '"]').html(data[i].title);
-                $('td[data-ex-links-count="' + id + '"]').html(data[i].ex_links_count);
-                $('td[data-ga-is-exist="' + id + '"]').html(data[i].ga_is_exist);
-            }
-        }
-
-
-
-        function addSiteInstantly() {
-            url = $("#url-field").val();
-            $.ajax({
-                type: "POST",
-                url: "{{ path('withdraw_site_new') }}",
-                data: {
-                    'url[]': url
-                },
-                dataType: "json",
-            }).done(function (data) {
-                newSite(data);
-            });
-        }
-
-        function newSite(data) {
-            newUrl = $('#url-row').html().replace(/replace-with-id/g, data.id).replace(/replace-with-url/g, data.url).replace(/replace-with-createdAt/g, data.createdAt);
-           $('.gridForm tbody tr:first').before('<tr>'+newUrl+'</tr>');
-        }
     </script>
 {% endblock %}

@@ -1,3 +1,0 @@
-withdraw_homepage:
-    path:     /
-    defaults: { _controller: WithdrawBundle:Default:index }

@@ -56,7 +56,7 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/new", name="withdraw_site_new")
+     * @Route("/new", name="withdraw_site_new", options = { "expose" = true })
      * @Security("has_role('ROLE_WITHDRAW_SITE_NEW')")
      * @Method({"GET", "POST"})
      */
@@ -211,10 +211,10 @@ class SiteController extends Controller
 
 
     /**
-     * @Route("/get_changes", name="withdraw_site_get_changes")
+     * @Route("/get_changes", name="withdraw_site_get_changes", options = { "expose" = true })
      * @Security("has_role('ROLE_WITHDRAW_SITE_LIST')")
      */
-    public function resortVideoAjaxAction(Request $request)
+    public function getChangesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $siteRepository = $em->getRepository('WithdrawBundle:Site');

@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new ConfigBundle\ConfigBundle(),
             new LogBundle\LogBundle(),
             new WithdrawBundle\WithdrawBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
