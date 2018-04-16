@@ -25,7 +25,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
                 ->setTitle('log.menu.log')
                 ->setImage('bundles/log/images/dashboard/small/log.png')
                 ->setDescription('log.hints.log')
-                ->setDescriptionSort(3);
+                ->setDescriptionSort(12);
 
         $item = new SectionItem();
         $item   ->setTitle('log.menu.log_record')
@@ -33,7 +33,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
             ->setImage('bundles/log/images/dashboard/log_record.png')
             ->addNewRoleByRoleName('ROLE_LOG_LOG_LIST')
             ->setDescription('log.hints.log_record')
-            ->setDescriptionSort(4);
+            ->setDescriptionSort(13);
         $section->addItem($item);
 
 

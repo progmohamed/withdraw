@@ -25,7 +25,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
                 ->setTitle('locale.menu.locale')
                 ->setImage('bundles/locale/images/dashboard/small/locale.png')
                 ->setDescription('locale.hints.locale')
-                ->setDescriptionSort(3);
+                ->setDescriptionSort(8);
 
         $item = new SectionItem();
         $item   ->setTitle('locale.menu.countries')
@@ -33,7 +33,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
             ->setImage('bundles/locale/images/dashboard/country.png')
             ->addNewRoleByRoleName('ROLE_LOCAL_COUNTRY_LIST')
             ->setDescription('locale.hints.countries')
-            ->setDescriptionSort(4);
+            ->setDescriptionSort(9);
         $section->addItem($item);
 
 
@@ -43,7 +43,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
             ->setImage('bundles/locale/images/dashboard/language.png')
             ->addNewRoleByRoleName('ROLE_LOCALE_LANGUAGE_LIST')
             ->setDescription('locale.hints.langs')
-            ->setDescriptionSort(5);
+            ->setDescriptionSort(10);
         $section->addItem($item);
 
 
@@ -53,7 +53,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
             ->setImage('bundles/locale/images/dashboard/dialect.png')
             ->addNewRoleByRoleName('ROLE_LOCALE_DIALECT_LIST')
             ->setDescription('locale.hints.dialect')
-            ->setDescriptionSort(6);
+            ->setDescriptionSort(11);
         $section->addItem($item);
 
         $manager->persist($section);
