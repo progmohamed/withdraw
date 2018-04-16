@@ -16,11 +16,6 @@ swiftmailer:
     disable_delivery: true
 
 security:
-    providers:
-        admin:
-          memory:
-            users:
-                admin: { password: admin, roles: ROLE_USER }
     firewalls:
         # replace 'main' by the name of your own firewall
         admin:
