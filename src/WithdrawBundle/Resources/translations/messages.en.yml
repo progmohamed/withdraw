@@ -9,7 +9,7 @@ withdraw:
             new: New
             crawling: Crawling
             done: Done
-            faild: crawling Faild
+            faild: Crawling Faild
         new_item: Add Site
         edit_item: Edit Site
         show_item: Show Site

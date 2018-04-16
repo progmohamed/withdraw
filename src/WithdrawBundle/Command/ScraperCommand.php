@@ -26,14 +26,16 @@ class ScraperCommand extends ContainerAwareCommand
             $repository = $em->getRepository('WithdrawBundle:Site');
             $site = $repository->find($id);
             if ($site) {
-                $repository->updateStatus($site, Site::STATUS_CRAWLING);
+                $site->setStatus(Site::STATUS_CRAWLING);
+                $em->flush();
                 try {
                     $metrics = $this->getContainer()->get('withdraw.service')->getScraper($site->getUrl())->getMetrics();
                     $em->getRepository('WithdrawBundle:SiteMetric')->addMetrics($site, $metrics);
-                    $repository->updateStatus($site, Site::STATUS_DONE);
+                    $site->setStatus(Site::STATUS_DONE);
                 } catch (\Exception $e) {
-                    $repository->updateStatus($site, Site::STATUS_FAILED);
+                    $site->setStatus(Site::STATUS_FAILED);
                 }
+                $em->flush();
             }
         }
     }

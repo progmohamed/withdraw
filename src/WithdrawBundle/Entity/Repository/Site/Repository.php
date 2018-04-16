@@ -70,12 +70,6 @@ class Repository extends EntityRepository
         $commonService->log($serviceName, 'withdraw.log.delete_site', ['%url%' => $entity], $user->getId());
     }
 
-    public function updateStatus(Site $entity, $status)
-    {
-        $em = $this->getEntityManager();
-        $entity->setStatus($status);
-        $em->flush();
-    }
 
     public function getChanges($ids)
     {
