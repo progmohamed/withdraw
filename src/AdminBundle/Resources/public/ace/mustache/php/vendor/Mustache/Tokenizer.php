@@ -18,23 +18,23 @@ class Mustache_Tokenizer
 {
 
     // Finite state machine states
-    const IN_TEXT     = 0;
+    const IN_TEXT = 0;
     const IN_TAG_TYPE = 1;
-    const IN_TAG      = 2;
+    const IN_TAG = 2;
 
     // Token types
-    const T_SECTION      = '#';
-    const T_INVERTED     = '^';
-    const T_END_SECTION  = '/';
-    const T_COMMENT      = '!';
-    const T_PARTIAL      = '>';
-    const T_PARTIAL_2    = '<';
+    const T_SECTION = '#';
+    const T_INVERTED = '^';
+    const T_END_SECTION = '/';
+    const T_COMMENT = '!';
+    const T_PARTIAL = '>';
+    const T_PARTIAL_2 = '<';
     const T_DELIM_CHANGE = '=';
-    const T_ESCAPED      = '_v';
-    const T_UNESCAPED    = '{';
-    const T_UNESCAPED_2  = '&';
-    const T_TEXT         = '_t';
-    const T_PRAGMA       = '%';
+    const T_ESCAPED = '_v';
+    const T_UNESCAPED = '{';
+    const T_UNESCAPED_2 = '&';
+    const T_TEXT = '_t';
+    const T_PRAGMA = '%';
 
     // Valid token types
     private static $tagTypes = [
@@ -53,21 +53,21 @@ class Mustache_Tokenizer
 
     // Interpolated tags
     private static $interpolatedTags = [
-        self::T_ESCAPED      => true,
-        self::T_UNESCAPED    => true,
-        self::T_UNESCAPED_2  => true,
+        self::T_ESCAPED     => true,
+        self::T_UNESCAPED   => true,
+        self::T_UNESCAPED_2 => true,
     ];
 
     // Token properties
-    const TYPE   = 'type';
-    const NAME   = 'name';
-    const OTAG   = 'otag';
-    const CTAG   = 'ctag';
-    const INDEX  = 'index';
-    const END    = 'end';
+    const TYPE = 'type';
+    const NAME = 'name';
+    const OTAG = 'otag';
+    const CTAG = 'ctag';
+    const INDEX = 'index';
+    const END = 'end';
     const INDENT = 'indent';
-    const NODES  = 'nodes';
-    const VALUE  = 'value';
+    const NODES = 'nodes';
+    const VALUE = 'value';
 
     private $pragmas;
     private $state;
@@ -83,7 +83,7 @@ class Mustache_Tokenizer
     /**
      * Scan and tokenize template source.
      *
-     * @param string $text       Mustache template source to tokenize
+     * @param string $text Mustache template source to tokenize
      * @param string $delimiters Optionally, pass initial opening and closing delimiters (default: null)
      *
      * @return array Set of Mustache tokens
@@ -191,16 +191,16 @@ class Mustache_Tokenizer
      */
     private function reset()
     {
-        $this->state     = self::IN_TEXT;
-        $this->tagType   = null;
-        $this->tag       = null;
-        $this->buffer    = '';
-        $this->tokens    = [];
-        $this->seenTag   = false;
+        $this->state = self::IN_TEXT;
+        $this->tagType = null;
+        $this->tag = null;
+        $this->buffer = '';
+        $this->tokens = [];
+        $this->seenTag = false;
         $this->lineStart = 0;
-        $this->otag      = '{{';
-        $this->ctag      = '}}';
-        $this->pragmas   = [];
+        $this->otag = '{{';
+        $this->ctag = '}}';
+        $this->pragmas = [];
     }
 
     /**
@@ -209,8 +209,8 @@ class Mustache_Tokenizer
     private function flushBuffer()
     {
         if (!empty($this->buffer)) {
-            $this->tokens[] = [self::TYPE  => self::T_TEXT, self::VALUE => $this->buffer];
-            $this->buffer   = '';
+            $this->tokens[] = [self::TYPE => self::T_TEXT, self::VALUE => $this->buffer];
+            $this->buffer = '';
         }
     }
 
@@ -250,8 +250,8 @@ class Mustache_Tokenizer
             $tokensCount = count($this->tokens);
             for ($j = $this->lineStart; $j < $tokensCount; $j++) {
                 if ($this->tokens[$j][self::TYPE] == self::T_TEXT) {
-                    if (isset($this->tokens[$j+1]) && $this->tokens[$j+1][self::TYPE] == self::T_PARTIAL) {
-                        $this->tokens[$j+1][self::INDENT] = $this->tokens[$j][self::VALUE];
+                    if (isset($this->tokens[$j + 1]) && $this->tokens[$j + 1][self::TYPE] == self::T_PARTIAL) {
+                        $this->tokens[$j + 1][self::INDENT] = $this->tokens[$j][self::VALUE];
                     }
 
                     $this->tokens[$j] = null;
@@ -261,22 +261,22 @@ class Mustache_Tokenizer
             $this->tokens[] = [self::TYPE => self::T_TEXT, self::VALUE => "\n"];
         }
 
-        $this->seenTag   = false;
+        $this->seenTag = false;
         $this->lineStart = count($this->tokens);
     }
 
     /**
      * Change the current Mustache delimiters. Set new `otag` and `ctag` values.
      *
-     * @param string $text  Mustache template source
-     * @param int    $index Current tokenizer index
+     * @param string $text Mustache template source
+     * @param int $index Current tokenizer index
      *
      * @return int New index value
      */
     private function changeDelimiters($text, $index)
     {
         $startIndex = strpos($text, '=', $index) + 1;
-        $close      = '='.$this->ctag;
+        $close = '=' . $this->ctag;
         $closeIndex = strpos($text, $close, $index);
 
         list($otag, $ctag) = explode(' ', trim(substr($text, $startIndex, $closeIndex - $startIndex)));
@@ -297,9 +297,9 @@ class Mustache_Tokenizer
     /**
      * Test whether it's time to change tags.
      *
-     * @param string $tag   Current tag name
-     * @param string $text  Mustache template source
-     * @param int    $index Current tokenizer index
+     * @param string $tag Current tag name
+     * @param string $text Mustache template source
+     * @param int $index Current tokenizer index
      *
      * @return boolean True if this is a closing section tag
      */

@@ -18,12 +18,12 @@ abstract class DataGrid
     public function getFilterArray($form)
     {
         $out = [];
-        foreach($form as $element) {
+        foreach ($form as $element) {
             $elementName = $element->getName();
             $innerType = $element->getConfig()->getType()->getInnerType();
-            if($innerType instanceof EntityType) {
+            if ($innerType instanceof EntityType) {
                 $out[$elementName] = $this->getFormFilterEntityIds($element->getData());
-            }else{
+            } else {
                 $out[$elementName] = $element->getData();
             }
         }
@@ -45,24 +45,24 @@ abstract class DataGrid
 
     public function encodeFilterArray($filterArray)
     {
-        return base64_encode(serialize( $filterArray ));
+        return base64_encode(serialize($filterArray));
     }
 
     public function decodeFilterArray($encodedFilerArray)
     {
-        return unserialize(base64_decode( $encodedFilerArray ));
+        return unserialize(base64_decode($encodedFilerArray));
     }
 
     public function setFormFilterData($form, $formData)
     {
         $this->formData = $formData;
-        foreach($formData as $elementName => $value) {
+        foreach ($formData as $elementName => $value) {
             $element = $form->get($elementName);
             $innerType = $element->getConfig()->getType()->getInnerType();
-            if($innerType instanceof EntityType) {
+            if ($innerType instanceof EntityType) {
                 $dataClass = $element->getConfig()->getOption('class');
-                $element->setData( $this->getEntityArrayFromIds($value, $dataClass) );
-            }else {
+                $element->setData($this->getEntityArrayFromIds($value, $dataClass));
+            } else {
                 $element->setData($value);
             }
         }
@@ -72,7 +72,7 @@ abstract class DataGrid
     private function getFormFilterEntityIds($array)
     {
         $out = [];
-        foreach($array as $entity) {
+        foreach ($array as $entity) {
             $out[] = $entity->getId();
         }
         return $out;
@@ -97,14 +97,14 @@ abstract class DataGrid
     public function getFormDataElement($name)
     {
         $formData = $this->getFormData();
-        if(is_array($formData)) {
-            if(array_key_exists($name, $formData)) {
+        if (is_array($formData)) {
+            if (array_key_exists($name, $formData)) {
                 $value = $formData[$name];
-                if(is_array($value)) {
-                    if(sizeof($value)) {
+                if (is_array($value)) {
+                    if (sizeof($value)) {
                         return $value;
                     }
-                }else{
+                } else {
                     return $value;
                 }
             }
@@ -118,7 +118,8 @@ abstract class DataGrid
                 $dateTime = new \DateTime($dateTime);
                 return $dateTime;
             }
-        }catch(\Exception $e) {}
+        } catch (\Exception $e) {
+        }
     }
 
     protected function commaDelimitedToArray($elementValue)

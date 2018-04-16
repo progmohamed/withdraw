@@ -44,10 +44,10 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
     {
         $count = 0;
         $service = $this->container->get('log.service');
-        foreach($service->getRelatedServices() as $service) {
+        foreach ($service->getRelatedServices() as $service) {
             $count += $service->getLocale()->getLogRestrictions($entity->getId());
         }
-        if($count) {
+        if ($count) {
             throw new \Exception('لم يتم حذف ' . $entity . ' لوجود بيانات مرتبطة به في أماكن أخرى');
         }
         return true;

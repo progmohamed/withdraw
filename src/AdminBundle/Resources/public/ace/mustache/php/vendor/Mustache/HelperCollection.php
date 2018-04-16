@@ -44,7 +44,7 @@ class Mustache_HelperCollection
      * @see Mustache_HelperCollection::add
      *
      * @param string $name
-     * @param mixed  $helper
+     * @param mixed $helper
      */
     public function __set($name, $helper)
     {
@@ -55,7 +55,7 @@ class Mustache_HelperCollection
      * Add a helper to this collection.
      *
      * @param string $name
-     * @param mixed  $helper
+     * @param mixed $helper
      */
     public function add($name, $helper)
     {

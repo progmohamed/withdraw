@@ -2,9 +2,10 @@
 
 namespace LogBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use LogBundle\DependencyInjection\Compiler\RelatedServicesPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
 class LogBundle extends Bundle
 {
     public function build(ContainerBuilder $container)

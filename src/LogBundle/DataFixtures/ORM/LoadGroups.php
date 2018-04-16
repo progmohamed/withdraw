@@ -2,11 +2,11 @@
 
 namespace LogBundle\DataFixtures\ORM;
 
+use AdminBundle\Entity\Group;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AdminBundle\Entity\Group;
 
 class LoadGroups implements FixtureInterface, ContainerAwareInterface
 {
@@ -20,8 +20,8 @@ class LoadGroups implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $groups = [
-            'Log List' => 'ROLE_LOG_LOG_LIST',
-            'Log Show' => 'ROLE_LOG_LOG_SHOW',
+            'Log List'   => 'ROLE_LOG_LOG_LIST',
+            'Log Show'   => 'ROLE_LOG_LOG_SHOW',
             'Log Delete' => 'ROLE_LOG_LOG_DELETE',
         ];
 

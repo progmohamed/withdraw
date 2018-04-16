@@ -2,8 +2,8 @@
 
 namespace AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 
 /**
@@ -69,12 +69,12 @@ class SectionItem
      * })
      */
     private $section;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="AdminBundle\Entity\SectionItemRole", mappedBy="item", cascade={"persist", "remove"})
      */
     private $roles;
-    
+
     private $route;
 
     private $routeParameters;
@@ -215,14 +215,14 @@ class SectionItem
     {
         return $this->routeParameters;
     }
-    
+
     public function addRole(\AdminBundle\Entity\SectionItemRole $role)
     {
         $role->setItem($this);
         $this->roles->add($role);
         return $this;
     }
-    
+
     public function addNewRoleByRoleName($roleName)
     {
         $role = new \AdminBundle\Entity\SectionItemRole();
@@ -231,16 +231,16 @@ class SectionItem
         $this->roles->add($role);
         return $this;
     }
-    
+
     public function getRoles()
     {
         return $this->roles;
     }
-    
+
     public function getRoleArray()
     {
         $roles = [];
-        foreach($this->getRoles() as $role) {
+        foreach ($this->getRoles() as $role) {
             $roles[] = $role->getRole();
         }
         return $roles;
@@ -252,10 +252,10 @@ class SectionItem
     public function beforeSave()
     {
         $data = [
-            'route' => $this->getRoute(),
-            'parameters' => (array) $this->getRouteParameters(),
+            'route'      => $this->getRoute(),
+            'parameters' => (array)$this->getRouteParameters(),
         ];
-        $this->setHref( serialize($data) );
+        $this->setHref(serialize($data));
     }
 
     /**
@@ -264,7 +264,7 @@ class SectionItem
     public function afterLoad()
     {
         $href = $this->getHref();
-        if($href) {
+        if ($href) {
             $data = unserialize($href);
             $this->setRoute($data['route']);
             $this->setRouteParameters($data['parameters']);

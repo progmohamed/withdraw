@@ -14,31 +14,29 @@ class SendEmailCommand extends ContainerAwareCommand
         $this
             ->setName('log:send-log-email')
             ->setDescription('Send log email')
-            ->addArgument('id', InputArgument::REQUIRED, 'Log ID')
-        ;
+            ->addArgument('id', InputArgument::REQUIRED, 'Log ID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id = $input->getArgument('id');
-        if($id) {
+        if ($id) {
             $em = $this->getContainer()->get('doctrine')->getManager();
             $repository = $em->getRepository('LogBundle:Log');
             $log = $repository->find($id);
-            if($log) {
+            if ($log) {
                 $adminEmail = $this->getContainer()->get('config.service')->getGlobalConfigValue('adminEmail', null);
 
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Log - '.$log->getLogService()->getName())
+                    ->setSubject('Log - ' . $log->getLogService()->getName())
                     ->setFrom($adminEmail)
                     ->setTo($adminEmail)
                     ->setBody(
                         $this->getContainer()->get('templating')->render(
                             'LogBundle:Log:sendEmail.html.twig',
-                            array('entity' => $log)
+                            ['entity' => $log]
                         )
-                    )
-                ;
+                    );
 
             }
         }

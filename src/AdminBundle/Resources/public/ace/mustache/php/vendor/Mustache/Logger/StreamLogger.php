@@ -32,13 +32,13 @@ class Mustache_Logger_StreamLogger extends Mustache_Logger_AbstractLogger
     ];
 
     protected $stream = null;
-    protected $url    = null;
+    protected $url = null;
 
     /**
      * @throws InvalidArgumentException if the logging level is unknown.
      *
-     * @param string  $stream Resource instance or URL
-     * @param integer $level  The minimum logging level at which this handler will be triggered
+     * @param string $stream Resource instance or URL
+     * @param integer $level The minimum logging level at which this handler will be triggered
      */
     public function __construct($stream, $level = Mustache_Logger::ERROR)
     {
@@ -113,9 +113,9 @@ class Mustache_Logger_StreamLogger extends Mustache_Logger_AbstractLogger
      * @throws Mustache_Exception_LogicException   If neither a stream resource nor url is present.
      * @throws Mustache_Exception_RuntimeException If the stream url cannot be opened.
      *
-     * @param  integer $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  integer $level The logging level
+     * @param  string $message The log message
+     * @param  array $context The log context
      */
     protected function writeLog($level, $message, array $context = [])
     {
@@ -152,9 +152,9 @@ class Mustache_Logger_StreamLogger extends Mustache_Logger_AbstractLogger
     /**
      * Format a log line for output.
      *
-     * @param  integer $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  integer $level The logging level
+     * @param  string $message The log message
+     * @param  array $context The log context
      *
      * @return string
      */
@@ -171,7 +171,7 @@ class Mustache_Logger_StreamLogger extends Mustache_Logger_AbstractLogger
      * Interpolate context values into the message placeholders.
      *
      * @param  string $message
-     * @param  array  $context
+     * @param  array $context
      *
      * @return string
      */

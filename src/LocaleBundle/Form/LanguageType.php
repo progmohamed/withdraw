@@ -19,7 +19,7 @@ class LanguageType extends AbstractType
     {
 
         $flagConstraints = [];
-        if(!$options['edit']) {
+        if (!$options['edit']) {
             $flagConstraints[] = new Assert\NotBlank();
         }
 
@@ -31,20 +31,20 @@ class LanguageType extends AbstractType
                 'label' => 'locale.titles.language.lang_code',
             ])
             ->add('direction', ChoiceType::class, [
-                'label' => 'locale.titles.language.lang_direction',
-                'expanded' => true,
-                'multiple' => false,
-                'choices'  => [
-                    'locale.titles.language.lang_rtl'    => 'rtl' ,
-                    'locale.titles.language.lang_ltr'    => 'ltr',
+                'label'       => 'locale.titles.language.lang_direction',
+                'expanded'    => true,
+                'multiple'    => false,
+                'choices'     => [
+                    'locale.titles.language.lang_rtl' => 'rtl',
+                    'locale.titles.language.lang_ltr' => 'ltr',
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
             ])
             ->add('photoFile', null, [
-                'label' => 'locale.titles.language.lang_flag',
-                'required' => true,
+                'label'       => 'locale.titles.language.lang_flag',
+                'required'    => true,
                 'constraints' => $flagConstraints
             ])
             ->add('switchFrontEnd', null, [
@@ -55,15 +55,14 @@ class LanguageType extends AbstractType
             ])
             ->add('translateContent', null, [
                 'label' => 'locale.titles.language.lang_translate_content'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => 'LocaleBundle\Entity\Language',
-            'edit' => false
+            'edit'       => false
         ]);
     }
 

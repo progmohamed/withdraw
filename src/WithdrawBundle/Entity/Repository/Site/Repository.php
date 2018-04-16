@@ -33,8 +33,8 @@ class Repository extends EntityRepository
             $em->persist($entity);
             $em->flush();
             $data[] = [
-                'id'  => $entity->getId(),
-                'url' => $entity->getUrl(),
+                'id'        => $entity->getId(),
+                'url'       => $entity->getUrl(),
                 'createdAt' => $entity->getCreatedAt()->format('Y-m-d H:i:s'),
             ];
             $commonService->log($serviceName, 'withdraw.log.add_site', ['%url%' => $url], $user->getId());

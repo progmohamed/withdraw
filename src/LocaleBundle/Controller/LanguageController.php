@@ -2,15 +2,14 @@
 
 namespace LocaleBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use LocaleBundle\Entity\Language;
 use LocaleBundle\Form\LanguageType;
-use AdminBundle\Classes\AdminEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/language")
@@ -52,8 +51,8 @@ class LanguageController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
             );
-            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.add_language', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
-            return $this->redirectToRoute('locale_language_show', ['id'=>$entity->getId()]);
+            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.add_language', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
+            return $this->redirectToRoute('locale_language_show', ['id' => $entity->getId()]);
 
         }
 
@@ -85,7 +84,7 @@ class LanguageController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $editForm = $this->createForm(LanguageType::class, $entity, ['edit'=>true]);
+        $editForm = $this->createForm(LanguageType::class, $entity, ['edit' => true]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -94,12 +93,12 @@ class LanguageController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
             );
-            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.edit_language', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
+            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.edit_language', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
             return $this->redirectToRoute('locale_language_show', ['id' => $entity->getId()]);
         }
 
         return $this->render('LocaleBundle:Language:edit.html.twig', [
-            'entity'      => $entity,
+            'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -115,10 +114,10 @@ class LanguageController extends Controller
         $single = $request->query->get('single', false);
         $id = $request->query->get('id');
         $encodedRedirect = $request->query->get('redirect');
-        $redirect = base64_decode( $encodedRedirect );
+        $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('locale_language_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -126,34 +125,34 @@ class LanguageController extends Controller
             $bundleService = $this->get('locale.service');
             $ids = unserialize(base64_decode($id));
             if (!is_array($ids) || empty($ids)) {
-                throw $this->createNotFoundException( $this->get('translator')->trans('admin.titles.error_happened') );
+                throw $this->createNotFoundException($this->get('translator')->trans('admin.titles.error_happened'));
             }
             if ('POST' == $request->getMethod()) {
-                foreach($ids as $id) {
+                foreach ($ids as $id) {
                     try {
                         $language = $repository->find($id);
-                        if($language) {
+                        if ($language) {
                             $em->remove($language);
                             $em->flush();
                             $this->get('session')->getFlashBag()->add(
-                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted').' '. $language
+                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted') . ' ' . $language
                             );
-                            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.delete_language', ['%entity_id%'=>$id], $this->getUser()->getId());
+                            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.delete_language', ['%entity_id%' => $id], $this->getUser()->getId());
                         }
-                    }catch(\Exception $e) {
+                    } catch (\Exception $e) {
                         $this->get('session')->getFlashBag()->add(
                             'danger', $e->getMessage()
                         );
                     }
                 }
                 return $this->redirectToRoute('locale_language_list');
-            }else{
+            } else {
                 $report = $repository->getDeleteRestrectionsByIds(
                     $bundleService,
                     $ids
                 );
                 return $this->render('LocaleBundle:Language:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }

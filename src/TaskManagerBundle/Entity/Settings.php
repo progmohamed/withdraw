@@ -29,7 +29,6 @@ class Settings
     private $value;
 
 
-
     /**
      * Get identifier
      *

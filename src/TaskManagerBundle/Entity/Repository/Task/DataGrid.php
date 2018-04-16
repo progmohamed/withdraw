@@ -2,10 +2,10 @@
 
 namespace TaskManagerBundle\Entity\Repository\Task;
 
+use AdminBundle\Classes\DataGrid as AdminDataGrid;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AdminBundle\Classes\DataGrid as AdminDataGrid;
 use TaskManagerBundle\Entity\Task;
 
 class DataGrid extends AdminDataGrid
@@ -19,33 +19,33 @@ class DataGrid extends AdminDataGrid
         WHERE 1=1 ";
 
         $elementValue = $this->getFormDataElement('description');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.description LIKE :description ";
-            $parameters['description'] = "%".$elementValue."%";
+            $parameters['description'] = "%" . $elementValue . "%";
         };
 
         $elementValue = $this->getFormDataElement('category');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.category LIKE :category ";
-            $parameters['category'] = "%".$elementValue."%";
+            $parameters['category'] = "%" . $elementValue . "%";
         };
 
         $elementValue = $this->getFormDataElement('command');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.command LIKE :command ";
-            $parameters['command'] = "%".$elementValue."%";
+            $parameters['command'] = "%" . $elementValue . "%";
         };
 
 
         $elementValue = $this->getFormDataElement('status');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.status IN(:status) ";
             $parameters['status'] = $elementValue;
         }
 
         $dql .= "ORDER BY t.sortOrder ";
         $query = $em->createQuery($dql);
-        if(sizeof($parameters)) {
+        if (sizeof($parameters)) {
             $query->setParameters($parameters);
         }
 
@@ -77,10 +77,10 @@ class DataGrid extends AdminDataGrid
                 'label' => 'task_mager.titles.command'
             ])
             ->add('status', ChoiceType::class, [
-                'label' => 'task_mager.titles.status',
+                'label'    => 'task_mager.titles.status',
                 'choices'  => [
-                    'task_mager.titles.status_watting' => Task::STATUS_WAITING,
-                    'task_mager.titles.status_running' => Task::STATUS_RUNNING,
+                    'task_mager.titles.status_watting'  => Task::STATUS_WAITING,
+                    'task_mager.titles.status_running'  => Task::STATUS_RUNNING,
                     'task_mager.titles.status_finished' => Task::STATUS_FINISHED,
                 ],
                 'multiple' => true,

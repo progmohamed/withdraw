@@ -2,11 +2,11 @@
 
 namespace AdminBundle\DataFixtures\ORM;
 
+use ConfigBundle\Entity\ConfigVariable;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ConfigBundle\Entity\ConfigVariable;
 
 class LoadConfigData implements FixtureInterface, ContainerAwareInterface
 {

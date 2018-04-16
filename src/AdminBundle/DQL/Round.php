@@ -13,8 +13,8 @@ class Round extends FunctionNode
     public function getSql(SqlWalker $sqlWalker)
     {
         return 'ROUND(' . $sqlWalker->walkSimpleArithmeticExpression(
-            $this->arithmeticExpression
-        ) . ')';
+                $this->arithmeticExpression
+            ) . ')';
     }
 
     public function parse(\Doctrine\ORM\Query\Parser $parser)

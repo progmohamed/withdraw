@@ -64,7 +64,7 @@ class Mustache_Loader_InlineLoader implements Mustache_Loader
      * file, it would be necessary to manually specify the filename and offset.
      *
      * @param string $fileName The file to parse for inline templates
-     * @param int    $offset   A string offset for the start of the templates.
+     * @param int $offset A string offset for the start of the templates.
      *                         This usually coincides with the `__halt_compiler`
      *                         call, and the `__COMPILER_HALT_OFFSET__`.
      */
@@ -79,7 +79,7 @@ class Mustache_Loader_InlineLoader implements Mustache_Loader
         }
 
         $this->fileName = $fileName;
-        $this->offset   = $offset;
+        $this->offset = $offset;
     }
 
     /**
@@ -112,7 +112,7 @@ class Mustache_Loader_InlineLoader implements Mustache_Loader
             $data = file_get_contents($this->fileName, false, null, $this->offset);
             foreach (preg_split("/^@@(?= [\w\d\.]+$)/m", $data, -1) as $chunk) {
                 if (trim($chunk)) {
-                    list($name, $content)         = explode("\n", $chunk, 2);
+                    list($name, $content) = explode("\n", $chunk, 2);
                     $this->templates[trim($name)] = trim($content);
                 }
             }

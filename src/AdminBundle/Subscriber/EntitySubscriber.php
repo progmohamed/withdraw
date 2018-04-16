@@ -2,14 +2,11 @@
 
 namespace AdminBundle\Subscriber;
 
-use AdminBundle\Classes\AdminEvent;
 use AdminBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 
@@ -27,7 +24,7 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         ];
     }
 
-    public function getContainer() 
+    public function getContainer()
     {
         return $this->container;
     }
@@ -51,15 +48,15 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
 
     private function userPreRemove(User $user)
     {
-        if($user->getId() == $this->getUser()->getId()) {
+        if ($user->getId() == $this->getUser()->getId()) {
             throw new \Exception('لا يمكنك حذف نفسك');
         }
         $count = 0;
         $service = $this->container->get('admin.service');
-        foreach($service->getRelatedServices() as $service) {
+        foreach ($service->getRelatedServices() as $service) {
             $count += $service->getAdmin()->getUserRestrictions($user);
         }
-        if($count) {
+        if ($count) {
             throw new \Exception('لم يتم حذف المستخدم ' . $user->getUsername() . ' لوجود بيانات مرتبطة به في أماكن أخرى');
         }
         return true;
@@ -76,7 +73,7 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         $this->container->get('common.service')->log(
             $this->get('fixedpages.service')->getName(),
             'admin.log.user_has_been_deleted',
-            ['%id%'=>$id, 'username' => $user->getUsername()],
+            ['%id%' => $id, 'username' => $user->getUsername()],
             $this->getUser()->getId()
         );
     }
@@ -96,7 +93,6 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         }
         return $user;
     }
-
 
 
 }

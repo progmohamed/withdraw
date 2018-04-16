@@ -111,7 +111,7 @@ class Log
      */
     public function getMessage()
     {
-        return $this->message ;
+        return $this->message;
     }
 
 
@@ -136,7 +136,7 @@ class Log
      */
     public function getParameter()
     {
-        return $this->parameter ;
+        return $this->parameter;
     }
 
 
@@ -242,7 +242,7 @@ class Log
 
     public function __toString()
     {
-        return ''.$this->getMessage();
+        return '' . $this->getMessage();
     }
 
 }

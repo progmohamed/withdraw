@@ -23,8 +23,8 @@
  */
 class Mustache_Engine
 {
-    const VERSION        = '2.3.1';
-    const SPEC_VERSION   = '1.1.2';
+    const VERSION = '2.3.1';
+    const SPEC_VERSION = '1.1.2';
 
     const PRAGMA_FILTERS = 'FILTERS';
 
@@ -161,7 +161,7 @@ class Mustache_Engine
      * @see Mustache_Template::render
      *
      * @param string $template
-     * @param mixed  $context (default: array())
+     * @param mixed $context (default: array())
      *
      * @return string Rendered template
      */
@@ -310,7 +310,7 @@ class Mustache_Engine
      * @see Mustache_Engine::setHelpers
      *
      * @param string $name
-     * @param mixed  $helper
+     * @param mixed $helper
      */
     public function addHelper($name, $helper)
     {
@@ -471,13 +471,13 @@ class Mustache_Engine
     public function getTemplateClassName($source)
     {
         return $this->templateClassPrefix . md5(sprintf(
-            'version:%s,escape:%s,charset:%s,strict_callables:%s,source:%s',
-            self::VERSION,
-            isset($this->escape) ? 'custom' : 'default',
-            $this->charset,
-            $this->strictCallables ? 'true' : 'false',
-            $source
-        ));
+                'version:%s,escape:%s,charset:%s,strict_callables:%s,source:%s',
+                self::VERSION,
+                isset($this->escape) ? 'custom' : 'default',
+                $this->charset,
+                $this->strictCallables ? 'true' : 'false',
+                $source
+            ));
     }
 
     /**
@@ -580,7 +580,7 @@ class Mustache_Engine
                         ['className' => $className]
                     );
 
-                    eval('?>'.$this->compile($source));
+                    eval('?>' . $this->compile($source));
                 }
             }
 
@@ -716,9 +716,9 @@ class Mustache_Engine
     /**
      * Add a log record if logging is enabled.
      *
-     * @param  integer $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  integer $level The logging level
+     * @param  string $message The log message
+     * @param  array $context The log context
      */
     private function log($level, $message, array $context = [])
     {

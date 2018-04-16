@@ -2,11 +2,10 @@
 
 namespace LogBundle\Entity\Repository\Log;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AdminBundle\Classes\DataGrid as AdminDataGrid;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class DataGrid extends AdminDataGrid
@@ -21,45 +20,45 @@ class DataGrid extends AdminDataGrid
         WHERE 1=1 ";
 
         $elementValue = $this->getFormDataElement('id');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND l.id IN(:ids) ";
             $parameters['ids'] = $this->commaDelimitedToArray($elementValue);
         }
 
         $elementValue = $this->getFormDataElement('dateFrom');
-        if($elementValue) {
+        if ($elementValue) {
             $dateTime = $this->parseDateTime($elementValue);
-            if($dateTime) {
+            if ($dateTime) {
                 $dql .= "AND l.createdAt >= :dateFrom ";
                 $parameters['dateFrom'] = $dateTime;
             }
         }
 
         $elementValue = $this->getFormDataElement('dateTo');
-        if($elementValue) {
+        if ($elementValue) {
             $dateTime = $this->parseDateTime($elementValue);
-            if($dateTime) {
+            if ($dateTime) {
                 $dql .= "AND l.createdAt <= :dateTo ";
                 $parameters['dateTo'] = $dateTime;
             }
         }
 
         $elementValue = $this->getFormDataElement('username');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND l.username LIKE :username ";
-            $parameters['username'] = "%".$elementValue."%";
+            $parameters['username'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('userId');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND l.user LIKE :userId ";
             $parameters['userId'] = $elementValue;
         }
 
         $elementValue = $this->getFormDataElement('book');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND l.book LIKE :book ";
-            $parameters['book'] = "%".$elementValue."%";
+            $parameters['book'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('service');
@@ -71,7 +70,7 @@ class DataGrid extends AdminDataGrid
         $dql .= "ORDER BY l.createdAt ";
 
         $query = $em->createQuery($dql);
-        if(sizeof($parameters)) {
+        if (sizeof($parameters)) {
             $query->setParameters($parameters);
         }
 
@@ -79,7 +78,7 @@ class DataGrid extends AdminDataGrid
             $query,
             $page,
             10,
-            ['wrap-queries'=>true]
+            ['wrap-queries' => true]
         );
         return $pagination;
     }
@@ -95,11 +94,11 @@ class DataGrid extends AdminDataGrid
             ])
             ->add('dateFrom', TextType::class, [
                 'label' => 'admin.titles.date_from',
-                'attr' => ['class' => 'date'],
+                'attr'  => ['class' => 'date'],
             ])
             ->add('dateTo', TextType::class, [
                 'label' => 'admin.titles.date_to',
-                'attr' => ['class' => 'date'],
+                'attr'  => ['class' => 'date'],
             ])
             ->add('userId', TextType::class, [
                 'label' => 'User id'
@@ -111,8 +110,8 @@ class DataGrid extends AdminDataGrid
                 'label' => 'log.titles.book'
             ])
             ->add('service', EntityType::class, [
-                'label' => 'log.titles.component',
-                'class' => 'LogBundle:LogService',
+                'label'    => 'log.titles.component',
+                'class'    => 'LogBundle:LogService',
                 'multiple' => true,
             ]);
         return $form->getForm();

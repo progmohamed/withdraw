@@ -11,7 +11,6 @@ class AdminEvent extends GenericEvent
     protected $restrictMessages;
 
 
-
     public function __construct(array $arguments = [])
     {
         $this->arguments = $arguments;

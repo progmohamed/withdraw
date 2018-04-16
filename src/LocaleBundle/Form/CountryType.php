@@ -3,9 +3,9 @@
 namespace LocaleBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CountryType extends AbstractType
@@ -18,11 +18,11 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        foreach($options['languages'] as $language) {
+        foreach ($options['languages'] as $language) {
             $builder
-                ->add('name_'.$language->getLocale(), TextType::class, [
-                    'mapped' => false,
-                    'label' => "admin.titles.country",
+                ->add('name_' . $language->getLocale(), TextType::class, [
+                    'mapped'      => false,
+                    'label'       => "admin.titles.country",
                     'constraints' => [
                         new Assert\NotBlank(),
                     ],
@@ -35,7 +35,7 @@ class CountryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => 'LocaleBundle\Entity\Country',
-            'languages' => []
+            'languages'  => []
         ]);
     }
 

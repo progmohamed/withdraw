@@ -2,10 +2,10 @@
 
 namespace TaskManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/task-viewer")
@@ -26,7 +26,7 @@ class TaskViewerController extends Controller
             $this->generateUrl('taskmanager_taskviewer_list')
         );
 
-        if('POST' == $request->getMethod()) {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             return $this->redirectToRoute('taskmanager_taskviewer_list', [
                 'filter' => $dataGrid->getEncodedFilterArray($form)
@@ -34,7 +34,7 @@ class TaskViewerController extends Controller
         }
 
         $filter = $request->query->get('filter');
-        if($filter) {
+        if ($filter) {
             $formData = $dataGrid->decodeFilterArray($filter);
             $form = $dataGrid->setFormFilterData($form, $formData);
         }
@@ -45,7 +45,7 @@ class TaskViewerController extends Controller
         );
 
         return $this->render('TaskManagerBundle:TaskViewer:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }

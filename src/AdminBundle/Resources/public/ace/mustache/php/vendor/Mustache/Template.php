@@ -75,7 +75,7 @@ abstract class Mustache_Template
      * NOTE: This method is not part of the Mustache.php public API.
      *
      * @param Mustache_Context $context
-     * @param string           $indent  (default: '')
+     * @param string $indent (default: '')
      *
      * @return string Rendered template
      */
@@ -158,9 +158,9 @@ abstract class Mustache_Template
      *
      * Invoke the value if it is callable, otherwise return the value.
      *
-     * @param  mixed            $value
+     * @param  mixed $value
      * @param  Mustache_Context $context
-     * @param  string           $indent
+     * @param  string $indent
      *
      * @return string
      */
@@ -168,7 +168,7 @@ abstract class Mustache_Template
     {
         if (($this->strictCallables ? is_object($value) : !is_string($value)) && is_callable($value)) {
             return $this->mustache
-                ->loadLambda((string) call_user_func($value))
+                ->loadLambda((string)call_user_func($value))
                 ->renderInternal($context, $indent);
         }
 

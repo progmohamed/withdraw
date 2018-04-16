@@ -3,10 +3,10 @@
 namespace ConfigBundle\Controller;
 
 use ConfigBundle\Entity\ConfigUserVariable;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/config_variable")
@@ -56,14 +56,14 @@ class ConfigVariableController extends Controller
 
             foreach ($sectionsAndVariables as $variables) {
                 foreach ($variables as $entity) {
-                    $vaule= 0;
+                    $vaule = 0;
                     if (null !== $request->request->get($entity->getVariable())) {
                         $vaule = $request->request->get($entity->getVariable());
                     }
 
-                    if($userVariable = $configUserVariableRepository->findOneBy(['user'=>$userId, 'configVariable'=>$entity->getId()])){
+                    if ($userVariable = $configUserVariableRepository->findOneBy(['user' => $userId, 'configVariable' => $entity->getId()])) {
                         $userVariable->setValue($vaule);
-                    }else{
+                    } else {
                         $newUserVariable = new ConfigUserVariable();
                         $newUserVariable->setValue($vaule)
                             ->setUser($userId)

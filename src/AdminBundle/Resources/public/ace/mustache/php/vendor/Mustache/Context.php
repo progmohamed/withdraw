@@ -106,8 +106,8 @@ class Mustache_Context
     public function findDot($id)
     {
         $chunks = explode('.', $id);
-        $first  = array_shift($chunks);
-        $value  = $this->findVariableInStack($first, $this->stack);
+        $first = array_shift($chunks);
+        $value = $this->findVariableInStack($first, $this->stack);
 
         foreach ($chunks as $chunk) {
             if ($value === '') {
@@ -125,8 +125,8 @@ class Mustache_Context
      *
      * @see Mustache_Context::find
      *
-     * @param string $id    Variable name
-     * @param array  $stack Context stack
+     * @param string $id Variable name
+     * @param array $stack Context stack
      *
      * @return mixed Variable value, or '' if not found
      */

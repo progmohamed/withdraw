@@ -2,7 +2,6 @@
 
 namespace CommonBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class CommonService
@@ -16,7 +15,7 @@ class CommonService
 
     public function log($serviceName, $message, $parameters = null, $user = null)
     {
-        if($this->bundleExists('LogBundle')) {
+        if ($this->bundleExists('LogBundle')) {
             $this->container
                 ->get('log.service')
                 ->log($serviceName, $message, $parameters, $user);

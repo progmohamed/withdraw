@@ -7,18 +7,18 @@ class ImageConverter
 
     public function imageStringToJPEG($imageString)
     {
-        try{
+        try {
             $im = imagecreatefromstring($imageString);
-            if($im !== false) {
+            if ($im !== false) {
                 ob_start();
                 imagejpeg($im);
                 $jpg = ob_get_contents();
                 ob_end_clean();
                 return $jpg;
-            }else{
+            } else {
                 return false;
             }
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -30,10 +30,10 @@ class ImageConverter
         if ($source_gd_image === false) {
             return false;
         }
-        if($strict) {
+        if ($strict) {
             $thumbnail_image_width = $maxWidth;
             $thumbnail_image_height = $maxHeight;
-        }else {
+        } else {
             $source_aspect_ratio = $source_image_width / $source_image_height;
             $thumbnail_aspect_ratio = $maxWidth / $maxHeight;
             if ($source_image_width <= $maxWidth && $source_image_height <= $maxHeight) {

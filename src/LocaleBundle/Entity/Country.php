@@ -39,7 +39,7 @@ class Country
 
     function __toString()
     {
-        return ''.$this->translate()->getName();
+        return '' . $this->translate()->getName();
     }
 
 }

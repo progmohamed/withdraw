@@ -3,8 +3,8 @@
 namespace ConfigBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ConfigVariable
@@ -108,14 +108,12 @@ class ConfigVariable
     private $scope = self::SCOPE_GLOBAL;
 
 
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="ConfigUserVariable", mappedBy="configVariable")
      */
     private $configUserVariable;
-
 
 
     /**
@@ -125,6 +123,7 @@ class ConfigVariable
     {
         $this->configUserVariable = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
     /**
      * Get id
      *
@@ -305,7 +304,6 @@ class ConfigVariable
     {
         return $this->type;
     }
-
 
 
     /**

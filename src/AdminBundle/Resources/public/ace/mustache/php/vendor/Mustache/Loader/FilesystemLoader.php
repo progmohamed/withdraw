@@ -43,7 +43,7 @@ class Mustache_Loader_FilesystemLoader implements Mustache_Loader
      * @throws Mustache_Exception_RuntimeException if $baseDir does not exist.
      *
      * @param string $baseDir Base directory containing Mustache template files.
-     * @param array  $options Array of Loader options (default: array())
+     * @param array $options Array of Loader options (default: array())
      */
     public function __construct($baseDir, array $options = [])
     {

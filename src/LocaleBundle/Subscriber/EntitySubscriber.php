@@ -2,15 +2,11 @@
 
 namespace LocaleBundle\Subscriber;
 
-use AdminBundle\Classes\AdminEvent;
-use AdminBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
 use LocaleBundle\Entity\Country;
 use LocaleBundle\Entity\Dialect;
 use LocaleBundle\Entity\Language;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -32,7 +28,7 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         ];
     }
 
-    public function getContainer() 
+    public function getContainer()
     {
         return $this->container;
     }
@@ -59,9 +55,9 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         $entity = $args->getObject();
         if ($entity instanceof Language) {
             $this->languagePostRemove($entity);
-        }elseif ($entity instanceof Country) {
+        } elseif ($entity instanceof Country) {
             $this->countryPostRemove();
-        }elseif ($entity instanceof Dialect) {
+        } elseif ($entity instanceof Dialect) {
             $this->dialectPostRemove();
         }
     }
@@ -80,9 +76,9 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         $em = $this->container->get('doctrine.orm.entity_manager');
         $languageRepository = $em->getRepository('LocaleBundle:Language');
         $id = $languageRepository->getLanguageIdByLocale($entity->getLocale());
-        if($id) {
+        if ($id) {
             $entity->setLanguage($id);
-        }else{
+        } else {
             throw new \Exception('Language not found');
         }
     }
@@ -91,10 +87,10 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
     {
         $count = 0;
         $service = $this->container->get('history.service');
-        foreach($service->getRelatedServices() as $service) {
+        foreach ($service->getRelatedServices() as $service) {
             $count += $service->getLocale()->getLanguageRestrictions($entity->getId());
         }
-        if($count) {
+        if ($count) {
             throw new \Exception('لم يتم حذف ' . $entity . ' لوجود بيانات مرتبطة به في أماكن أخرى');
         }
         return true;
@@ -126,7 +122,6 @@ class EntitySubscriber implements EventSubscriber, ContainerAwareInterface
         $event->setArgument('id', $id);
         $eventDispatcher->dispatch('locale.remove_dialect', $event);
     }
-
 
 
 }

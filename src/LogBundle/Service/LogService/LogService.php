@@ -19,7 +19,7 @@ class LogService extends PublicService
     {
         $em = $this->container->get('doctrine')->getManager();
         $logRepository = $em->getRepository("LogBundle:LogService");
-        if(!$logService = $logRepository->findOneBy(['name'=>$serviceName])){
+        if (!$logService = $logRepository->findOneBy(['name' => $serviceName])) {
             $logService = new LogServiceEntity();
             $logService->setName($serviceName);
             $em->persist($logService);
@@ -29,7 +29,7 @@ class LogService extends PublicService
         /** @var User $userEntity */
         $username = null;
         $userEntity = $adminService->getUserById($user);
-        if($userEntity) {
+        if ($userEntity) {
             $username = $userEntity['username'];
         }
 
@@ -43,8 +43,8 @@ class LogService extends PublicService
         $em->persist($newLog);
         $em->flush();
 
-        $sendEmail = (bool) $this->container->get('config.service')->getGlobalConfigValue('sendLog', false);
-        if($sendEmail == true){
+        $sendEmail = (bool)$this->container->get('config.service')->getGlobalConfigValue('sendLog', false);
+        if ($sendEmail == true) {
             $this->container->get('taskmanager.service')->addTaskRunImmediately(
                 'log:send-log-email',
                 ['id' => $newLog->getId()],

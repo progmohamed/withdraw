@@ -2,11 +2,11 @@
 
 namespace AdminBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use AdminBundle\DependencyInjection\Compiler\AddExpressionLanguageProvidersPass;
 use AdminBundle\DependencyInjection\Compiler\BackendMenuFixturesPass;
 use AdminBundle\DependencyInjection\Compiler\RelatedServicesPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AdminBundle extends Bundle
 {

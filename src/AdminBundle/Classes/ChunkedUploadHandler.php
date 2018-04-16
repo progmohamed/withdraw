@@ -21,14 +21,15 @@ class ChunkedUploadHandler extends UploadHandler
     protected function trim_file_name($file_path, $name, $size, $type, $error, $index, $content_range)
     {
         $ext = strtolower(substr(strrchr($name, '.'), 1));
-        $this->hashedTempFileName = 'temp_'.sha1($name).'.'.$ext;
+        $this->hashedTempFileName = 'temp_' . sha1($name) . '.' . $ext;
         return $this->hashedTempFileName;
     }
 
-    protected function get_file_name($file_path, $name, $size, $type, $error, $index, $content_range) {
+    protected function get_file_name($file_path, $name, $size, $type, $error, $index, $content_range)
+    {
         $name = $this->trim_file_name($file_path, $name, $size, $type, $error,
             $index, $content_range);
-        $this->uniqueFileName =  $this->get_unique_filename(
+        $this->uniqueFileName = $this->get_unique_filename(
             $file_path,
             $this->fix_file_extension($file_path, $name, $size, $type, $error,
                 $index, $content_range),

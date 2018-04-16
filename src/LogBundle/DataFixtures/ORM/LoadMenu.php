@@ -2,12 +2,12 @@
 
 namespace LogBundle\DataFixtures\ORM;
 
+use AdminBundle\Entity\Section;
+use AdminBundle\Entity\SectionItem;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AdminBundle\Entity\Section;
-use AdminBundle\Entity\SectionItem;
 
 class LoadMenu implements FixtureInterface, ContainerAwareInterface
 {
@@ -22,20 +22,19 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
     {
         $section = new Section();
         $section->setIdentifier('log')
-                ->setTitle('log.menu.log')
-                ->setImage('bundles/log/images/dashboard/small/log.png')
-                ->setDescription('log.hints.log')
-                ->setDescriptionSort(12);
+            ->setTitle('log.menu.log')
+            ->setImage('bundles/log/images/dashboard/small/log.png')
+            ->setDescription('log.hints.log')
+            ->setDescriptionSort(12);
 
         $item = new SectionItem();
-        $item   ->setTitle('log.menu.log_record')
+        $item->setTitle('log.menu.log_record')
             ->setRoute('log_log_list')
             ->setImage('bundles/log/images/dashboard/log_record.png')
             ->addNewRoleByRoleName('ROLE_LOG_LOG_LIST')
             ->setDescription('log.hints.log_record')
             ->setDescriptionSort(13);
         $section->addItem($item);
-
 
 
         $manager->persist($section);

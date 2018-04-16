@@ -2,8 +2,8 @@
 
 namespace ConfigBundle\Entity\Repository\ConfigVariable;
 
-use Doctrine\ORM\EntityRepository;
 use ConfigBundle\Entity\ConfigVariable;
+use Doctrine\ORM\EntityRepository;
 
 class Repository extends EntityRepository
 {

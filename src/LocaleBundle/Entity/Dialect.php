@@ -5,7 +5,6 @@ namespace LocaleBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -78,7 +77,7 @@ class Dialect
 
     public function __toString()
     {
-        return ''.$this->translate()->getName();
+        return '' . $this->translate()->getName();
     }
 
 }

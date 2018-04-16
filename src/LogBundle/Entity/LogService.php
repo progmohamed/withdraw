@@ -3,7 +3,6 @@
 namespace LogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -100,7 +99,7 @@ class LogService
 
     public function __toString()
     {
-        return ''.$this->getName();
+        return '' . $this->getName();
     }
 
 }

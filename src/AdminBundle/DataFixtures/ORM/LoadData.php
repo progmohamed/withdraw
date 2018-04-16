@@ -32,14 +32,14 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $userManager->updateUser($user, true);
 
-        for($i = 1 ; $i <= 30; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $user = $userManager->createUser();
-            $user->setUsername('admin'.$i);
-            $user->setRealName('admin'.$i);
+            $user->setUsername('admin' . $i);
+            $user->setRealName('admin' . $i);
             $user->setDateOfBirth(new \DateTime());
             $user->setSex(1);
             $user->setPhoneNumber('123456');
-            $user->setEmail('admin'.$i.'@domain.com');
+            $user->setEmail('admin' . $i . '@domain.com');
             $user->setPlainPassword('admin');
             $user->setEnabled(true);
             $userManager->updateUser($user, true);

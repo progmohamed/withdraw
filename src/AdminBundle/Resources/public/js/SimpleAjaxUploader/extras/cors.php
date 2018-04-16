@@ -1,14 +1,14 @@
 <?php
 
 /**
-* Simple Ajax Uploader
-* Version 2.5.5
-* https://github.com/LPology/Simple-Ajax-Uploader
-*
-* Copyright 2012-2016 LPology, LLC
-* Released under the MIT license
-*
-*/
+ * Simple Ajax Uploader
+ * Version 2.5.5
+ * https://github.com/LPology/Simple-Ajax-Uploader
+ *
+ * Copyright 2012-2016 LPology, LLC
+ * Released under the MIT license
+ *
+ */
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");

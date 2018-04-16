@@ -4,13 +4,8 @@ namespace TaskManagerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use TaskManagerBundle\Entity\Task;
 
 class TaskManagerCommand extends ContainerAwareCommand
@@ -19,8 +14,7 @@ class TaskManagerCommand extends ContainerAwareCommand
     {
         $this
             ->setName('taskmanager:run')
-            ->setDescription('Task Manager')
-        ;
+            ->setDescription('Task Manager');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,17 +49,17 @@ class TaskManagerCommand extends ContainerAwareCommand
             $tasks = $taskRepository->getWaitingTasksByType(Task::TYPE_RUN_IMMEDIATELY);
             if (sizeof($tasks)) {
                 $this->executeTask($tasks[0], $input, $output);
-            }else{
+            } else {
                 $onePerCategoryRun = false;
                 $tasks = $taskRepository->getWaitingTasksByType(Task::TYPE_RUN_ONE_PER_CATEGORY);
                 foreach ($tasks as $task) {
-                    if(!$taskRepository->isThereRunningTaskInTheSameTaskCategory($task)) {
+                    if (!$taskRepository->isThereRunningTaskInTheSameTaskCategory($task)) {
                         $onePerCategoryRun = true;
                         $this->executeTask($task, $input, $output);
                         break;
                     }
                 }
-                if(!$onePerCategoryRun) {
+                if (!$onePerCategoryRun) {
                     $tasks = $taskRepository->getWaitingTasksByType(Task::TYPE_QUEUED);
                     if (sizeof($tasks)) {
                         $this->executeTask($tasks[0], $input, $output);
@@ -85,14 +79,14 @@ class TaskManagerCommand extends ContainerAwareCommand
             $command = $this->getApplication()->find($task->getCommand());
             $greetInput = new ArrayInput($task->getCommandArguments());
             $returnCode = $command->run($greetInput, $output);
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             //TODO: logging errors...etc.
-        }finally {
-            if($task->getRunEvery()) {
+        } finally {
+            if ($task->getRunEvery()) {
                 $task->setStatus(Task::STATUS_WAITING);
                 $task->setRunAt(null);
                 $task->renewDueAt();
-            }else{
+            } else {
                 $task->setStatus(Task::STATUS_FINISHED);
                 $task->setFinishedAt(new \DateTime());
             }

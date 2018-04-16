@@ -3,9 +3,9 @@
 namespace LocaleBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class DialectType extends AbstractType
@@ -19,21 +19,19 @@ class DialectType extends AbstractType
     {
 
         $builder
-            ->add('language', null,  [
-                 'label' => 'admin.titles.lang',
-            ])
-           ;
+            ->add('language', null, [
+                'label' => 'admin.titles.lang',
+            ]);
 
-        foreach($options['languages'] as $language) {
+        foreach ($options['languages'] as $language) {
             $builder
-                ->add('name_'.$language->getLocale(),  TextType::class, [
-                    'mapped' => false,
-                    'label' => "locale.titles.dialect.dialect_name",
+                ->add('name_' . $language->getLocale(), TextType::class, [
+                    'mapped'      => false,
+                    'label'       => "locale.titles.dialect.dialect_name",
                     'constraints' => [
                         new Assert\NotBlank(),
                     ],
-                ])
-                ;
+                ]);
         }
     }
 
@@ -41,7 +39,7 @@ class DialectType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => 'LocaleBundle\Entity\Dialect',
-            'languages' => [],
+            'languages'  => [],
         ]);
     }
 

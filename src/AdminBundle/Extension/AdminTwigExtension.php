@@ -17,7 +17,7 @@ class AdminTwigExtension extends \Twig_Extension
     {
         $this->container = $container;
         $this->securityChecker = $securityChecker;
-    }   
+    }
 
     public function getFilters()
     {
@@ -71,7 +71,7 @@ class AdminTwigExtension extends \Twig_Extension
 
     public function getAdminSections()
     {
-        if(is_null($this->adminSections)) {
+        if (is_null($this->adminSections)) {
             $em = $this->container->get('doctrine')->getManager();
             $this->adminSections = $em->getRepository('AdminBundle:Section')->findAll();
         }
@@ -102,13 +102,19 @@ class AdminTwigExtension extends \Twig_Extension
         $minutes = floor($divisor_for_minutes / 60);
         $divisor_for_seconds = $divisor_for_minutes % 60;
         $seconds = ceil($divisor_for_seconds);
-        if ($hours   < 10) {$hours   = "0".$hours;}
-        if ($minutes < 10) {$minutes = "0".$minutes;}
-        if ($seconds < 10) {$seconds = "0".$seconds;}
-        return $hours.':'.$minutes.':'.$seconds;
+        if ($hours < 10) {
+            $hours = "0" . $hours;
+        }
+        if ($minutes < 10) {
+            $minutes = "0" . $minutes;
+        }
+        if ($seconds < 10) {
+            $seconds = "0" . $seconds;
+        }
+        return $hours . ':' . $minutes . ':' . $seconds;
     }
 
-    public function jsonDecode($str, $assoc = false )
+    public function jsonDecode($str, $assoc = false)
     {
         return json_decode($str, $assoc);
     }
@@ -122,13 +128,13 @@ class AdminTwigExtension extends \Twig_Extension
     {
         $crawler = new Crawler($html);
         $img = $crawler->filter('img')->first();
-        if($img->count()) {
+        if ($img->count()) {
             return $img->attr('src');
         }
     }
-    
+
     public function isGrantedAny(array $roles, $object = null, $field = null)
-    {                       
+    {
         if (null === $this->securityChecker) {
             return false;
         }
@@ -138,8 +144,8 @@ class AdminTwigExtension extends \Twig_Extension
         }
 
         try {
-            foreach($roles as $role) {                         
-                if($this->securityChecker->isGranted($role, $object)) {
+            foreach ($roles as $role) {
+                if ($this->securityChecker->isGranted($role, $object)) {
                     return true;
                 }
             }

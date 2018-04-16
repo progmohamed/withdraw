@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use LocaleBundle\Entity\Country;
-use LocaleBundle\Entity\Language;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -28,7 +27,7 @@ class LoadCountriesData implements FixtureInterface, ContainerAwareInterface, Or
     {
         $languages = $this->container->get('locale.service')->getContentLanguages();
         $entity = new Country();
-        foreach($languages as $language) {
+        foreach ($languages as $language) {
             $entity->translate($language->getLocale())->setName('UAE');
         }
         $entity->mergeNewTranslations();

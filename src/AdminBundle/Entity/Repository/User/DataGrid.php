@@ -2,12 +2,12 @@
 
 namespace AdminBundle\Entity\Repository\User;
 
+use AdminBundle\Classes\DataGrid as AdminDataGrid;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AdminBundle\Classes\DataGrid as AdminDataGrid;
 
 class DataGrid extends AdminDataGrid
 {
@@ -22,60 +22,60 @@ class DataGrid extends AdminDataGrid
 
 
         $elementValue = $this->getFormDataElement('id');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.id IN(:ids) ";
             $parameters['ids'] = $this->commaDelimitedToArray($elementValue);
         }
 
         $elementValue = $this->getFormDataElement('username');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.username LIKE :username ";
-            $parameters['username'] = "%".$elementValue."%";
+            $parameters['username'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('realName');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.realName LIKE :realName ";
-            $parameters['realName'] = "%".$elementValue."%";
+            $parameters['realName'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('email');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.email LIKE :email ";
-            $parameters['email'] = "%".$elementValue."%";
+            $parameters['email'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('country');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.countryId IN(:country) ";
             $parameters['country'] = $elementValue;
         }
 
         $elementValue = $this->getFormDataElement('phone');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.phoneNumber LIKE :phone ";
-            $parameters['phone'] = "%".$elementValue."%";
+            $parameters['phone'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('sex');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND t.sex IN(:sex) ";
             $parameters['sex'] = $elementValue;
         }
 
         $elementValue = $this->getFormDataElement('dateFrom');
-        if($elementValue) {
+        if ($elementValue) {
             $dateTime = $this->parseDateTime($elementValue);
-            if($dateTime) {
+            if ($dateTime) {
                 $dql .= "AND t.registrationDateTime >= :dateFrom ";
                 $parameters['dateFrom'] = $dateTime;
             }
         }
 
         $elementValue = $this->getFormDataElement('dateTo');
-        if($elementValue) {
+        if ($elementValue) {
             $dateTime = $this->parseDateTime($elementValue);
-            if($dateTime) {
+            if ($dateTime) {
                 $dql .= "AND t.registrationDateTime <= :dateTo ";
                 $parameters['dateTo'] = $dateTime;
             }
@@ -83,7 +83,7 @@ class DataGrid extends AdminDataGrid
 
         $dql .= " GROUP BY t.id ORDER BY t.username ";
         $query = $em->createQuery($dql);
-        if(sizeof($parameters)) {
+        if (sizeof($parameters)) {
             $query->setParameters($parameters);
         }
 
@@ -115,28 +115,28 @@ class DataGrid extends AdminDataGrid
                 'label' => 'admin.titles.email'
             ])
             ->add('country', EntityType::class, [
-                'label' => 'admin.titles.country',
-                'class' => 'LocaleBundle:Country',
+                'label'         => 'admin.titles.country',
+                'class'         => 'LocaleBundle:Country',
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('c');
                 },
-                'multiple' => true,
+                'multiple'      => true,
             ])
             ->add('phone', TextType::class, [
                 'label' => 'admin.titles.phone_number'
             ])
             ->add('dateFrom', TextType::class, [
                 'label' => 'admin.titles.registration_dateTime',
-                 'attr' => ['class' => 'date'],
+                'attr'  => ['class' => 'date'],
             ])
             ->add('dateTo', TextType::class, [
                 'label' => 'admin.titles.registration_dateTime',
-                'attr' => ['class' => 'date'],
+                'attr'  => ['class' => 'date'],
             ])
             ->add('sex', ChoiceType::class, [
-                'label' => 'admin.titles.gender',
+                'label'    => 'admin.titles.gender',
                 'choices'  => [
-                    'admin.titles.male' => 1,
+                    'admin.titles.male'   => 1,
                     'admin.titles.female' => 2,
                 ],
                 'multiple' => true,

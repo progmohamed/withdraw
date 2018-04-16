@@ -10,10 +10,10 @@ class AdminEntityRepository extends EntityRepository
     public function getFilterArray($formBuilder, $form)
     {
         $out = [];
-        foreach($formBuilder as $element) {
-            if(in_array($element->getType()->getName(), ['text'])) {
+        foreach ($formBuilder as $element) {
+            if (in_array($element->getType()->getName(), ['text'])) {
                 $out[$element->getName()] = $form->get($element->getName())->getData();
-            }elseif($element->getType()->getName() == 'entity') {
+            } elseif ($element->getType()->getName() == 'entity') {
                 $out[$element->getName()] = $this->getFormFilterEntityIds($form->get($element->getName())->getData());
             }
         }
@@ -22,13 +22,13 @@ class AdminEntityRepository extends EntityRepository
 
     public function setFormFilterData($formBuilder, $form, $formData)
     {
-        foreach($formData as $key => $formDataElement) {
+        foreach ($formData as $key => $formDataElement) {
             $formElement = $formBuilder->get($key);
-            if(in_array($formElement->getType()->getName(), ['text'])) {
+            if (in_array($formElement->getType()->getName(), ['text'])) {
                 $form->get($key)->setData($formData[$key]);
-            }elseif($formElement->getType()->getName() == 'entity') {
+            } elseif ($formElement->getType()->getName() == 'entity') {
                 $className = $formElement->getAttribute('data_collector/passed_options')['class'];
-                $form->get($key)->setData( $this->getEntityArrayFromIds($formData[$key], $className) );
+                $form->get($key)->setData($this->getEntityArrayFromIds($formData[$key], $className));
             }
         }
         return $form;
@@ -37,7 +37,7 @@ class AdminEntityRepository extends EntityRepository
     private function getFormFilterEntityIds($array)
     {
         $out = [];
-        if(is_array($array)) {
+        if (is_array($array)) {
             foreach ($array as $entity) {
                 $out[] = $entity->getId();
             }

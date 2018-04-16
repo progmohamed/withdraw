@@ -48,7 +48,7 @@ class AjaxResponse
 
     public function getData($key)
     {
-        if(array_key_exists($key, $this->data)) {
+        if (array_key_exists($key, $this->data)) {
             return $this->data[$key];
         }
     }

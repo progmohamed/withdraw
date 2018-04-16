@@ -2,14 +2,11 @@
 
 namespace AdminBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Loader;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ReloadMenuCommand extends ContainerAwareCommand
 {
@@ -17,8 +14,7 @@ class ReloadMenuCommand extends ContainerAwareCommand
     {
         $this
             ->setName('admin:rebuild-menu')
-            ->setDescription('Rebuilding back-end menu')
-        ;
+            ->setDescription('Rebuilding back-end menu');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -41,7 +37,7 @@ class ReloadMenuCommand extends ContainerAwareCommand
             $connection->query('TRUNCATE TABLE admin_group');
             $connection->query('SET FOREIGN_KEY_CHECKS = 1');
             $connection->commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $connection->rollback();
         }
     }
@@ -54,11 +50,11 @@ class ReloadMenuCommand extends ContainerAwareCommand
 
         $services = $collectorService->getServices();
 
-        if(sizeof($services)) {
+        if (sizeof($services)) {
             $loader = new Loader();
-            foreach($services as $fixture) {
-                $fixture->setContainer( $this->getContainer() );
-                $loader->addFixture( $fixture );
+            foreach ($services as $fixture) {
+                $fixture->setContainer($this->getContainer());
+                $loader->addFixture($fixture);
             }
             $executor = new ORMExecutor($em);
             $executor->execute($loader->getFixtures(), true);

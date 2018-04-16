@@ -2,12 +2,12 @@
 
 namespace LocaleBundle\DataFixtures\ORM;
 
+use AdminBundle\Entity\Section;
+use AdminBundle\Entity\SectionItem;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AdminBundle\Entity\Section;
-use AdminBundle\Entity\SectionItem;
 
 class LoadMenu implements FixtureInterface, ContainerAwareInterface
 {
@@ -22,13 +22,13 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
     {
         $section = new Section();
         $section->setIdentifier('locale_management')
-                ->setTitle('locale.menu.locale')
-                ->setImage('bundles/locale/images/dashboard/small/locale.png')
-                ->setDescription('locale.hints.locale')
-                ->setDescriptionSort(8);
+            ->setTitle('locale.menu.locale')
+            ->setImage('bundles/locale/images/dashboard/small/locale.png')
+            ->setDescription('locale.hints.locale')
+            ->setDescriptionSort(8);
 
         $item = new SectionItem();
-        $item   ->setTitle('locale.menu.countries')
+        $item->setTitle('locale.menu.countries')
             ->setRoute('locale_country')
             ->setImage('bundles/locale/images/dashboard/country.png')
             ->addNewRoleByRoleName('ROLE_LOCAL_COUNTRY_LIST')
@@ -38,7 +38,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
 
 
         $item = new SectionItem();
-        $item   ->setTitle('locale.menu.langs')
+        $item->setTitle('locale.menu.langs')
             ->setRoute('locale_language_list')
             ->setImage('bundles/locale/images/dashboard/language.png')
             ->addNewRoleByRoleName('ROLE_LOCALE_LANGUAGE_LIST')
@@ -48,7 +48,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
 
 
         $item = new SectionItem();
-        $item   ->setTitle('locale.menu.dialect')
+        $item->setTitle('locale.menu.dialect')
             ->setRoute('locale_dialect_list')
             ->setImage('bundles/locale/images/dashboard/dialect.png')
             ->addNewRoleByRoleName('ROLE_LOCALE_DIALECT_LIST')

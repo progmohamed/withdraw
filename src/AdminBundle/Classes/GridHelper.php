@@ -7,7 +7,7 @@ class GridHelper
     public function getFormFilterEntityIds($array)
     {
         $out = [];
-        foreach($array as $entity) {
+        foreach ($array as $entity) {
             $out[] = $entity->getId();
         }
         return $out;

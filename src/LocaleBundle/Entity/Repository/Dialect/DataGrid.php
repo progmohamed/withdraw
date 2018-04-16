@@ -2,11 +2,10 @@
 
 namespace LocaleBundle\Entity\Repository\Dialect;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AdminBundle\Classes\DataGrid as AdminDataGrid;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class DataGrid extends AdminDataGrid
@@ -22,15 +21,15 @@ class DataGrid extends AdminDataGrid
         WHERE 1=1 ";
 
         $elementValue = $this->getFormDataElement('id');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND d.id IN(:ids) ";
             $parameters['ids'] = $this->commaDelimitedToArray($elementValue);
         }
 
         $elementValue = $this->getFormDataElement('name');
-        if($elementValue) {
+        if ($elementValue) {
             $dql .= "AND dt.name LIKE :name ";
-            $parameters['name'] = "%".$elementValue."%";
+            $parameters['name'] = "%" . $elementValue . "%";
         }
 
         $elementValue = $this->getFormDataElement('language');
@@ -42,7 +41,7 @@ class DataGrid extends AdminDataGrid
         $dql .= "ORDER BY dt.name ";
 
         $query = $em->createQuery($dql);
-        if(sizeof($parameters)) {
+        if (sizeof($parameters)) {
             $query->setParameters($parameters);
         }
 
@@ -50,7 +49,7 @@ class DataGrid extends AdminDataGrid
             $query,
             $page,
             10,
-            ['wrap-queries'=>true]
+            ['wrap-queries' => true]
         );
         return $pagination;
     }
@@ -68,8 +67,8 @@ class DataGrid extends AdminDataGrid
                 'label' => 'admin.titles.name'
             ])
             ->add('language', EntityType::class, [
-                'label' => 'admin.titles.lang',
-                'class' => 'LocaleBundle:Language',
+                'label'    => 'admin.titles.lang',
+                'class'    => 'LocaleBundle:Language',
                 'multiple' => true,
             ]);
         return $form->getForm();

@@ -2,13 +2,13 @@
 
 namespace AdminBundle\Classes;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use ConfigBundle\Service\ConfigService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SessionIdleHandler
 {
@@ -51,15 +51,15 @@ class SessionIdleHandler
 
     private function isAdmin($request)
     {
-        if($request) {
+        if ($request) {
             $path = \strtolower($request->getPathInfo());
-            if('/' == \substr($path,0,1)) {
-                $path = \substr($path,1);
+            if ('/' == \substr($path, 0, 1)) {
+                $path = \substr($path, 1);
             }
-            if('admin' == $this->left($path,5) ) {
+            if ('admin' == $this->left($path, 5)) {
                 return true;
             }
-            if('/admin' == \substr($path,2,6) ) {
+            if ('/admin' == \substr($path, 2, 6)) {
                 return true;
             }
         }
@@ -68,7 +68,7 @@ class SessionIdleHandler
 
     private function left($str, $nbr)
     {
-        return substr($str,0,$nbr);
+        return substr($str, 0, $nbr);
     }
 
 }

@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Entity\Repository\User;
 
-use AdminBundle\Entity\User;
 use AdminBundle\Service\AdminService\AdminService;
 use Doctrine\ORM\EntityRepository;
 
@@ -13,7 +12,7 @@ class Repository extends EntityRepository
 
     public function getDataGrid()
     {
-        if(!self::$dataGrid) {
+        if (!self::$dataGrid) {
             self::$dataGrid = new DataGrid($this->getEntityManager());
         }
         return self::$dataGrid;
@@ -37,7 +36,7 @@ class Repository extends EntityRepository
         WHERE u.id = :id
         ";
         $query = $em->createQuery($dql);
-        $query->setParameter('id',$id);
+        $query->setParameter('id', $id);
         return $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
     }
 
@@ -45,21 +44,21 @@ class Repository extends EntityRepository
     {
         $restrictions = [];
         $delets = [];
-        if(is_array($ids)) {
-            foreach($ids as $id) {
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
                 $entity = $this->find($id);
-                if($entity) {
+                if ($entity) {
                     $count = 0;
-                    foreach($service->getRelatedServices() as $relatedService) {
+                    foreach ($service->getRelatedServices() as $relatedService) {
                         $count += $relatedService->getAdmin()->getUserRestrictions($entity);
                     }
-                    if($count) {
+                    if ($count) {
                         $restrictions[] = [
-                            'entity'=> $entity,
-                            'serviceName'=> $relatedService->getName(),
-                            'count' => $count
+                            'entity'      => $entity,
+                            'serviceName' => $relatedService->getName(),
+                            'count'       => $count
                         ];
-                    }else{
+                    } else {
                         $delets[] = $entity;
                     }
                 }
@@ -67,7 +66,7 @@ class Repository extends EntityRepository
         }
         return [
             'restrictions' => $restrictions,
-            'delets' => $delets,
+            'delets'       => $delets,
         ];
     }
 

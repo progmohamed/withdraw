@@ -74,7 +74,6 @@ class Language
     private $translateContent;
 
 
-
     /**
      * @var string
      *
@@ -82,7 +81,6 @@ class Language
      */
     private $photo;
     private $tempPhoto;
-
 
 
     /**
@@ -314,7 +312,6 @@ class Language
     }
 
 
-
     public function setPhotoFile(UploadedFile $photoFile = null)
     {
         $this->photoFile = $photoFile;
@@ -337,24 +334,24 @@ class Language
     {
         return null === $this->photo
             ? null
-            : $this->getPhotoUploadRootDir().'/'.$this->photo;
+            : $this->getPhotoUploadRootDir() . '/' . $this->photo;
     }
 
     public function getPhotoWebPath()
     {
-        return $this->getPhotoUploadDir().'/'.$this->getPhoto();
+        return $this->getPhotoUploadDir() . '/' . $this->getPhoto();
     }
 
     public function getDefaultPhotoWebPath()
     {
-        return $this->getPhotoUploadDir().'/'.$this->getDefaultPhoto();
+        return $this->getPhotoUploadDir() . '/' . $this->getDefaultPhoto();
     }
 
     public function getPhotoUploadRootDir()
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../web/'.$this->getPhotoUploadDir();
+        return __DIR__ . '/../../../web/' . $this->getPhotoUploadDir();
     }
 
     public function getPhotoUploadDir()
@@ -374,7 +371,7 @@ class Language
         if (null !== $this->getPhotoFile()) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->photo = $filename.'.jpg';
+            $this->photo = $filename . '.jpg';
         }
     }
 
@@ -391,14 +388,14 @@ class Language
 
         $jpgFile = $this->getPhotoAbsolutePath();
         $imageConverter = new ImageConverter();
-        $jpgFileContents = $imageConverter->imageStringToJPEG( file_get_contents($jpgFile) );
+        $jpgFileContents = $imageConverter->imageStringToJPEG(file_get_contents($jpgFile));
         $newJpgFileContents = $imageConverter->generateThumbnailFromJPGString($jpgFileContents, 18, 12, true);
         file_put_contents($jpgFile, $newJpgFileContents);
 
         // check if we have an old image
         if (isset($this->tempPhoto)) {
             // delete the old image
-            @unlink($this->getPhotoUploadRootDir().'/'.$this->tempPhoto);
+            @unlink($this->getPhotoUploadRootDir() . '/' . $this->tempPhoto);
             // clear the temp image path
             $this->tempPhoto = null;
         }
@@ -410,7 +407,7 @@ class Language
     {
         $fullPath = $this->getPhotoAbsolutePath();
         $this->setPhoto(null);
-        if($fullPath) {
+        if ($fullPath) {
             if (file_exists($fullPath)) {
                 unlink($fullPath);
             }

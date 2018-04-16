@@ -4,7 +4,6 @@ namespace LocaleBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use LocaleBundle\Entity\Country;
 use LocaleBundle\Entity\Language;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,7 +29,7 @@ class LoadLanguagesData implements FixtureInterface, ContainerAwareInterface
             ['en', 'English', 'ltr'],
         ];
 
-        foreach($languages as $element) {
+        foreach ($languages as $element) {
             $language = new Language();
             $language->setLocale($element[0]);
             $language->setName($element[1]);
@@ -38,7 +37,7 @@ class LoadLanguagesData implements FixtureInterface, ContainerAwareInterface
             $language->setSwitchBackEnd(true);
             $language->setSwitchFrontEnd(true);
             $language->setTranslateContent(true);
-            $language->setPhoto($element[0].'.gif');
+            $language->setPhoto($element[0] . '.gif');
             $manager->persist($language);
             $manager->flush();
         }

@@ -23,7 +23,7 @@ class LanguageRepository extends EntityRepository
     public function getLanguageIdByLocale($locale)
     {
         $entity = $this->findOneByLocale($locale);
-        if($entity) {
+        if ($entity) {
             return $entity->getId();
         }
     }
@@ -32,21 +32,21 @@ class LanguageRepository extends EntityRepository
     {
         $restrictions = [];
         $delets = [];
-        if(is_array($ids)) {
-            foreach($ids as $id) {
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
                 $entity = $this->find($id);
-                if($entity) {
+                if ($entity) {
                     $count = 0;
-                    foreach($service->getRelatedServices() as $relatedService) {
+                    foreach ($service->getRelatedServices() as $relatedService) {
                         $count += $relatedService->getLocale()->getLanguageRestrictions($entity->getId());
                     }
-                    if($count) {
+                    if ($count) {
                         $restrictions[] = [
-                            'entity'=> $entity,
-                            'serviceName'=> $relatedService->getName(),
-                            'count' => $count
+                            'entity'      => $entity,
+                            'serviceName' => $relatedService->getName(),
+                            'count'       => $count
                         ];
-                    }else{
+                    } else {
                         $delets[] = $entity;
                     }
                 }
@@ -54,7 +54,7 @@ class LanguageRepository extends EntityRepository
         }
         return [
             'restrictions' => $restrictions,
-            'delets' => $delets,
+            'delets'       => $delets,
         ];
     }
 

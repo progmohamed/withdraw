@@ -23,7 +23,7 @@ class OnFlushHelper implements ContainerAwareInterface
         $em = $this->container->get('doctrine')->getManager();
         $unitOfWork = $em->getUnitOfWork();
         $changeset = $unitOfWork->getEntityChangeSet($entity);
-        return (array) $changeset;
+        return (array)$changeset;
     }
 
     public function isFieldChanged($changeset, $field)
@@ -34,7 +34,7 @@ class OnFlushHelper implements ContainerAwareInterface
     public function getFieldChanges($changeset, $field)
     {
         $changes = [];
-        if($this->isFieldChanged($changeset, $field)) {
+        if ($this->isFieldChanged($changeset, $field)) {
             $changes = $changeset[$field];
         }
         return $changes;

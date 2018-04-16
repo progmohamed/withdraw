@@ -25,5 +25,5 @@ class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
             }),
         ];
     }
-  
+
 }

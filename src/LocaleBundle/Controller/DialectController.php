@@ -2,16 +2,15 @@
 
 namespace LocaleBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use LocaleBundle\Entity\Dialect;
 use LocaleBundle\Entity\DialectTranslation;
 use LocaleBundle\Form\DialectType;
-use AdminBundle\Classes\AdminEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/dialect")
@@ -52,7 +51,7 @@ class DialectController extends Controller
         );
 
         return $this->render('LocaleBundle:Dialect:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
@@ -68,7 +67,7 @@ class DialectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $languages = $this->get('locale.service')->getContentLanguages();
         $entity = new Dialect();
-        $form = $this->createForm(DialectType::class, $entity, ['languages'=> $languages]);
+        $form = $this->createForm(DialectType::class, $entity, ['languages' => $languages]);
         $form->handleRequest($request);
         $validator = $this->get('validator');
 
@@ -100,14 +99,14 @@ class DialectController extends Controller
                 $this->get('session')->getFlashBag()->add(
                     'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
                 );
-                $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.add_dialect', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
+                $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.add_dialect', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
                 return $this->redirectToRoute('locale_dialect_show', ['id' => $entity->getId()]);
             }
         }
 
         return $this->render('LocaleBundle:Dialect:new.html.twig', [
-            'entity'    => $entity,
-            'form'      => $form->createView(),
+            'entity' => $entity,
+            'form'   => $form->createView(),
         ]);
     }
 
@@ -136,31 +135,31 @@ class DialectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $languages = $this->get('locale.service')->getContentLanguages();
-        $editForm = $this->createForm(DialectType::class, $entity, ['languages'=>$languages]);
+        $editForm = $this->createForm(DialectType::class, $entity, ['languages' => $languages]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted()) {
-            if($editForm->isValid()) {
-                foreach($languages as $language) {
-                    $entity->translate($language->getLocale(), false)->setName($editForm->get('name_'.$language->getLocale())->getData());
+            if ($editForm->isValid()) {
+                foreach ($languages as $language) {
+                    $entity->translate($language->getLocale(), false)->setName($editForm->get('name_' . $language->getLocale())->getData());
                 }
                 $entity->mergeNewTranslations();
                 $em->flush();
                 $this->get('session')->getFlashBag()->add(
                     'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
                 );
-                $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.edit_dialect', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
+                $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.edit_dialect', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
                 return $this->redirectToRoute('locale_dialect_show', ['id' => $entity->getId()]);
             }
-        }else{
-            foreach($languages as $language) {
-                $editForm->get('name_'.$language->getLocale())->setData($entity->translate($language->getLocale(), false)->getName());
+        } else {
+            foreach ($languages as $language) {
+                $editForm->get('name_' . $language->getLocale())->setData($entity->translate($language->getLocale(), false)->getName());
             }
         }
 
         return $this->render('LocaleBundle:Dialect:edit.html.twig', [
-            'entity'        => $entity,
-            'edit_form'     => $editForm->createView(),
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
         ]);
     }
 
@@ -174,10 +173,10 @@ class DialectController extends Controller
         $single = $request->query->get('single', false);
         $id = $request->query->get('id');
         $encodedRedirect = $request->query->get('redirect');
-        $redirect = base64_decode( $encodedRedirect );
+        $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('locale_dialect_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -185,34 +184,34 @@ class DialectController extends Controller
             $bundleService = $this->get('locale.service');
             $ids = unserialize(base64_decode($id));
             if (!is_array($ids) || empty($ids)) {
-                throw $this->createNotFoundException( $this->get('translator')->trans('admin.titles.error_happened') );
+                throw $this->createNotFoundException($this->get('translator')->trans('admin.titles.error_happened'));
             }
             if ('POST' == $request->getMethod()) {
-                foreach($ids as $id) {
+                foreach ($ids as $id) {
                     try {
                         $dialect = $repository->find($id);
-                        if($dialect) {
+                        if ($dialect) {
                             $em->remove($dialect);
                             $em->flush();
                             $this->get('session')->getFlashBag()->add(
-                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted').' '. $dialect
+                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted') . ' ' . $dialect
                             );
-                            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.delete_dialect', ['%entity_id%'=>$id], $this->getUser()->getId());
+                            $this->get('common.service')->log($this->get('locale.service')->getName(), 'locale.log.delete_dialect', ['%entity_id%' => $id], $this->getUser()->getId());
                         }
-                    }catch(\Exception $e) {
+                    } catch (\Exception $e) {
                         $this->get('session')->getFlashBag()->add(
                             'danger', $e->getMessage()
                         );
                     }
                 }
                 return $this->redirectToRoute('locale_dialect_list');
-            }else{
+            } else {
                 $report = $repository->getDeleteRestrectionsByIds(
                     $bundleService,
                     $ids
                 );
                 return $this->render('LocaleBundle:Dialect:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }

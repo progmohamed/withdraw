@@ -5,7 +5,6 @@ namespace ConfigBundle\Service;
 use ConfigBundle\Entity\ConfigVariable;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ConfigService implements ContainerAwareInterface
 {
@@ -45,8 +44,7 @@ class ConfigService implements ContainerAwareInterface
             ->setValue($value)
             ->setScope($scope)
             ->setData($data)
-            ->setSortOrder($sortOrder)
-            ;
+            ->setSortOrder($sortOrder);
         $em->persist($newVariable);
         $em->flush();
     }

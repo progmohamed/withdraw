@@ -2,15 +2,12 @@
 
 namespace LogBundle\Controller;
 
-use LogBundle\Entity\LogService;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use LogBundle\Entity\log;
-use AdminBundle\Classes\AdminEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/log")
@@ -51,11 +48,10 @@ class LogController extends Controller
         );
 
         return $this->render('LogBundle:Log:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
-
 
 
     /**
@@ -82,10 +78,10 @@ class LogController extends Controller
         $single = $request->query->get('single', false);
         $id = $request->query->get('id');
         $encodedRedirect = $request->query->get('redirect');
-        $redirect = base64_decode( $encodedRedirect );
+        $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('log_log_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -93,33 +89,33 @@ class LogController extends Controller
             $bundleService = $this->get('log.service');
             $ids = unserialize(base64_decode($id));
             if (!is_array($ids) || empty($ids)) {
-                throw $this->createNotFoundException( $this->get('translator')->trans('admin.titles.error_happened') );
+                throw $this->createNotFoundException($this->get('translator')->trans('admin.titles.error_happened'));
             }
             if ('POST' == $request->getMethod()) {
-                foreach($ids as $id) {
+                foreach ($ids as $id) {
                     try {
                         $language = $repository->find($id);
-                        if($language) {
+                        if ($language) {
                             $em->remove($language);
                             $em->flush();
                             $this->get('session')->getFlashBag()->add(
-                                'success',  $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted').' '. $language
+                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted') . ' ' . $language
                             );
                         }
-                    }catch(\Exception $e) {
+                    } catch (\Exception $e) {
                         $this->get('session')->getFlashBag()->add(
                             'danger', $e->getMessage()
                         );
                     }
                 }
                 return $this->redirectToRoute('log_log_list');
-            }else{
+            } else {
                 $report = $repository->getDeleteRestrectionsByIds(
                     $bundleService,
                     $ids
                 );
                 return $this->render('LogBundle:Log:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * jQuery File Upload Plugin PHP Class
  * https://github.com/blueimp/jQuery-File-Upload
@@ -18,24 +19,24 @@ class UploadHandler
     // PHP File Upload error message codes:
     // http://php.net/manual/en/features.file-upload.errors.php
     protected $error_messages = [
-        1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-        2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-        3 => 'The uploaded file was only partially uploaded',
-        4 => 'No file was uploaded',
-        6 => 'Missing a temporary folder',
-        7 => 'Failed to write file to disk',
-        8 => 'A PHP extension stopped the file upload',
-        'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini',
-        'max_file_size' => 'File is too big',
-        'min_file_size' => 'File is too small',
-        'accept_file_types' => 'Filetype not allowed',
+        1                     => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+        2                     => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+        3                     => 'The uploaded file was only partially uploaded',
+        4                     => 'No file was uploaded',
+        6                     => 'Missing a temporary folder',
+        7                     => 'Failed to write file to disk',
+        8                     => 'A PHP extension stopped the file upload',
+        'post_max_size'       => 'The uploaded file exceeds the post_max_size directive in php.ini',
+        'max_file_size'       => 'File is too big',
+        'min_file_size'       => 'File is too small',
+        'accept_file_types'   => 'Filetype not allowed',
         'max_number_of_files' => 'Maximum number of files exceeded',
-        'max_width' => 'Image exceeds maximum width',
-        'min_width' => 'Image requires a minimum width',
-        'max_height' => 'Image exceeds maximum height',
-        'min_height' => 'Image requires a minimum height',
-        'abort' => 'File upload aborted',
-        'image_resize' => 'Failed to resize image'
+        'max_width'           => 'Image exceeds maximum width',
+        'min_width'           => 'Image requires a minimum width',
+        'max_height'          => 'Image exceeds maximum height',
+        'min_height'          => 'Image requires a minimum height',
+        'abort'               => 'File upload aborted',
+        'image_resize'        => 'Failed to resize image'
     ];
 
     protected $image_objects = [];
@@ -44,19 +45,19 @@ class UploadHandler
     {
         $this->response = [];
         $this->options = [
-            'script_url' => $this->get_full_url() . '/' . $this->basename($this->get_server_var('SCRIPT_NAME')),
-            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')) . '/files/',
-            'upload_url' => $this->get_full_url() . '/files/',
-            'input_stream' => 'php://input',
-            'user_dirs' => false,
-            'mkdir_mode' => 0755,
-            'param_name' => 'files',
+            'script_url'                       => $this->get_full_url() . '/' . $this->basename($this->get_server_var('SCRIPT_NAME')),
+            'upload_dir'                       => dirname($this->get_server_var('SCRIPT_FILENAME')) . '/files/',
+            'upload_url'                       => $this->get_full_url() . '/files/',
+            'input_stream'                     => 'php://input',
+            'user_dirs'                        => false,
+            'mkdir_mode'                       => 0755,
+            'param_name'                       => 'files',
             // Set the following option to 'POST', if your server does not support
             // DELETE requests. This is a parameter sent to the client:
-            'delete_type' => 'DELETE',
-            'access_control_allow_origin' => '*',
+            'delete_type'                      => 'DELETE',
+            'access_control_allow_origin'      => '*',
             'access_control_allow_credentials' => false,
-            'access_control_allow_methods' => [
+            'access_control_allow_methods'     => [
                 'OPTIONS',
                 'HEAD',
                 'GET',
@@ -65,13 +66,13 @@ class UploadHandler
                 'PATCH',
                 'DELETE'
             ],
-            'access_control_allow_headers' => [
+            'access_control_allow_headers'     => [
                 'Content-Type',
                 'Content-Range',
                 'Content-Disposition'
             ],
             // By default, allow redirects to the referer protocol+host:
-            'redirect_allow_target' => '/^' . preg_quote(
+            'redirect_allow_target'            => '/^' . preg_quote(
                     parse_url($this->get_server_var('HTTP_REFERER'), PHP_URL_SCHEME)
                     . '://'
                     . parse_url($this->get_server_var('HTTP_REFERER'), PHP_URL_HOST)
@@ -84,35 +85,35 @@ class UploadHandler
             //     3. Set to 3 to send a X-Accel-Redirect header for nginx
             // If set to 2 or 3, adjust the upload_url option to the base path of
             // the redirect parameter, e.g. '/files/'.
-            'download_via_php' => false,
+            'download_via_php'                 => false,
             // Read files in chunks to avoid memory limits when download_via_php
             // is enabled, set to 0 to disable chunked reading of files:
-            'readfile_chunk_size' => 10 * 1024 * 1024, // 10 MiB
+            'readfile_chunk_size'              => 10 * 1024 * 1024, // 10 MiB
             // Defines which files can be displayed inline when downloaded:
-            'inline_file_types' => '/\.(gif|jpe?g|png)$/i',
+            'inline_file_types'                => '/\.(gif|jpe?g|png)$/i',
             // Defines which files (based on their names) are accepted for upload:
-            'accept_file_types' => '/.+$/i',
+            'accept_file_types'                => '/.+$/i',
             // The php.ini settings upload_max_filesize and post_max_size
             // take precedence over the following max_file_size setting:
-            'max_file_size' => null,
-            'min_file_size' => 1,
+            'max_file_size'                    => null,
+            'min_file_size'                    => 1,
             // The maximum number of files for the upload directory:
-            'max_number_of_files' => null,
+            'max_number_of_files'              => null,
             // Defines which files are handled as image files:
-            'image_file_types' => '/\.(gif|jpe?g|png)$/i',
+            'image_file_types'                 => '/\.(gif|jpe?g|png)$/i',
             // Use exif_imagetype on all files to correct file extensions:
-            'correct_image_extensions' => false,
+            'correct_image_extensions'         => false,
             // Image resolution restrictions:
-            'max_width' => null,
-            'max_height' => null,
-            'min_width' => 1,
-            'min_height' => 1,
+            'max_width'                        => null,
+            'max_height'                       => null,
+            'min_width'                        => 1,
+            'min_height'                       => 1,
             // Set the following option to false to enable resumable uploads:
-            'discard_aborted_uploads' => true,
+            'discard_aborted_uploads'          => true,
             // Set to 0 to use the GD library to scale and orient images,
             // set to 1 to use imagick (if installed, falls back to GD),
             // set to 2 to use the ImageMagick convert binary directly:
-            'image_library' => 1,
+            'image_library'                    => 1,
             // Uncomment the following to define an array of resource limits
             // for imagick:
             /*
@@ -122,7 +123,7 @@ class UploadHandler
             ),
             */
             // Command or path for to the ImageMagick convert binary:
-            'convert_bin' => 'convert',
+            'convert_bin'                      => 'convert',
             // Uncomment the following to add parameters in front of each
             // ImageMagick convert call (the limit constraints seem only
             // to have an effect if put in front):
@@ -130,10 +131,10 @@ class UploadHandler
             'convert_params' => '-limit memory 32MiB -limit map 32MiB',
             */
             // Command or path for to the ImageMagick identify binary:
-            'identify_bin' => 'identify',
-            'image_versions' => [
+            'identify_bin'                     => 'identify',
+            'image_versions'                   => [
                 // The empty image version key defines options for the original image:
-                '' => [
+                ''          => [
                     // Automatically rotate images based on EXIF meta data:
                     'auto_orient' => true
                 ],
@@ -155,11 +156,11 @@ class UploadHandler
                     // Uncomment the following to force the max
                     // dimensions and e.g. create square thumbnails:
                     //'crop' => true,
-                    'max_width' => 80,
+                    'max_width'  => 80,
                     'max_height' => 80
                 ]
             ],
-            'print_response' => true
+            'print_response'                   => true
         ];
         if ($options) {
             $this->options = $options + $this->options;
@@ -410,14 +411,16 @@ class UploadHandler
             return false;
         }
         if ($this->options['min_file_size'] &&
-            $file_size < $this->options['min_file_size']) {
+            $file_size < $this->options['min_file_size']
+        ) {
             $file->error = $this->get_error_message('min_file_size');
             return false;
         }
         if (is_int($this->options['max_number_of_files']) &&
             ($this->count_file_objects() >= $this->options['max_number_of_files']) &&
             // Ignore additional chunks of existing files:
-            !is_file($this->get_upload_path($file->name))) {
+            !is_file($this->get_upload_path($file->name))
+        ) {
             $file->error = $this->get_error_message('max_number_of_files');
             return false;
         }
@@ -426,7 +429,8 @@ class UploadHandler
         $min_width = @$this->options['min_width'];
         $min_height = @$this->options['min_height'];
         if (($max_width || $max_height || $min_width || $min_height)
-            && preg_match($this->options['image_file_types'], $file->name)) {
+            && preg_match($this->options['image_file_types'], $file->name)
+        ) {
             list($img_width, $img_height) = $this->get_image_size($uploaded_file);
 
             // If we are auto rotating the image by default, do the checks on
@@ -492,7 +496,8 @@ class UploadHandler
         $uploaded_bytes = $this->fix_integer_overflow((int)$content_range[1]);
         while (is_file($this->get_upload_path($name))) {
             if ($uploaded_bytes === $this->get_file_size(
-                    $this->get_upload_path($name))) {
+                    $this->get_upload_path($name))
+            ) {
                 break;
             }
             $name = $this->upcount_name($name);
@@ -505,11 +510,13 @@ class UploadHandler
     {
         // Add missing file extension for known image types:
         if (strpos($name, '.') === false &&
-            preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
+            preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)
+        ) {
             $name .= '.' . $matches[1];
         }
         if ($this->options['correct_image_extensions'] &&
-            function_exists('exif_imagetype')) {
+            function_exists('exif_imagetype')
+        ) {
             switch (@exif_imagetype($file_path)) {
                 case IMAGETYPE_JPEG:
                     $extensions = ['jpg', 'jpeg'];
@@ -743,7 +750,8 @@ class UploadHandler
         if (!empty($options['auto_orient']) && $this->gd_orient_image(
                 $file_path,
                 $src_img
-            )) {
+            )
+        ) {
             $image_oriented = true;
             $src_img = $this->gd_get_image_object(
                 $file_path,

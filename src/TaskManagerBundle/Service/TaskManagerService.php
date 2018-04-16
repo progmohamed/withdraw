@@ -4,7 +4,6 @@ namespace TaskManagerBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use TaskManagerBundle\Entity\Task;
 
 class TaskManagerService implements ContainerAwareInterface

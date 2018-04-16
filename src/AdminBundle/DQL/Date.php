@@ -12,7 +12,7 @@ class Date extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'DATE('. $sqlWalker->walkSimpleArithmeticExpression($this->arithmeticExpression).')';
+        return 'DATE(' . $sqlWalker->walkSimpleArithmeticExpression($this->arithmeticExpression) . ')';
     }
 
     public function parse(\Doctrine\ORM\Query\Parser $parser)

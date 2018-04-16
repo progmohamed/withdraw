@@ -2,16 +2,14 @@
 
 namespace AdminBundle\Controller;
 
-use Symfony\Component\Form\Forms;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use AdminBundle\Entity\User;
 use AdminBundle\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/user")
@@ -51,7 +49,7 @@ class UserController extends Controller
             $request->getLocale()
         );
         return $this->render('AdminBundle:User:index.html.twig', [
-            'entities' => $entities,
+            'entities'   => $entities,
             'formFilter' => $form->createView(),
         ]);
     }
@@ -78,13 +76,13 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_added')
             );
-            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.add_user', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
+            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.add_user', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
             return $this->redirectToRoute('admin_user_show', ['id' => $entity->getId()]);
         }
 
         return $this->render('AdminBundle:User:new.html.twig', [
             'entity' => $entity,
-            'form' => $form->createView(),
+            'form'   => $form->createView(),
         ]);
     }
 
@@ -98,7 +96,7 @@ class UserController extends Controller
     {
         $country = $this->get('locale.service')->getCountryArrayById($entity->getCountryId(), $request->getLocale());
         return $this->render('AdminBundle:User:show.html.twig', [
-            'entity' => $entity,
+            'entity'  => $entity,
             'country' => $country,
         ]);
     }
@@ -112,7 +110,7 @@ class UserController extends Controller
         $country = $this->get('locale.service')->getCountryArrayById($this->getUser()->getCountryId(), $request->getLocale());
 
         return $this->render('AdminBundle:User:showProfile.html.twig', [
-            'entity' => $this->getUser(),
+            'entity'  => $this->getUser(),
             'country' => $country,
         ]);
     }
@@ -147,12 +145,12 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_updated')
             );
-            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.edit_user', ['%entity_id%'=>$entity->getId()], $this->getUser()->getId());
+            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.edit_user', ['%entity_id%' => $entity->getId()], $this->getUser()->getId());
             return $this->redirectToRoute('admin_user_show', ['id' => $entity->getId()]);
         }
 
         return $this->render('AdminBundle:User:edit.html.twig', [
-            'entity' => $entity,
+            'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -188,7 +186,7 @@ class UserController extends Controller
         }
 
         return $this->render('AdminBundle:User:editProfile.html.twig', [
-            'entity' => $entity,
+            'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         ]);
     }
@@ -203,10 +201,10 @@ class UserController extends Controller
         $single = $request->query->get('single', false);
         $id = $request->query->get('id');
         $encodedRedirect = $request->query->get('redirect');
-        $redirect = base64_decode( $encodedRedirect );
+        $redirect = base64_decode($encodedRedirect);
         if ($single) {
             return $this->redirectToRoute('admin_user_delete', [
-                'id' => base64_encode(serialize([$id])),
+                'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
@@ -217,31 +215,31 @@ class UserController extends Controller
                 throw $this->createNotFoundException($this->get('translator')->trans('admin.titles.error_happened'));
             }
             if ('POST' == $request->getMethod()) {
-                foreach($ids as $id) {
+                foreach ($ids as $id) {
                     try {
                         $user = $repository->find($id);
-                        if($user) {
+                        if ($user) {
                             $em->remove($user);
                             $em->flush();
                             $this->get('session')->getFlashBag()->add(
-                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted').' '.$user->getUsername()
+                                'success', $this->get('translator')->trans('admin.messages.the_entry_has_been_deleted') . ' ' . $user->getUsername()
                             );
-                            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.delete_user', ['%entity_id%'=>$user->getId()], $this->getUser()->getId());
+                            $this->get('common.service')->log($this->get('admin.service')->getName(), 'admin.log.delete_user', ['%entity_id%' => $user->getId()], $this->getUser()->getId());
                         }
-                    }catch(\Exception $e) {
+                    } catch (\Exception $e) {
                         $this->get('session')->getFlashBag()->add(
                             'danger', $e->getMessage()
                         );
                     }
                 }
                 return $this->redirectToRoute('admin_user');
-            }else{
+            } else {
                 $report = $repository->getDeleteRestrectionsByIds(
                     $bundleService,
                     $ids
                 );
                 return $this->render('AdminBundle:User:delete.html.twig', [
-                    'report' => $report,
+                    'report'   => $report,
                     'redirect' => $redirect,
                 ]);
             }
@@ -258,19 +256,19 @@ class UserController extends Controller
         $ids = $request->query->get('ids');
         $idx = explode(',', $ids);
         $action = $request->query->get('action');
-        if('delete' == $action) {
+        if ('delete' == $action) {
             return $this->redirectToRoute('admin_user_delete', [
                 'id' => base64_encode(serialize($idx))
             ]);
-        }else{
-            foreach($idx as $id) {
+        } else {
+            foreach ($idx as $id) {
                 try {
                     if ('activate' == $action) {
                         $this->activateUserById($id, true);
                     } elseif ('deactivate' == $action) {
                         $this->activateUserById($id, false);
                     }
-                }catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $this->get('session')->getFlashBag()->add(
                         'danger', $e->getMessage()
                     );

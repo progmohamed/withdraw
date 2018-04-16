@@ -24,13 +24,13 @@ class Mustache_LambdaHelper
     /**
      * Mustache Lambda Helper constructor.
      *
-     * @param Mustache_Engine  $mustache Mustache engine instance.
-     * @param Mustache_Context $context  Rendering context.
+     * @param Mustache_Engine $mustache Mustache engine instance.
+     * @param Mustache_Context $context Rendering context.
      */
     public function __construct(Mustache_Engine $mustache, Mustache_Context $context)
     {
         $this->mustache = $mustache;
-        $this->context  = $context;
+        $this->context = $context;
     }
 
     /**
@@ -43,7 +43,7 @@ class Mustache_LambdaHelper
     public function render($string)
     {
         return $this->mustache
-            ->loadLambda((string) $string)
+            ->loadLambda((string)$string)
             ->renderInternal($this->context);
     }
 }

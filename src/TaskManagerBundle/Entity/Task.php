@@ -128,7 +128,6 @@ class Task
     private $hash;
 
 
-
     /**
      * Get id
      *
@@ -244,9 +243,9 @@ class Task
      */
     public function setCommandArguments(array $commandArguments)
     {
-        if(sizeof($commandArguments)) {
+        if (sizeof($commandArguments)) {
             $this->commandArguments = serialize($commandArguments);
-        }else{
+        } else {
             $this->commandArguments = null;
         }
 
@@ -260,9 +259,9 @@ class Task
      */
     public function getCommandArguments()
     {
-        if($this->commandArguments) {
+        if ($this->commandArguments) {
             return unserialize($this->commandArguments);
-        }else{
+        } else {
             return [];
         }
     }
@@ -396,9 +395,9 @@ class Task
      */
     public function setRunEvery($runEvery)
     {
-        if($runEvery) {
+        if ($runEvery) {
             $this->runEvery = strtolower(str_replace('  ', ' ', $runEvery));
-        }else{
+        } else {
             $this->runEvery = null;
         }
         return $this;
@@ -465,28 +464,28 @@ class Task
     public function getComputedHash()
     {
         $values = [
-            'command'           => $this->getCommand(),
-            'commandArguments'  => $this->getCommandArguments(),
-            'category'          => $this->getCategory(),
-            'type'              => $this->getType(),
-            'runPeriodically'   => $this->getRunEvery()
+            'command'          => $this->getCommand(),
+            'commandArguments' => $this->getCommandArguments(),
+            'category'         => $this->getCategory(),
+            'type'             => $this->getType(),
+            'runPeriodically'  => $this->getRunEvery()
         ];
         return sha1(serialize($values));
     }
 
     private function getNextDueAt()
     {
-        if($this->getRunEvery()) {
+        if ($this->getRunEvery()) {
             list($letter, $number) = explode(" ", $this->getRunEvery());
             $now = new \DateTime();
-            if('s' == $letter) {
-                $now->add(new \DateInterval('PT'.$number.'S'));
+            if ('s' == $letter) {
+                $now->add(new \DateInterval('PT' . $number . 'S'));
             }
-            if('m' == $letter) {
-                $now->add(new \DateInterval('PT'.$number.'I'));
+            if ('m' == $letter) {
+                $now->add(new \DateInterval('PT' . $number . 'I'));
             }
-            if('h' == $letter) {
-                $now->add(new \DateInterval('PT'.$number.'H'));
+            if ('h' == $letter) {
+                $now->add(new \DateInterval('PT' . $number . 'H'));
             }
             return $now;
         }
@@ -494,8 +493,8 @@ class Task
 
     public function renewDueAt()
     {
-        if($this->getRunEvery()) {
-            $this->setDueAt( $this->getNextDueAt() );
+        if ($this->getRunEvery()) {
+            $this->setDueAt($this->getNextDueAt());
         }
 
         return $this;
@@ -505,13 +504,13 @@ class Task
     {
         $thisClass = new \ReflectionClass(__CLASS__);
         $allConstants = $thisClass->getConstants();
-        $statusConstants = array_filter($allConstants, function($k) {
-            return substr($k, 0, 7) == 'STATUS_'? true : false;
+        $statusConstants = array_filter($allConstants, function ($k) {
+            return substr($k, 0, 7) == 'STATUS_' ? true : false;
         }, ARRAY_FILTER_USE_KEY);
 
-        $typeConstants = array_filter($allConstants, function($k) {
-            return substr($k, 0, 5) == 'TYPE_'? true : false;
-        }, ARRAY_FILTER_USE_KEY );
+        $typeConstants = array_filter($allConstants, function ($k) {
+            return substr($k, 0, 5) == 'TYPE_' ? true : false;
+        }, ARRAY_FILTER_USE_KEY);
         if (!in_array($this->getStatus(), $statusConstants)) {
             throw new \Exception('Invalid Task Status');
         }
@@ -519,16 +518,16 @@ class Task
             throw new \Exception('Invalid Task Type');
         }
 
-        if($this->getRunEvery() !== null) {
+        if ($this->getRunEvery() !== null) {
             $errRunEvery = false;
-            if(!is_string($this->getRunEvery())) {
+            if (!is_string($this->getRunEvery())) {
                 $errRunEvery = true;
-            }else{
+            } else {
                 if (!preg_match('/[shm] +\d+/i', $this->getRunEvery())) {
                     $errRunEvery = true;
                 }
             }
-            if($errRunEvery) {
+            if ($errRunEvery) {
                 throw new \Exception('Invalid (RunEvery) Expression');
             }
         }
@@ -539,7 +538,7 @@ class Task
      */
     public function beforeInsert()
     {
-        $this->setHash( $this->getComputedHash() );
+        $this->setHash($this->getComputedHash());
         if (!$this->getInsertedAt()) {
             $this->setInsertedAt(new \DateTime());
         }

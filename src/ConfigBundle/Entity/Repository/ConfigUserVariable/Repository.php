@@ -2,8 +2,8 @@
 
 namespace ConfigBundle\Entity\Repository\ConfigUserVariable;
 
-use Doctrine\ORM\EntityRepository;
 use ConfigBundle\Entity\ConfigVariable;
+use Doctrine\ORM\EntityRepository;
 
 class Repository extends EntityRepository
 {
@@ -72,9 +72,9 @@ class Repository extends EntityRepository
         }
 
         if (null != $variableValue = $query->getOneOrNullResult()) {
-            if(isset($variableValue['user_value'])){
+            if (isset($variableValue['user_value'])) {
                 return $variableValue['user_value'];
-            }else{
+            } else {
                 return $variableValue['global_vaue'];
             }
         } else {

@@ -22,12 +22,12 @@ class LocaleService extends PublicService
 
     public function getCountries($locale)
     {
-        if(!isset($this->countries[$locale])) {
+        if (!isset($this->countries[$locale])) {
             $em = $this->container->get('doctrine')->getManager();
             $countryRepository = $em->getRepository('LocaleBundle:Country');
             $countries = $countryRepository->getCountryArray($locale);
             $out = [];
-            foreach($countries as $country) {
+            foreach ($countries as $country) {
                 $out[$country['id']] = $country['translations'][$locale]['name'];
             }
             $this->countries[$locale] = $out;
@@ -37,7 +37,7 @@ class LocaleService extends PublicService
 
     public function getCountryArrayById($id, $locale)
     {
-        if(!isset($this->country[$id])) {
+        if (!isset($this->country[$id])) {
             $em = $this->container->get('doctrine')->getManager();
             $countryRepository = $em->getRepository('LocaleBundle:Country');
             $country = $countryRepository->getCountryArrayById($id, $locale);
@@ -50,7 +50,7 @@ class LocaleService extends PublicService
 
     public function getLanguages()
     {
-        if(is_null($this->languages)) {
+        if (is_null($this->languages)) {
             $em = $this->container->get('doctrine')->getManager();
             $languageRepository = $em->getRepository('LocaleBundle:Language');
             $this->languages = $languageRepository->findBy([], ['name' => 'ASC']);
@@ -63,8 +63,8 @@ class LocaleService extends PublicService
         $out = [];
         $languages = $this->getLanguages();
         /** @var  Language $language */
-        foreach($languages as $language) {
-            if($language->getTranslateContent()) {
+        foreach ($languages as $language) {
+            if ($language->getTranslateContent()) {
                 $out[] = $language;
             }
         }
@@ -76,8 +76,8 @@ class LocaleService extends PublicService
         $out = [];
         $languages = $this->getLanguages();
         /** @var  Language $language */
-        foreach($languages as $language) {
-            if($language->getSwitchFrontEnd()) {
+        foreach ($languages as $language) {
+            if ($language->getSwitchFrontEnd()) {
                 $out[] = $language;
             }
         }
@@ -89,8 +89,8 @@ class LocaleService extends PublicService
         $out = [];
         $languages = $this->getLanguages();
         /** @var  Language $language */
-        foreach($languages as $language) {
-            if($language->getSwitchBackEnd()) {
+        foreach ($languages as $language) {
+            if ($language->getSwitchBackEnd()) {
                 $out[] = $language;
             }
         }
@@ -100,13 +100,13 @@ class LocaleService extends PublicService
     public function getLanguageByLocale($locale)
     {
         $locale = strtolower($locale);
-        if(!isset($this->languagesLocales[$locale])) {
+        if (!isset($this->languagesLocales[$locale])) {
             $em = $this->container->get('doctrine')->getManager();
             $languageRepository = $em->getRepository('LocaleBundle:Language');
             $language = $languageRepository->findOneByLocale($locale);
-            if($language) {
+            if ($language) {
                 return $this->languagesLocales[$locale] = $language;
-            }else{
+            } else {
                 return null;
             }
         }
@@ -115,13 +115,13 @@ class LocaleService extends PublicService
 
     public function getLanguageById($id)
     {
-        if(!isset($this->languageById[$id])) {
+        if (!isset($this->languageById[$id])) {
             $em = $this->container->get('doctrine')->getManager();
             $languageRepository = $em->getRepository('LocaleBundle:Language');
             $language = $languageRepository->find($id);
-            if($language) {
+            if ($language) {
                 return $this->languageById[$id] = $language;
-            }else{
+            } else {
                 return null;
             }
         }
@@ -138,13 +138,13 @@ class LocaleService extends PublicService
 
     public function getDialectByLanguageId($languageId, $locale)
     {
-        if(!isset($this->dialectsByLanguageId[$languageId])) {
+        if (!isset($this->dialectsByLanguageId[$languageId])) {
             $em = $this->container->get('doctrine')->getManager();
             $dialectRepository = $em->getRepository('LocaleBundle:Dialect');
             $dialects = $dialectRepository->getDialectArray($languageId, $locale);
 
             $out = [];
-            foreach($dialects as $dialect) {
+            foreach ($dialects as $dialect) {
                 $out[$dialect['id']] = $dialect['translations'][$locale]['name'];
             }
 
@@ -159,13 +159,13 @@ class LocaleService extends PublicService
 
     public function getDialectById($id)
     {
-        if(!isset($this->dialectsById[$id])) {
+        if (!isset($this->dialectsById[$id])) {
             $em = $this->container->get('doctrine')->getManager();
             $dialectRepository = $em->getRepository('LocaleBundle:Dialect');
-            $dialect= $dialectRepository->find($id);
-            if($dialect) {
+            $dialect = $dialectRepository->find($id);
+            if ($dialect) {
                 return $this->dialectsById[$id] = $dialect;
-            }else{
+            } else {
                 return null;
             }
         }

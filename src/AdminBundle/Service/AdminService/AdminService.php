@@ -19,8 +19,8 @@ class AdminService extends PublicService
     public function getLocale()
     {
         $commonService = $this->container->get('common.service');
-        if($commonService->bundleExists('LocaleBundle')) {
-            if(!$this->locale) {
+        if ($commonService->bundleExists('LocaleBundle')) {
+            if (!$this->locale) {
                 $this->locale = new Locale($this->container);
             }
             return $this->locale;

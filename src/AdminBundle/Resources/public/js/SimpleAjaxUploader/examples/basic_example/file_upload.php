@@ -11,7 +11,7 @@ $uploader = new FileUpload('uploadfile');
 $result = $uploader->handleUpload($upload_dir);
 
 if (!$result) {
-  exit(json_encode(['success' => false, 'msg' => $uploader->getErrorMsg()]));
+    exit(json_encode(['success' => false, 'msg' => $uploader->getErrorMsg()]));
 }
 
 echo json_encode(['success' => true]);

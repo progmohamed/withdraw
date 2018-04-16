@@ -1,17 +1,17 @@
 <?php
 
 /**
-* Simple Ajax Uploader
-* Version 2.5.5
-* https://github.com/LPology/Simple-Ajax-Uploader
-*
-* Copyright 2012-2016 LPology, LLC
-* Released under the MIT license
-*
-* View the documentation for an example of how to use this class.
-*/
-
-class FileUpload {
+ * Simple Ajax Uploader
+ * Version 2.5.5
+ * https://github.com/LPology/Simple-Ajax-Uploader
+ *
+ * Copyright 2012-2016 LPology, LLC
+ * Released under the MIT license
+ *
+ * View the documentation for an example of how to use this class.
+ */
+class FileUpload
+{
     private $fileName;                    // Filename of the uploaded file
     private $fileSize;                    // Size of uploaded file in bytes
     private $fileExtension;               // File extension of uploaded file
@@ -47,7 +47,7 @@ class FileUpload {
             $this->isXhr = true;
 
             $this->fileName = isset($_SERVER['HTTP_X_FILE_NAME']) ?
-                                    $_SERVER['HTTP_X_FILE_NAME'] : $_GET[$this->uploadName];
+                $_SERVER['HTTP_X_FILE_NAME'] : $_GET[$this->uploadName];
 
             if (isset($_SERVER['CONTENT_LENGTH'])) {
                 $this->fileSize = (int)$_SERVER['CONTENT_LENGTH'];
@@ -62,8 +62,8 @@ class FileUpload {
             $pathinfo = pathinfo($this->fileName);
 
             if (isset($pathinfo['extension']) &&
-                isset($pathinfo['filename']))
-            {
+                isset($pathinfo['filename'])
+            ) {
                 $this->fileExtension = strtolower($pathinfo['extension']);
                 $this->fileNameWithoutExt = $pathinfo['filename'];
             }
@@ -85,7 +85,7 @@ class FileUpload {
     private function basename($filepath, $suffix = null)
     {
         $splited = preg_split('/\//', rtrim($filepath, '/ '));
-        return substr(basename('X'.$splited[count($splited)-1], $suffix), 1);
+        return substr(basename('X' . $splited[count($splited) - 1], $suffix), 1);
     }
 
     public function getFileName()
@@ -115,7 +115,7 @@ class FileUpload {
 
     private function errorCodeToMsg($code)
     {
-        switch($code) {
+        switch ($code) {
             case UPLOAD_ERR_INI_SIZE:
                 $message = 'File size exceeds limit.';
                 break;

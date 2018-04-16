@@ -35,7 +35,7 @@ class Mustache_Parser
      * @throws Mustache_Exception_SyntaxException when nesting errors or mismatched section tags are encountered.
      *
      * @param ArrayIterator $tokens Stream of Mustache tokens
-     * @param array         $parent Parent token (default: null)
+     * @param array $parent Parent token (default: null)
      *
      * @return array Mustache Token parse tree
      */
@@ -67,7 +67,7 @@ class Mustache_Parser
                             throw new Mustache_Exception_SyntaxException($msg, $token);
                         }
 
-                        $parent[Mustache_Tokenizer::END]   = $token[Mustache_Tokenizer::INDEX];
+                        $parent[Mustache_Tokenizer::END] = $token[Mustache_Tokenizer::INDEX];
                         $parent[Mustache_Tokenizer::NODES] = $nodes;
 
                         return $parent;

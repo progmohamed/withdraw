@@ -12,7 +12,7 @@ class Repository extends EntityRepository
 
     public function getDataGrid()
     {
-        if(!self::$dataGrid) {
+        if (!self::$dataGrid) {
             self::$dataGrid = new DataGrid($this->getEntityManager());
         }
         return self::$dataGrid;
@@ -22,23 +22,23 @@ class Repository extends EntityRepository
     {
         $restrictions = [];
         $delets = [];
-        if(is_array($ids)) {
-            foreach($ids as $id) {
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
                 $entity = $this->find($id);
-                if($entity) {
+                if ($entity) {
                     $totalCount = 0;
-                    foreach($service->getRelatedServices() as $relatedService) {
+                    foreach ($service->getRelatedServices() as $relatedService) {
                         $count = $relatedService->getLocale()->getLogRestrictions($entity->getId());
-                        if($count) {
+                        if ($count) {
                             $restrictions[] = [
-                                'entity'=> $entity,
-                                'serviceName'=> $relatedService->getName(),
-                                'count' => $count
+                                'entity'      => $entity,
+                                'serviceName' => $relatedService->getName(),
+                                'count'       => $count
                             ];
                         }
                         $totalCount += $count;
                     }
-                    if(0 == $totalCount) {
+                    if (0 == $totalCount) {
                         $delets[] = $entity;
                     }
                 }
@@ -46,7 +46,7 @@ class Repository extends EntityRepository
         }
         return [
             'restrictions' => $restrictions,
-            'delets' => $delets,
+            'delets'       => $delets,
         ];
     }
 

@@ -12,7 +12,7 @@ class Repository extends EntityRepository
 
     public function getDataGrid()
     {
-        if(!self::$dataGrid) {
+        if (!self::$dataGrid) {
             self::$dataGrid = new DataGrid($this->getEntityManager());
         }
         return self::$dataGrid;
@@ -22,33 +22,33 @@ class Repository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $task = new Task();
-        $task   ->setCommand($command)
-                ->setCommandArguments($arguments)
-                ->setCategory($category)
-                ->setType($type ? $type : Task::TYPE_QUEUED )
-                ->setDueAt( $dueAt ? $dueAt : new \DateTime())
-                ->setRunEvery($runEvery)
-                ->setSortOrder($this->getMaxOrder() + 1)
-                ->setDescription($description);
+        $task->setCommand($command)
+            ->setCommandArguments($arguments)
+            ->setCategory($category)
+            ->setType($type ? $type : Task::TYPE_QUEUED)
+            ->setDueAt($dueAt ? $dueAt : new \DateTime())
+            ->setRunEvery($runEvery)
+            ->setSortOrder($this->getMaxOrder() + 1)
+            ->setDescription($description);
 
         $hash = $task->getComputedHash();
         $entity = $this->findOneByHash($hash);
-        if(!empty($runEvery)) {
-            if(!$entity) {
+        if (!empty($runEvery)) {
+            if (!$entity) {
                 $em->persist($task);
                 $em->flush();
             }
-        }else{
-            if($entity) {
-                if( in_array($entity->getStatus(), [Task::STATUS_RUNNING, Task::STATUS_FINISHED] ) ) {
+        } else {
+            if ($entity) {
+                if (in_array($entity->getStatus(), [Task::STATUS_RUNNING, Task::STATUS_FINISHED])) {
                     //Renew the task
                     $entity->setStatus(Task::STATUS_WAITING);
                     $entity->setInsertedAt(new \DateTime());
-                    $entity->setDueAt( $dueAt ? $dueAt : new \DateTime());
+                    $entity->setDueAt($dueAt ? $dueAt : new \DateTime());
                     $entity->setFinishedAt(null);
                     $em->flush();
                 }
-            }else{
+            } else {
                 $em->persist($task);
                 $em->flush();
             }
@@ -91,16 +91,16 @@ class Repository extends EntityRepository
         ORDER BY t.sortOrder ASC ";
         $query = $em->createQuery($dql);
         $query->setParameters([
-            'status'    => Task::STATUS_WAITING,
-            'now'       => new \DateTime(),
-            'type'      => $type
+            'status' => Task::STATUS_WAITING,
+            'now'    => new \DateTime(),
+            'type'   => $type
         ]);
         return $query->getResult();
     }
 
     public function isThereRunningTaskInTheSameTaskCategory(Task $task)
     {
-        if($task->getCategory()) {
+        if ($task->getCategory()) {
             $em = $this->getEntityManager();
             $dql = "SELECT COUNT(t.id)
                     FROM TaskManagerBundle:Task t 
@@ -109,12 +109,12 @@ class Repository extends EntityRepository
                     AND t.category = :category ";
             $query = $em->createQuery($dql);
             $query->setParameters([
-                'status' => Task::STATUS_RUNNING,
-                'type' => Task::TYPE_RUN_ONE_PER_CATEGORY,
+                'status'   => Task::STATUS_RUNNING,
+                'type'     => Task::TYPE_RUN_ONE_PER_CATEGORY,
                 'category' => $task->getCategory()
             ]);
             return $query->getSingleScalarResult() ? true : false;
-        }else{
+        } else {
             return false;
         }
     }
