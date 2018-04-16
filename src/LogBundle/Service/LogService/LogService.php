@@ -15,7 +15,7 @@ class LogService extends PublicService
         return "السجلات";
     }
 
-    public function log($serviceName, $message, $parameters = null, $user = null, $book = null)
+    public function log($serviceName, $message, $parameters = null, $user = null)
     {
         $em = $this->container->get('doctrine')->getManager();
         $logRepository = $em->getRepository("LogBundle:LogService");
@@ -38,8 +38,7 @@ class LogService extends PublicService
             ->setMessage($message)
             ->setParameter(serialize($parameters))
             ->setUser($user)
-            ->setUsername($username)
-            ->setBook($book);
+            ->setUsername($username);
         $em->persist($newLog);
         $em->flush();
 

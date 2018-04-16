@@ -45,7 +45,6 @@
                         <th>{{ knp_pagination_sortable(entities, 'user id'|trans , 'l.user') }}</th>
                         <th>{{ knp_pagination_sortable(entities, 'admin.titles.username'|trans , 'l.user') }}</th>
                         <th>{{ knp_pagination_sortable(entities, 'log.titles.message'|trans, 'l.message') }}</th>
-                        <th>{{ knp_pagination_sortable(entities, 'log.titles.book'|trans , 'l.book') }}</th>
                         <th>{{ knp_pagination_sortable(entities, 'admin.titles.created_at'|trans , 'l.createdAt') }}</th>
                         <th>{{ knp_pagination_sortable(entities, 'log.titles.component'|trans, 'ls.id') }}</th>
                         <th></th>
@@ -70,13 +69,6 @@
                                 {% set message = entity.message|trans() %}
                             {% endif %}
                             <td>{{ message }}</td>
-                            <td>
-                                {% if entity.book is not null %}
-                                    <a href="{{ path('smartlib_book_show', { 'id': entity.book }) }}">{{ entity.book }}</a>
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
                             <td>{{ entity.createdAt|date('Y-m-d H:i:s')  }}</td>
                             <td>{{ entity.logService.name }}</td>
 

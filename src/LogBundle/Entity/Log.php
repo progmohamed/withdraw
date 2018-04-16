@@ -62,14 +62,6 @@ class Log
 
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="book", type="integer", nullable=true)
-     */
-    private $book;
-
-
-    /**
      * @var \LogService
      *
      * @ORM\ManyToOne(targetEntity="LogService")
@@ -188,32 +180,6 @@ class Log
     {
         return $this->username;
     }
-
-
-    /**
-     * Set book
-     *
-     * @param integer $book
-     *
-     * @return Log
-     */
-    public function setBook($book)
-    {
-        $this->book = $book;
-
-        return $this;
-    }
-
-    /**
-     * Get book
-     *
-     * @return integer
-     */
-    public function getBook()
-    {
-        return $this->book;
-    }
-
 
     /**
      * Set logService

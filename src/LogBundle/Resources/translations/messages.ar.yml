@@ -9,6 +9,5 @@ log:
     titles:
         message: الرسالة
         component: المكونة
-        book: رقم الكتاب
     config:
         send_log: إرسال تسجيلات النظام الي بريد المدير

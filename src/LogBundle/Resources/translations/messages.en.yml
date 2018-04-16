@@ -9,6 +9,5 @@ log:
     titles:
         message: Log message
         component: Component
-        book: Book Id
     config:
         send_log: Send system log to admin email

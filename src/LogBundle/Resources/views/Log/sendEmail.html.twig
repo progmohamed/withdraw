@@ -29,16 +29,6 @@
         </td>
     </tr>
     <tr>
-        <th>{{ 'log.titles.book'|trans }}</th>
-        <td>
-            {% if entity.book is not null %}
-                <a href="{{ path('smartlib_book_show', { 'id': entity.book }) }}">{{ entity.book }}</a>
-            {% else %}
-                -
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
         <th>{{ 'log.titles.component'|trans }}</th>
         <td>
             {{ entity.logService.name }}

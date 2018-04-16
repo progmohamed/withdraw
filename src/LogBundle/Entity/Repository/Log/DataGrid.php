@@ -55,12 +55,6 @@ class DataGrid extends AdminDataGrid
             $parameters['userId'] = $elementValue;
         }
 
-        $elementValue = $this->getFormDataElement('book');
-        if ($elementValue) {
-            $dql .= "AND l.book LIKE :book ";
-            $parameters['book'] = "%" . $elementValue . "%";
-        }
-
         $elementValue = $this->getFormDataElement('service');
         if ($elementValue) {
             $dql .= "AND ls.id IN(:service) ";
@@ -105,9 +99,6 @@ class DataGrid extends AdminDataGrid
             ])
             ->add('username', TextType::class, [
                 'label' => 'admin.titles.username'
-            ])
-            ->add('book', TextType::class, [
-                'label' => 'log.titles.book'
             ])
             ->add('service', EntityType::class, [
                 'label'    => 'log.titles.component',

@@ -1,7 +1,36 @@
-contact:
+withdraw:
     menu:
-        contact: الاتصال
-        messages: الرسائل
+        withdraw: السحب
+        site: المواقع
+    site:
+        url: الرابط
+        status:
+            status: الحالة
+            new: جديد
+            crawling: جاري السحب
+            done: تم السحب
+            faild: فشل السحب
+        new_item: إضافة موقع
+        edit_item: تعديل موقع
+        show_item: عرض موقع
+        delete_item: حذف موقع
+        site_title: العنوان
+        ex_links_count: عدد الروابط الخارجية
+        ga_is_exist: تحليلات جووجل
+        inserted_at: تاريخ الادخال
+        add_form: إضافة من خلال فورمة
+        add_instantly: إضافة لحظية
     hints:
-        contact: وهنا تجد التحكم في وسائل الاتصال
-        messages: اما هنا فيمكنك التحكم في رسائل المستخدمين
+        withdraw: من هنا يمكنك التحكم في كل ما يخص السحب.
+        site: من هنا يمكنك إضافة او تعديل او حذف او مشاهدة موقع معين
+
+    log:
+        add_site: تم إضافة الموقع "%url%"
+        edit_site: تم تعديل الموقع رقم %entity_id%
+        delete_site: تم حذف الموقع "%url%"
+    messages:
+        the_entry_has_been_deleted: تم حذف الحقل رقم "%entity%"
+    config:
+        withdraw_section: إعدادات السحب
+        user_agent: شفرة الـ User agent
+        sub_domain_as_internal: إعتبار الـ Sub-Domain كرابط داخل
