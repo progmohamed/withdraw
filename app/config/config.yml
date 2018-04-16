@@ -119,9 +119,6 @@ fos_user:
       sender_name: You
     group:
       group_class: AdminBundle\Entity\Group
-    from_email:
-        address: you@example.com
-        sender_name: You
 
 sensio_framework_extra:
     request: { converters: true, auto_convert: false }

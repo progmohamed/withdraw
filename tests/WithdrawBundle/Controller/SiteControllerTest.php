@@ -4,14 +4,12 @@ namespace WithdrawBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class SiteControllerTest extends WebTestCase
 {
     public function testIndex()
     {
         $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
-
-        $this->assertContains('Hello World', $client->getResponse()->getContent());
+        $client->request('GET', '/en/admin/login');
+        $this->assertTrue($client->getResponse()->isSuccessful());
     }
 }

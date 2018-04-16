@@ -100,7 +100,6 @@ admin:
         date: Date
         date_to: Date - to
         date_from: Date - from
-        created_at: Created Date
         updated_at: Updated Date
         time: Time
         export: Export
