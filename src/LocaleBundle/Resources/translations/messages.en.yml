@@ -6,8 +6,8 @@ locale:
         dialect: Dialect
     hints:
         countries: Here you will find control of the countries you can add, delete or modify any country you want
-        langs: From here you can control the languages of a Zekr site, you can add or delete a language and control how it appears to the user
-        dialect: From here you can control the dialect of a Zekr site, you can add or delete a dialect and control how it appears to the user
+        langs: From here you can control the languages of a  site, you can add or delete a language and control how it appears to the user
+        dialect: From here you can control the dialect of a  site, you can add or delete a dialect and control how it appears to the user
     log:
         add_country: Country with id number %entity_id% has been added
         edit_country: Country with id number %entity_id% has been edited
