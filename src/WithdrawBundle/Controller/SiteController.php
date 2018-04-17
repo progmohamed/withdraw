@@ -23,6 +23,7 @@ class SiteController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // filtering form
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('WithdrawBundle:Site');
         $dataGrid = $repository->getDataGrid();
@@ -31,6 +32,7 @@ class SiteController extends Controller
             $this->generateUrl('withdraw_site_list')
         );
 
+        // filtering process
         if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             return $this->redirectToRoute('withdraw_site_list', [
@@ -38,6 +40,7 @@ class SiteController extends Controller
             ]);
         }
 
+        // set data in filter form
         $filter = $request->query->get('filter');
         if ($filter) {
             $formData = $dataGrid->decodeFilterArray($filter);
@@ -72,6 +75,7 @@ class SiteController extends Controller
                     $this->get('taskmanager.service')
                 );
 
+            // if Ajax or no
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse($sites[0]);
             } else {
@@ -147,17 +151,20 @@ class SiteController extends Controller
         $encodedRedirect = $request->query->get('redirect');
         $redirect = base64_decode($encodedRedirect);
         if ($single) {
+            // put ID in array and serialize it and send it again to delete
             return $this->redirectToRoute('withdraw_site_delete', [
                 'id'       => base64_encode(serialize([$id])),
                 'redirect' => $encodedRedirect
             ]);
         } else {
+            // if request from batch action
             $repository = $em->getRepository('WithdrawBundle:Site');
             $bundleService = $this->get('withdraw.service');
             $ids = unserialize(base64_decode($id));
             if (!is_array($ids) || empty($ids)) {
                 throw $this->createNotFoundException($translator->trans('admin.titles.error_happened'));
             }
+            // delete process
             if ('POST' == $request->getMethod()) {
                 foreach ($ids as $id) {
                     try {

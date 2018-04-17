@@ -37,7 +37,9 @@ class Repository extends EntityRepository
                 'url'       => $entity->getUrl(),
                 'createdAt' => $entity->getCreatedAt()->format('Y-m-d H:i:s'),
             ];
+            // record adding log
             $commonService->log($serviceName, 'withdraw.log.add_site', ['%url%' => $url], $user->getId());
+            // add scraping task in queue
             $taskmanagerService->addTaskQueued(
                 'withdraw:scraper',
                 ['id' => $entity->getId()],
@@ -54,7 +56,9 @@ class Repository extends EntityRepository
         $entity->setUser($user);
         $entity->setStatus(Site::STATUS_NEW);
         $em->flush();
+        // record modify log
         $commonService->log($serviceName, 'withdraw.log.edit_site', ['%entity_id%' => $entity->getId()], $user->getId());
+        // add scraping task in queue
         $taskmanagerService->addTaskQueued(
             'withdraw:scraper',
             ['id' => $entity->getId()],
@@ -93,6 +97,7 @@ class Repository extends EntityRepository
 
     public function getDeleteRestrectionsByIds(WithdrawService $service, $ids)
     {
+        // get any delete restrections whene delete any row (SOA)
         $restrictions = [];
         $delets = [];
         if (is_array($ids)) {

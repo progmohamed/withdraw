@@ -23,9 +23,11 @@ class Scraper
             'verify' => false,
         ]);
         $client->setClient($guzzleClient);
+        // put user agent from config
         $client->setHeader('user-agent', $this->container->get('config.service')->getGlobalConfigValue('userAgent', null));
         $this->crawler = $client->request($method, $siteUrl);
         if ($client->getResponse()->getStatus() !== 200) {
+            // throw Exception if site offline or any other errors
             throw new \Exception('Faild', $client->getResponse()->getStatus());
         }
         $this->siteUrl = $siteUrl;
@@ -59,6 +61,7 @@ class Scraper
 
     protected function gaIsExist()
     {
+        // return true if url contain's any snippet for Google Analytics like analytics.js(new snippet) or  ga.js(old snippet) or googletagmanager (tags manager snippet for google analytics)
         return ($this->crawler->filterXPath('//script[contains(text(),"www.google-analytics.com/analytics.js") or contains(text(),".google-analytics.com/ga.js") or contains(text(),"www.googletagmanager.com/gtm.js?id=") or contains(@src, "https://www.googletagmanager.com/gtag/js?id=")]')->count()) ? 1 : 0;
     }
 

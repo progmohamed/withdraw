@@ -19,6 +19,7 @@ class LoadGroups implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        // set permissions
         $groups = [
             'Site List'   => 'ROLE_WITHDRAW_SITE_LIST',
             'Site New'    => 'ROLE_WITHDRAW_SITE_NEW',

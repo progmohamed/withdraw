@@ -16,6 +16,7 @@ class WithdrawService extends PublicService
 
     public function getScraper($url)
     {
+        // singleton for Scraper
         if (!$this->scraper) {
             $this->scraper = new Scraper($this->container, $url);
         }

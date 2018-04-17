@@ -2,7 +2,8 @@
 [![Content Bird](https://de.contentbird.io/wp-content/uploads/sites/2/2018/01/contentbird_Logo.png)](https://de.contentbird.io/)
 ### This script to scraping urls Which you can add it from Back-End .
 ### Features include:
-  - Get title, external links count and check if URL contains google analytics snippet or not.
+  - Get title, external links count.
+  - check if url contain's any snippet for Google Analytics like analytics.js(new snippet) or  ga.js(old snippet) or googletagmanager (tags manager snippet for google analytics)
   - Recording all logs in system like adding, modifying and deleting any thing in Back-End also you can send logs to admin email.
   - You can control scraping process like provide crawler with user agent and if we want Consider sub-domains in page as internal or external link.
   - You can also config max idle time for user, change admin email and if you want to send the logs to admin email or no.

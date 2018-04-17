@@ -20,6 +20,7 @@ class LoadMenu implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        // create menu tabs for withdraw component
         $section = new Section();
         $section->setIdentifier('withdraw')
             ->setTitle('withdraw.menu.withdraw')

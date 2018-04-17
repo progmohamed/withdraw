@@ -19,6 +19,7 @@ class LoadConfigData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        // Crawling Default config
         $sendLogVariable = new ConfigVariable();
         $sendLogVariable->setVariable('subDomainAsInternal')
             ->setType(ConfigVariable::TYPE_BOOLEAN)
