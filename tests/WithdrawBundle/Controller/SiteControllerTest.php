@@ -2,9 +2,9 @@
 
 namespace WithdrawBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class SiteControllerTest extends WebTestCase
+class SiteControllerTest extends KernelTestCase
 {
     private $em;
     private $client;
@@ -17,7 +17,7 @@ class SiteControllerTest extends WebTestCase
         $this->em = self::$kernel->getContainer()->get('doctrine')->getManager();
         $this->router = self::$kernel->getContainer()->get('router');
 
-        $this->client = static::createClient();
+        $this->client = self::$kernel->getContainer()->get('test.client');
         $this->client->setServerParameters(['PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'admin']);
         $this->randUrl = "test_url_x4x0x9x4x";
     }
