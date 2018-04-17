@@ -2,10 +2,10 @@
 [![Content Bird](https://de.contentbird.io/wp-content/uploads/sites/2/2018/01/contentbird_Logo.png)](https://de.contentbird.io/)
 ### This script to scraping urls Which you can add it from Back-End .
 ### Features include:
-  - Get Title, external links count and check if URL contains google analytics snippet or not.
-  - Recording all logs in system like adding, modifying and deleting any thing in Back-End also you can send logs to admin e-mail.
-  - You can control scraping process like provide Crawler with user agent and if we want Consider sub-domains in page as internal or external link.
-  - you can also config max idle time, change admin email and if you want to send the logs to admin e-mail or no.
+  - Get title, external links count and check if URL contains google analytics snippet or not.
+  - Recording all logs in system like adding, modifying and deleting any thing in Back-End also you can send logs to admin email.
+  - You can control scraping process like provide crawler with user agent and if we want Consider sub-domains in page as internal or external link.
+  - You can also config max idle time for user, change admin email and if you want to send the logs to admin email or no.
   - You can control localization such as add or delete languages (RTL languages support ), or dialect or countries.
   - Full control on users permissions.
   - Display results instantly without reload the page.
@@ -15,7 +15,7 @@
 ```sh
 $ git@github.com:progmohamed/withdraw.git
 ```
-  - After Dwonload Run these commands respectively but firstly you must have knowledge in symfony framework to know how you can setup new project:
+  - After download it run these commands respectively but firstly you must have knowledge in symfony framework to know how you can setup new project:
 ```sh
 $ composer install
 ```
@@ -32,7 +32,7 @@ $ php bin/console assets:install --symlink
 ```sh
 $ php bin/console taskmanager:run
 ```
- - Go to `http://localhost/withdraw/web/admin` and enjoy :)
+ - Go to `http://localhost/withdraw/web/admin` and use these credentials `username:admin, password:admin` and enjoy :)
  - If you are in dev environment you can run tests via this command
 ```sh
 $ ./vendor/bin/phpunit
